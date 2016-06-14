@@ -76,7 +76,7 @@ function _qtrVocabulary_form_add($form, $form_state) {
   }
 
   // Check access rights.
-  if (!qcl::user_access('qtranslator-import')) {
+  if (!qcl::user_access('qtranslate-import')) {
     drupal_set_message(t("You don't have enough rights for adding new terms."), 'error');
     return;
   }
@@ -114,7 +114,7 @@ function _qtrVocabulary_form_delete($form, $form_state) {
   }
 
   // Check access rights.
-  if (!qcl::user_access('qtranslator-admin')) {
+  if (!qcl::user_access('qtranslate-admin')) {
     drupal_set_message(t('Only an admin can delete vocabulary terms.'), 'error');
     return;
   }

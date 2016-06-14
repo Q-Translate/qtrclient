@@ -11,7 +11,7 @@ use \qcl;
  * Check whether the current user has the given permission (on the server).
  *
  * @param string $permission
- *   The name of the permission (like 'qtranslator-*').
+ *   The name of the permission (like 'qtranslate-*').
  *
  * @return bool
  *   TRUE or FALSE

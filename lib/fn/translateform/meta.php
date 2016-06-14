@@ -42,7 +42,7 @@ function translateform_meta($lng, $sguid, $string) {
     $form['disqus'] = array(
       '#type' => 'disqus',
       '#disqus' => array(
-        'domain' => variable_get('disqus_domain', 'dev-qtranslator'),
+        'domain' => variable_get('disqus_domain', 'dev-qtranslate'),
         'status' => TRUE,
         'url' => $properties['url'],
         'title' => $properties['title'],

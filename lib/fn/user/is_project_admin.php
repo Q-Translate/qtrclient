@@ -13,7 +13,7 @@ use \qcl;
 function user_is_project_admin($origin, $project, $lng = NULL) {
   // If user has global admin permission,
   // he can administrate this project as well.
-  if (qcl::user_access('qtranslator-admin'))  return TRUE;
+  if (qcl::user_access('qtranslate-admin'))  return TRUE;
 
   // Check that the project language matches translation_lng of the user.
   $qtr_user = oauth2_user_get();

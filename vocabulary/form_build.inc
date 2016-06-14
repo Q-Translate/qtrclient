@@ -174,7 +174,7 @@ function _qtrVocabulary_form_buttons($vocabulary, $sguid, $term) {
   );
 
   // If the user is admin, he can delete the current term.
-  if ($sguid and qcl::user_access('qtranslator-admin')) {
+  if ($sguid and qcl::user_access('qtranslate-admin')) {
     $buttons['del_term'] = array(
       '#type' => 'submit',
       '#value' => t('Delete Term'),
@@ -203,7 +203,7 @@ function _qtrVocabulary_form_buttons($vocabulary, $sguid, $term) {
     $url = "http://fjalori.fs.al/#$term";
   }
   else {
-    $url = "http://v.qtranslator.org/?proj=$vocabulary&lng=$lng#$term";
+    $url = "http://v.qtranslate.org/?proj=$vocabulary&lng=$lng#$term";
   }
   $attributes = array(
     'class' => ['btn', 'btn-default', 'form-submit'],

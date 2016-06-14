@@ -101,7 +101,7 @@ function _translation($translation, $string_sguid, $lng) {
   $is_own = ($qtr_user['name'] and ($qtr_user['name'] == $translation['author']));
   $is_approved = ($qtr_user['name'] and in_array($qtr_user['name'], array_keys($translation['votes'])));
   $is_new = ($translation['tguid'] == 'new');
-  $may_moderate = ($is_own or qcl::user_access('qtranslator-resolve'));
+  $may_moderate = ($is_own or qcl::user_access('qtranslate-resolve'));
 
   $form = array(
     '#theme' => 'qtrClient_translate_translation',

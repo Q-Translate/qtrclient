@@ -139,7 +139,7 @@ function qtrClient_form_alter(&$form, &$form_state, $form_id) {
       '#suffix' => '<hr/>',
     );
     $url = variable_get('qtrClient_server') . '/user/';
-    $form['remote_account']['link_to_qtranslator_profile'] = array(
+    $form['remote_account']['link_to_qtranslate_profile'] = array(
       '#markup' => '<a href="' . $url . '" target="_blank" class="btn btn-default">'
       . t('Edit Q-Translate Profile') . '</a>',
     );
