@@ -7,43 +7,43 @@
 /**
  * Called from hook_block_view for diffs.
  */
-function btrProject_diffs_view() {
+function qtrProject_diffs_view() {
   // Get the arguments from the path.
-  list($origin, $project, $lng) = bcl::get_project_from_path();
+  list($origin, $project, $lng) = qcl::get_project_from_path();
 
   $block['subject'] = t('Project Diffs');
-  $block['content'] = btrProject_diffs_content($origin, $project, $lng);
+  $block['content'] = qtrProject_diffs_content($origin, $project, $lng);
   return $block;
 }
 
 /**
  * Render array for the content of the block diffs.
  */
-function btrProject_diffs_content($origin, $project, $lng) {
+function qtrProject_diffs_content($origin, $project, $lng) {
   $form = [
     'project_diffs' => [
-      '#id' => 'btrproject-diffs',
+      '#id' => 'qtrproject-diffs',
       '#type' => 'fieldset',
       '#title' => t('Project Diffs'),
       '#collapsible' => FALSE,
       '#collapsed' => FALSE,
 
-      'diff_list' => btrProject_diffs_table($origin, $project, $lng),
+      'diff_list' => qtrProject_diffs_table($origin, $project, $lng),
 
       'advanced' => [
         '#prefix' => '<div class="row">',
         '#suffix' => '</div>',
-        '#access' =>  bcl::user_is_project_admin($origin, $project, $lng),
+        '#access' =>  qcl::user_is_project_admin($origin, $project, $lng),
 
         'diff_latest' => [
           '#prefix' => '<div class="col-sm-6 col-sm-push-6">',
-          drupal_get_form('btrProject_diffs_latest_form', $origin, $project, $lng),
+          drupal_get_form('qtrProject_diffs_latest_form', $origin, $project, $lng),
           '#suffix' => '</div>',
         ],
 
         'make_snapshot' => [
           '#prefix' => '<div class="col-sm-6 col-sm-pull-6">',
-          drupal_get_form('btrProject_diffs_snapshot_form', $origin, $project, $lng),
+          drupal_get_form('qtrProject_diffs_snapshot_form', $origin, $project, $lng),
           '#suffix' => '</div>',
         ],
       ],
@@ -56,15 +56,15 @@ function btrProject_diffs_content($origin, $project, $lng) {
 /**
  * Return the structure of the table that has the list of the diffs.
  */
-function btrProject_diffs_table($origin, $project, $lng) {
-  $btr_server = variable_get('btrClient_server');
-  $url_diff = "$btr_server/project/diff/$origin/$project/$lng";
-  $url_diff_dl = "$btr_server/project/diff-dl/$origin/$project/$lng";
+function qtrProject_diffs_table($origin, $project, $lng) {
+  $qtr_server = variable_get('qtrClient_server');
+  $url_diff = "$qtr_server/project/diff/$origin/$project/$lng";
+  $url_diff_dl = "$qtr_server/project/diff-dl/$origin/$project/$lng";
   $lines = file($url_diff);
   $rows = array();
   foreach ($lines as $line) {
     list($nr, $time, $comment) = explode("\t", $line, 3);
-    $links = drupal_render(_btrProject_diffs_links($url_diff_dl, $nr));
+    $links = drupal_render(_qtrProject_diffs_links($url_diff_dl, $nr));
     $rows[] = array($time, $comment, $links);
   }
   $table = [
@@ -78,7 +78,7 @@ function btrProject_diffs_table($origin, $project, $lng) {
 /**
  * Return the links for downloading a diff.
  */
-function _btrProject_diffs_links($url_diff_dl, $nr) {
+function _qtrProject_diffs_links($url_diff_dl, $nr) {
   $buttons['get_diff'] = [
     '#markup' => l('diff', "$url_diff_dl/$nr", [
                  'external' => TRUE,
@@ -101,11 +101,11 @@ function _btrProject_diffs_links($url_diff_dl, $nr) {
 }
 
 /**
- * Form callback for: btrProject_diffs_latest_form
+ * Form callback for: qtrProject_diffs_latest_form
  *
  * Get the diffs between the latest snapshot and the current version.
  */
-function btrProject_diffs_latest_form($form, &$form_state, $origin, $project, $lng) {
+function qtrProject_diffs_latest_form($form, &$form_state, $origin, $project, $lng) {
   $form = [
     'latest_diffs' => [
       '#type' => 'fieldset',
@@ -113,7 +113,7 @@ function btrProject_diffs_latest_form($form, &$form_state, $origin, $project, $l
       '#description' => t('Get the diffs between the latest snapshot and the current version.'),
       '#collapsible' => TRUE,
       '#collapsed' => TRUE,
-      '#access' => bcl::user_is_project_admin($origin, $project, $lng),
+      '#access' => qcl::user_is_project_admin($origin, $project, $lng),
 
       'diff_export_mode' => [
         '#type' => 'select',
@@ -160,14 +160,14 @@ function btrProject_diffs_latest_form($form, &$form_state, $origin, $project, $l
 }
 
 /**
- * Submit callback for the form: btrProject_diffs_latest_form
+ * Submit callback for the form: qtrProject_diffs_latest_form
  */
-function btrProject_diffs_latest_form_submit($form, &$form_state) {
+function qtrProject_diffs_latest_form_submit($form, &$form_state) {
   // Get the arguments origin/project/lng from the path.
-  list($origin, $project, $lng) = bcl::get_project_from_path();
+  list($origin, $project, $lng) = qcl::get_project_from_path();
 
   // Allow only if user is project admin (for performance reasons).
-  if (!bcl::user_is_project_admin($origin, $project, $lng)) {
+  if (!qcl::user_is_project_admin($origin, $project, $lng)) {
     drupal_set_message(t('Only project admins can get the latest diffs.'), 'error');
     return;
   }
@@ -179,8 +179,8 @@ function btrProject_diffs_latest_form_submit($form, &$form_state) {
   $format = check_plain($values['diff_format']);
 
   // Request the latest diff.
-  $btr_server = variable_get('btrClient_server');
-  drupal_goto($btr_server . "/project/diff-latest/$origin/$project/$lng", [
+  $qtr_server = variable_get('qtrClient_server');
+  drupal_goto($qtr_server . "/project/diff-latest/$origin/$project/$lng", [
       'absolute' => TRUE,
       'external' => TRUE,
       'query' => [
@@ -192,11 +192,11 @@ function btrProject_diffs_latest_form_submit($form, &$form_state) {
 }
 
 /**
- * Form callback for: btrProject_diffs_snapshot_form
+ * Form callback for: qtrProject_diffs_snapshot_form
  *
  * Make a snapshot of the current version of translations.
  */
-function btrProject_diffs_snapshot_form($form, &$form_state, $origin, $project, $lng) {
+function qtrProject_diffs_snapshot_form($form, &$form_state, $origin, $project, $lng) {
   $form = [
     'make_snapshot' => [
       '#type' => 'fieldset',
@@ -246,14 +246,14 @@ function btrProject_diffs_snapshot_form($form, &$form_state, $origin, $project, 
 }
 
 /**
- * Submit callback for the form: btrProject_diffs_snapshot_form
+ * Submit callback for the form: qtrProject_diffs_snapshot_form
  */
-function btrProject_diffs_snapshot_form_submit($form, &$form_state) {
+function qtrProject_diffs_snapshot_form_submit($form, &$form_state) {
   // Get the arguments origin/project/lng from the path.
-  list($origin, $project, $lng) = bcl::get_project_from_path();
+  list($origin, $project, $lng) = qcl::get_project_from_path();
 
   // Allow only if user is project admin (for performance reasons).
-  if (!bcl::user_is_project_admin($origin, $project, $lng)) {
+  if (!qcl::user_is_project_admin($origin, $project, $lng)) {
     drupal_set_message(t('Only project admins can make a project snapshot.'), 'error');
     return;
   }
@@ -265,9 +265,9 @@ function btrProject_diffs_snapshot_form_submit($form, &$form_state) {
   $friends = check_plain($values['friends']);
 
   // Make project snapshot.
-  $btr_server = variable_get('btrClient_server');
+  $qtr_server = variable_get('qtrClient_server');
   $destination = url(request_uri(), ['absolute' => TRUE]);
-  drupal_goto($btr_server . "/project/snapshot/$origin/$project/$lng", [
+  drupal_goto($qtr_server . "/project/snapshot/$origin/$project/$lng", [
       'absolute' => TRUE,
       'external' => TRUE,
       'query' => [

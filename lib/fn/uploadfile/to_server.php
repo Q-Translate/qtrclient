@@ -5,21 +5,21 @@
  */
 
 namespace BTranslator\Client;
-use \bcl;
+use \qcl;
 
 /**
- * Make an http request for uploading a file to the B-Translator server.
+ * Make an http request for uploading a file to the Q-Translate server.
  *
  * This is done with curl because wsclient cannot handle it.
  *
  * TODO: Replace this function and wsclient by Guzzle.
  */
 function uploadfile_to_server($endpoint, $params = array()) {
-  $btr = wsclient_service_load('btr');
+  $qtr = wsclient_service_load('qtr');
 
   // Get an access_token.
   module_load_include('inc', 'oauth2_client', 'oauth2_client');
-  $oauth2_settings = $btr->settings['authentication']['oauth2'];
+  $oauth2_settings = $qtr->settings['authentication']['oauth2'];
   $oauth2_client = new \OAuth2\Client($oauth2_settings);
   try {
     $access_token = $oauth2_client->getAccessToken();
@@ -34,7 +34,7 @@ function uploadfile_to_server($endpoint, $params = array()) {
   $file_size = $_FILES['files']['size']['file'];
 
   // Make an http request with curl.
-  $ch = curl_init($btr->url . $endpoint);
+  $ch = curl_init($qtr->url . $endpoint);
   @curl_setopt_array($ch, array(
       CURLOPT_POST => TRUE,
       CURLOPT_POSTFIELDS => array(
@@ -47,7 +47,7 @@ function uploadfile_to_server($endpoint, $params = array()) {
       ),
       CURLOPT_RETURNTRANSFER => TRUE,
     ) +
-    $btr->settings['curl options']
+    $qtr->settings['curl options']
   );
   $result = curl_exec($ch);
 

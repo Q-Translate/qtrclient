@@ -5,7 +5,7 @@
  */
 
 namespace BTranslator\Client;
-use \bcl;
+use \qcl;
 
 /**
  * When there is only a single string displayed, we can add metatags
@@ -42,7 +42,7 @@ function translateform_meta($lng, $sguid, $string) {
     $form['disqus'] = array(
       '#type' => 'disqus',
       '#disqus' => array(
-        'domain' => variable_get('disqus_domain', 'dev-btranslator'),
+        'domain' => variable_get('disqus_domain', 'dev-qtranslator'),
         'status' => TRUE,
         'url' => $properties['url'],
         'title' => $properties['title'],
@@ -76,7 +76,7 @@ function _get_string_properties($string) {
   else {
     $title = t('String') . ': ' . $str;
   }
-  $title = bcl::shorten($title, 50);
+  $title = qcl::shorten($title, 50);
 
   // Get the description.
   $description = $str;
@@ -131,7 +131,7 @@ function _get_string_properties($string) {
  */
 function _get_context_info() {
   $args = explode('/', current_path());
-  if ($args[0] == 'btr' and $args[1] == 'project') {
+  if ($args[0] == 'qtr' and $args[1] == 'project') {
     $origin = $args[2];
     $project = $args[3];
     $vocabulary = NULL;

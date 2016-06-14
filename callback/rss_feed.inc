@@ -5,11 +5,11 @@
  */
 
 /**
- * Callback for 'btr/rss-feed'.
+ * Callback for 'qtr/rss-feed'.
  */
-function btrClient_rss_feed($origin = NULL, $project = NULL, $lng = NULL) {
+function qtrClient_rss_feed($origin = NULL, $project = NULL, $lng = NULL) {
   // Get the translation language.
-  if ($lng === NULL)  $lng = bcl::get_translation_lng();
+  if ($lng === NULL)  $lng = qcl::get_translation_lng();
 
   // Get the domain of the feed in the form of 'origin/project'
   // (or just 'origin').
@@ -22,8 +22,8 @@ function btrClient_rss_feed($origin = NULL, $project = NULL, $lng = NULL) {
   }
 
   // Get the feed data from cache, if possible.
-  $cid = "btrClient_rss_feed:$lng:$domain";
-  $cache = cache_get($cid, 'cache_btrClient');
+  $cid = "qtrClient_rss_feed:$lng:$domain";
+  $cache = cache_get($cid, 'cache_qtrClient');
   if (!empty($cache) && isset($cache->data) && !empty($cache->data)) {
     $rss_feed = $cache->data;
     drupal_add_http_header('Content-Type', 'application/rss+xml; charset=utf-8');
@@ -31,13 +31,13 @@ function btrClient_rss_feed($origin = NULL, $project = NULL, $lng = NULL) {
     return;
   }
 
-  // Get the latest translations from the B-Translator server.
-  $btr_server = variable_get('btrClient_server', NULL);
-  if (empty($btr_server)) {
+  // Get the latest translations from the Q-Translate server.
+  $qtr_server = variable_get('qtrClient_server', NULL);
+  if (empty($qtr_server)) {
     $translations = array();
   }
   else {
-    $url = $btr_server . "/latest/$lng/$origin/$project";
+    $url = $qtr_server . "/latest/$lng/$origin/$project";
     $output = drupal_http_request($url);
     $translations = json_decode($output->data, TRUE);
   }
@@ -46,16 +46,16 @@ function btrClient_rss_feed($origin = NULL, $project = NULL, $lng = NULL) {
   $rss_feed = '<?xml version="1.0" encoding="utf-8"?>' . "\n";
   $rss_feed .= '<rss version="2.0">';
 
-  $link = url('btr/rss-feed', array('absolute' => TRUE));
+  $link = url('qtr/rss-feed', array('absolute' => TRUE));
   if (!empty($domain)) {
     $link .= '/' . $domain;
   }
-  $title = variable_get('site_name', 'B-Translator');
+  $title = variable_get('site_name', 'Q-Translate');
   if (empty($domain)) {
-    $description = t('Latest translation suggestions on B-Translator');
+    $description = t('Latest translation suggestions on Q-Translate');
   }
   else {
-    $description = t('Latest translation suggestions on B-Translator, for @domain', array('@domain' => $domain));
+    $description = t('Latest translation suggestions on Q-Translate, for @domain', array('@domain' => $domain));
   }
   $ttl = 180;
   $site_mail = variable_get('site_mail');
@@ -68,7 +68,7 @@ function btrClient_rss_feed($origin = NULL, $project = NULL, $lng = NULL) {
       <title>$title</title>
       <link>$link</link>
       <description>$description</description>
-      <category>B-Translator</category>
+      <category>Q-Translate</category>
       <language>$lng</language>
       <ttl>$ttl</ttl>
       <webMaster>$web_master</webMaster>
@@ -79,7 +79,7 @@ function btrClient_rss_feed($origin = NULL, $project = NULL, $lng = NULL) {
   $base_url = url('translations', array('absolute' => TRUE));
   foreach ($translations as $translation) {
     extract($translation);
-    $title = bcl::shorten($string, 60);
+    $title = qcl::shorten($string, 60);
     $link = $base_url . "/$lng/$sguid";
     $description = "<xmp>$string</xmp> -- <xmp>$translation</xmp>";
     $pub_date = date('r', strtotime($time));
@@ -101,7 +101,7 @@ function btrClient_rss_feed($origin = NULL, $project = NULL, $lng = NULL) {
   $rss_feed .= "</rss>\n";
 
   // Cache for 2 hours.
-  cache_set($cid, $rss_feed, 'cache_btrClient', strtotime('+2 hours'));
+  cache_set($cid, $rss_feed, 'cache_qtrClient', strtotime('+2 hours'));
 
   // Send the output.
   drupal_add_http_header('Content-Type', 'application/rss+xml; charset=utf-8');

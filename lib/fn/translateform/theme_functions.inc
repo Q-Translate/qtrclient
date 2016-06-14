@@ -8,14 +8,14 @@
 /**
  * Main theme function for translation table.
  */
-function theme_btrClient_translate_table($variables) {
+function theme_qtrClient_translate_table($variables) {
 
   $element = $variables['element'];
   if (sizeof(element_children($element)) == 1) {
-    $output = _theme_btrClient_translate_table_1col($element);
+    $output = _theme_qtrClient_translate_table_1col($element);
   }
   else {
-    $output = _theme_btrClient_translate_table_2col($element);
+    $output = _theme_qtrClient_translate_table_2col($element);
   }
 
   return $output;
@@ -24,7 +24,7 @@ function theme_btrClient_translate_table($variables) {
 /**
  * Format the output as 1-column table.
  */
-function _theme_btrClient_translate_table_1col($element) {
+function _theme_qtrClient_translate_table_1col($element) {
 
   // Get the first element.
   foreach (element_children($element) as $key) { break; }
@@ -37,14 +37,14 @@ function _theme_btrClient_translate_table_1col($element) {
         [
           [
             'class' => ['source'],
-            'data' => theme('btrClient_translate_source', ['element' => $elem]),
+            'data' => theme('qtrClient_translate_source', ['element' => $elem]),
           ],
         ],
         // row of the translations
         [
           [
             'class' => ['translation'],
-            'data' => theme('btrClient_translate_translation_list', ['element' => $elem]),
+            'data' => theme('qtrClient_translate_translation_list', ['element' => $elem]),
           ],
         ],
       ],
@@ -54,7 +54,7 @@ function _theme_btrClient_translate_table_1col($element) {
 /**
  * Format the output as 2-column table.
  */
-function _theme_btrClient_translate_table_2col($element) {
+function _theme_qtrClient_translate_table_2col($element) {
 
   $lng = $element['#lng'];
   $header = array(
@@ -81,11 +81,11 @@ function _theme_btrClient_translate_table_2col($element) {
       ),
       array(
         'class' => array('source'),
-        'data' => theme('btrClient_translate_source', array('element' => $element[$key])),
+        'data' => theme('qtrClient_translate_source', array('element' => $element[$key])),
       ),
       array(
         'class' => array('translation'),
-        'data' => theme('btrClient_translate_translation_list', array('element' => $element[$key])),
+        'data' => theme('qtrClient_translate_translation_list', array('element' => $element[$key])),
       ),
     );
   }
@@ -100,16 +100,16 @@ function _theme_btrClient_translate_table_2col($element) {
 /**
  * Theme function for a source cell in the translation table.
  */
-function theme_btrClient_translate_source($variables) {
+function theme_qtrClient_translate_source($variables) {
   $element = $variables['element'];
-  $output = theme('btrClient_translate_actions', array('element' => $element['source']));
+  $output = theme('qtrClient_translate_actions', array('element' => $element['source']));
   $filter_match = ' filter-no-match';
   $output .= '<label class="l10n-string' . $filter_match . '">' . drupal_render($element['source']['string']) . '</label>';
-  $output .= theme('btrClient_in_context', array('source' => $element['#string']));
+  $output .= theme('qtrClient_in_context', array('source' => $element['#string']));
 
-  $lng = bcl::get_translation_lng();
+  $lng = qcl::get_translation_lng();
   $sguid = $element['#string']['sguid'];
-  $url = $GLOBALS['base_url'] . '/btr/ajax/string_details/' . $lng . '/' . $sguid;
+  $url = $GLOBALS['base_url'] . '/qtr/ajax/string_details/' . $lng . '/' . $sguid;
   $output .= '<div class="l10n-usage"><a href="' . $url . '" class="l10n-more-link" title="' . t('Show the string context and a list of projects where this string is used.') . '">' . t('Show string details.') . '</a><div class="l10n-more-info"></div></div>';
 
   // TODO: Improve alternatives in other languages.
@@ -121,10 +121,10 @@ function theme_btrClient_translate_source($variables) {
 /**
  * Theme appropriate actions for the given string element.
  */
-function theme_btrClient_translate_actions($variables) {
+function theme_qtrClient_translate_actions($variables) {
   $actions = '';
 
-  $votes = _theme_btrClient_translate_votes($variables['element']);
+  $votes = _theme_qtrClient_translate_votes($variables['element']);
   if ($votes) {
     $actions .= '<li>' . $votes . '</li>';
   }
@@ -147,7 +147,7 @@ function theme_btrClient_translate_actions($variables) {
 /**
  * Theme context information for source strings.
  */
-function theme_btrClient_in_context($variables) {
+function theme_qtrClient_in_context($variables) {
   $string = $variables['source'];
   if (!empty($string->context)) {
     return '<div class="string-context">' . t('in context: @context', array('@context' => $string->context)) . '</div>';
@@ -158,7 +158,7 @@ function theme_btrClient_in_context($variables) {
 /**
  * Theme a suggestion/translation.
  */
-function theme_btrClient_translate_translation($variables) {
+function theme_qtrClient_translate_translation($variables) {
   $element = $variables['element'];
 
   $element['#attributes']['class'][] = 'clearfix';
@@ -185,12 +185,12 @@ function theme_btrClient_translate_translation($variables) {
   }
 
   $output = '<li' . drupal_attributes($element['#attributes']) . '>';
-  $output .= theme('btrClient_translate_actions', ['element' => $element]);
+  $output .= theme('qtrClient_translate_actions', ['element' => $element]);
   // Add the radio box to pick the approved translation.
   $output .= drupal_render($element['approved']);
 
   if (isset($element['author'])) {
-    $output .= _theme_btrClient_translate_author($element['author']);
+    $output .= _theme_qtrClient_translate_author($element['author']);
   }
   if (isset($element['value'])) {
     $output .= drupal_render($element['value']);
@@ -202,7 +202,7 @@ function theme_btrClient_translate_translation($variables) {
 /**
  * Theme a radio button to pick the approved translation.
  */
-function theme_btrClient_translate_radio($variables) {
+function theme_qtrClient_translate_radio($variables) {
   $element = $variables['element'];
   $type = $element['#type'];
   _form_set_class($element, array('form-radio'));
@@ -222,7 +222,7 @@ function theme_btrClient_translate_radio($variables) {
 /**
  * Theme a list of suggestions for a string.
  */
-function theme_btrClient_translate_translation_list($variables) {
+function theme_qtrClient_translate_translation_list($variables) {
   $element = $variables['element'];
   $output = '<ul>';
   foreach (element_children($element) as $child) {
@@ -234,7 +234,7 @@ function theme_btrClient_translate_translation_list($variables) {
   return $output;
 }
 
-function _theme_btrClient_translate_votes($element) {
+function _theme_qtrClient_translate_votes($element) {
   if (!isset($element['votes'])) return '';
   if ($element['approved']['#return_value'] == 'new')  return '';
 
@@ -242,18 +242,18 @@ function _theme_btrClient_translate_votes($element) {
   $voters = $element['votes']['#voters'];
 
   // Convert voters to an html list.
-  $btr_server = variable_get('btrClient_server');
+  $qtr_server = variable_get('qtrClient_server');
   $list = array();
   foreach ($voters as $name => $voter) {
-    $url = $btr_server . '/user/' . $voter['uid'];
+    $url = $qtr_server . '/user/' . $voter['uid'];
     $list[] = "<li><a href='$url' target='_blank'>$name</a></li>";
   }
   $content_html = '<ul>' . implode('', $list) . '</ul>';
   $content_html = strtr($content_html, "'", '"');
 
   // Use a different button type for the voted translation.
-  $btr_user = oauth2_user_get();
-  $voted = ($btr_user['name'] and in_array($btr_user['name'], array_keys($voters)));
+  $qtr_user = oauth2_user_get();
+  $voted = ($qtr_user['name'] and in_array($qtr_user['name'], array_keys($voters)));
   $btn_type = ($voted ? 'btn-success' : 'btn-info');
 
   $output = "<div class='votes'><span class='btn $btn_type btn-sm' data-toggle='popover' data-trigger='click' data-placement='bottom auto' data-html='true' data-content='$content_html'>+ $count</span></div>";
@@ -264,20 +264,20 @@ function _theme_btrClient_translate_votes($element) {
 /**
  * Display information about the author of the string.
  */
-function _theme_btrClient_translate_author($author) {
+function _theme_qtrClient_translate_author($author) {
   $time = format_interval(REQUEST_TIME - strtotime($author['#time']));
   if ($author['#name'] =='' or $author['#name'] == 'admin') {
     $msg = t('Added !time ago', ['!time' => $time]);
   }
   else {
-    $btr_server = variable_get('btrClient_server');
-    $name = l($author['#name'], $btr_server . '/user/' . $author['uid']);
+    $qtr_server = variable_get('qtrClient_server');
+    $name = l($author['#name'], $qtr_server . '/user/' . $author['uid']);
     $msg = t('Added by !author !time ago', ['!author' => $name, '!time' => $time]);
   }
 
   // Use different classes for the translations of the current user.
-  $btr_user = oauth2_user_get();
-  $is_own = ($btr_user['name'] and ($btr_user['name'] == $author['#name']));
+  $qtr_user = oauth2_user_get();
+  $is_own = ($qtr_user['name'] and ($qtr_user['name'] == $author['#name']));
   $classes = ($is_own ? 'author is-own' : 'author');
 
   return "<div class='$classes'>$msg</div>";

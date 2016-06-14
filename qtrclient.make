@@ -18,7 +18,7 @@ projects[inside_iframe] = 1.0
 
 projects[ajax_chain_select][type] = module
 projects[ajax_chain_select][download][type] = git
-projects[ajax_chain_select][download][url] = https://github.com/B-Translator/ajax_chain_select
+projects[ajax_chain_select][download][url] = https://github.com/Q-Translate/ajax_chain_select
 ;projects[ajax_chain_select][download][branch] = 7.x-1.x
 
 ;projects[ajax_chain_select][type] = module

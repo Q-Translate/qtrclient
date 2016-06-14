@@ -5,21 +5,21 @@
  */
 
 namespace BTranslator\Client;
-use \bcl;
+use \qcl;
 
 /**
  * Return an array of languages and their details.
  */
 function get_languages() {
-  $cache = cache_get('languages', 'cache_btrClient');
+  $cache = cache_get('languages', 'cache_qtrClient');
   // Return cache if possible.
   if (!empty($cache) && isset($cache->data) && !empty($cache->data)) {
     return $cache->data;
   }
 
   // Get an array of languages from the server.
-  $btr_server = variable_get('btrClient_server', 'http://dev.btranslator.org');
-  $output = drupal_http_request("$btr_server/languages");
+  $qtr_server = variable_get('qtrClient_server', 'http://dev.qtranslator.org');
+  $output = drupal_http_request("$qtr_server/languages");
   if (isset($output->data)) {
     $languages = json_decode($output->data, TRUE);
   }
@@ -35,7 +35,7 @@ function get_languages() {
   }
 
   // Cache until a general cache wipe.
-  cache_set('languages', $languages, 'cache_btrClient', CACHE_TEMPORARY);
+  cache_set('languages', $languages, 'cache_qtrClient', CACHE_TEMPORARY);
 
   return $languages;
 }

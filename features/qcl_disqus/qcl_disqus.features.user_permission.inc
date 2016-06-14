@@ -1,13 +1,13 @@
 <?php
 /**
  * @file
- * bcl_disqus.features.user_permission.inc
+ * qcl_disqus.features.user_permission.inc
  */
 
 /**
  * Implements hook_user_default_permissions().
  */
-function bcl_disqus_user_default_permissions() {
+function qcl_disqus_user_default_permissions() {
   $permissions = array();
 
   // Exported permission: 'administer disqus'.

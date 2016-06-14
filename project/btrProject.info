@@ -1,7 +1,0 @@
-name = B-Translator Project
-description = Interface for B-Translator Project.
-package = B-Translator
-core = 7.x
-
-dependencies[] = btrClient
-dependencies[] = ajax_chain_select

@@ -7,21 +7,21 @@
 /**
  * Create and return the authenticated service.
  */
-function _btrClientWS_authenticated($service_name) {
+function _qtrClientWS_authenticated($service_name) {
   $server_url = variable_get('oauth2_login_oauth2_server', '');
 
   $service = new WSClientServiceDescription();
   $service->name = $service_name;
-  $service->label = 'Authenticated B-Translator Services';
+  $service->label = 'Authenticated Q-Translate Services';
   $service->type = 'rest';
   $service->url = $server_url . '/api/';
 
   $service->settings['authentication']['oauth2'] = oauth2_login_get_oauth2_settings();
   $service->settings += oauth2_user_wsclient_dev_settings();
 
-  $service->operations += _btrClientWS_authenticated_translations();
-  $service->operations += _btrClientWS_authenticated_projects();
-  $service->operations += _btrClientWS_authenticated_vocabularies();
+  $service->operations += _qtrClientWS_authenticated_translations();
+  $service->operations += _qtrClientWS_authenticated_projects();
+  $service->operations += _qtrClientWS_authenticated_vocabularies();
 
   return $service;
 }
@@ -29,7 +29,7 @@ function _btrClientWS_authenticated($service_name) {
 /**
  * Return definitions for operations about translations.
  */
-function _btrClientWS_authenticated_translations() {
+function _qtrClientWS_authenticated_translations() {
   $operations['get_translations'] = array(
     'label' => 'get_translations',
     'url' => 'translations/@sguid',
@@ -67,7 +67,7 @@ function _btrClientWS_authenticated_translations() {
 /**
  * Return definitions for operations about projects.
  */
-function _btrClientWS_authenticated_projects() {
+function _qtrClientWS_authenticated_projects() {
   $post_operations = array(
     'delete_project' => 'project/delete',
     'subscribe' => 'project/subscribe',
@@ -93,7 +93,7 @@ function _btrClientWS_authenticated_projects() {
 /**
  * Return definitions for operations about vocabularies.
  */
-function _btrClientWS_authenticated_vocabularies() {
+function _qtrClientWS_authenticated_vocabularies() {
   $post_operations = array(
     'add_string' => 'vocabulary/add_string',
     'del_string' => 'vocabulary/del_string',

@@ -5,15 +5,15 @@
  */
 
 /**
- * Callback for 'btr/tweet'.
+ * Callback for 'qtr/tweet'.
  */
-function btrClient_tweet($origin = NULL, $project = NULL, $lng = NULL) {
+function qtrClient_tweet($origin = NULL, $project = NULL, $lng = NULL) {
   // Get the translation language.
-  if ($lng === NULL)  $lng = bcl::get_translation_lng();
+  if ($lng === NULL)  $lng = qcl::get_translation_lng();
 
-  // Get a tweet from the B-Translator server.
-  $btr_server = variable_get('btrClient_server', 'http://dev.btranslator.org');
-  $url = $btr_server . "/tweet/$lng/$origin/$project";
+  // Get a tweet from the Q-Translate server.
+  $qtr_server = variable_get('qtrClient_server', 'http://dev.qtranslator.org');
+  $url = $qtr_server . "/tweet/$lng/$origin/$project";
   $output = drupal_http_request($url, array(
               'headers' => array(
                 'Accept' => 'application/json',

@@ -1,21 +1,21 @@
 <?php
 /**
  * @file
- * Module file for btrTranslations.
+ * Module file for qtrTranslations.
  */
 
-module_load_include('inc', 'btrTranslations', 'blocks/blocks');
+module_load_include('inc', 'qtrTranslations', 'blocks/blocks');
 
 /**
  * Implements hook_menu().
  */
-function btrTranslations_menu() {
+function qtrTranslations_menu() {
 
   $items['translations'] = array(
     'type'            => MENU_NORMAL_ITEM,
     'title'           => 'Translations',
     'description'     => 'Get a random string and its translations.',
-    'page callback'   => 'btrTranslations_random',
+    'page callback'   => 'qtrTranslations_random',
     'file'            => 'callback/random.inc',
     'access callback' => TRUE,
   );
@@ -30,7 +30,7 @@ function btrTranslations_menu() {
     'type'            => MENU_LOCAL_TASK,
     'title'           => 'Search',
     'description'     => 'Search strings and translations using various filters.',
-    'page callback'   => 'btrTranslations_search',
+    'page callback'   => 'qtrTranslations_search',
     'file'            => 'callback/search.inc',
     'access callback' => TRUE,
     'weight'          => 2,
@@ -40,7 +40,7 @@ function btrTranslations_menu() {
     'type'            => MENU_LOCAL_TASK,
     'title'           => 'Export',
     'description'     => 'Export the most voted translations of a project into a PO file.',
-    'page callback'   => 'btrTranslations_export',
+    'page callback'   => 'qtrTranslations_export',
     'file'            => 'callback/export.inc',
     'access callback' => 'oauth2_user_is_authenticated',
     'weight'          => 3,
@@ -50,7 +50,7 @@ function btrTranslations_menu() {
     'type'            => MENU_LOCAL_TASK,
     'title'           => 'Import',
     'description'     => 'Import translations from PO files.',
-    'page callback'   => 'btrTranslations_import',
+    'page callback'   => 'qtrTranslations_import',
     'file'            => 'callback/import.inc',
     'access callback' => 'oauth2_user_is_authenticated',
     'weight'          => 4,

@@ -8,7 +8,7 @@
 /**
  * Menu callback for 'translations/import'.
  */
-function btrTranslations_import() {
-  $output = bcl::get_block('btrProject', 'import_translations');
+function qtrTranslations_import() {
+  $output = qcl::get_block('qtrProject', 'import_translations');
   return $output;
 }

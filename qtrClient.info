@@ -1,0 +1,16 @@
+name = Q-Translate Client
+description = Q-Translate Client Module.
+package = Q-Translate
+core = 7.x
+
+dependencies[] = qtrClientWS
+dependencies[] = qtrTranslations
+dependencies[] = libraries
+dependencies[] = entity
+dependencies[] = oauth2_login
+dependencies[] = oauth2_user
+dependencies[] = inside_iframe
+dependencies[] = srrssb
+
+files[] = tests/qtrClient.test
+configure = admin/config/qcl

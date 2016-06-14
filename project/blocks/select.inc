@@ -7,19 +7,19 @@
 /**
  * Called from hook_block_view for select.
  */
-function btrProject_select_view() {
+function qtrProject_select_view() {
   // Get the arguments from the path.
-  list($origin, $project, $lng) = bcl::get_project_from_path();
+  list($origin, $project, $lng) = qcl::get_project_from_path();
 
   $block['subject'] = t('Select a project');
-  $block['content'] = drupal_get_form('btrProject_select_form', $origin, $project, $lng);
+  $block['content'] = drupal_get_form('qtrProject_select_form', $origin, $project, $lng);
   return $block;
 }
 
 /**
- * Form callback for: btrProject_select_form
+ * Form callback for: qtrProject_select_form
  */
-function btrProject_select_form($form, &$form_state, $origin, $project, $lng) {
+function qtrProject_select_form($form, &$form_state, $origin, $project, $lng) {
   $form['select_project'] = array(
     '#type' => 'ajax_chain_select',
     '#title' => t('Select a Project'),
@@ -43,7 +43,7 @@ function btrProject_select_form($form, &$form_state, $origin, $project, $lng) {
     '#required_levels' => 3,
     '#show_throbber' => FALSE,
     '#progress_message' => t('Please wait..'),
-    '#data_callback' => 'btrProject_select_fetchdata',
+    '#data_callback' => 'qtrProject_select_fetchdata',
   );
 
   $form['submit'] = array(
@@ -55,14 +55,14 @@ function btrProject_select_form($form, &$form_state, $origin, $project, $lng) {
 }
 
 /**
- * Data callback for form item:  btrProject_select_form/select_project
+ * Data callback for form item:  qtrProject_select_form/select_project
  */
-function btrProject_select_fetchdata($level = 0, $previous_level_key = 0) {
-  $btr_server = variable_get('btrClient_server');
+function qtrProject_select_fetchdata($level = 0, $previous_level_key = 0) {
+  $qtr_server = variable_get('qtrClient_server');
   $data = array();
   switch ($level) {
     case 'origin':
-      $result = drupal_http_request($btr_server . '/project/list/*/-/json');
+      $result = drupal_http_request($qtr_server . '/project/list/*/-/json');
       if ($result->code == 200) {
         $arr = drupal_json_decode($result->data);
         foreach ($arr as $origin) {
@@ -73,7 +73,7 @@ function btrProject_select_fetchdata($level = 0, $previous_level_key = 0) {
 
     case 'project':
       $origin = $previous_level_key;
-      $result = drupal_http_request($btr_server . "/project/list/$origin/*/json");
+      $result = drupal_http_request($qtr_server . "/project/list/$origin/*/json");
       if ($result->code == 200) {
         $arr = drupal_json_decode($result->data);
         foreach ($arr as $item) {
@@ -85,7 +85,7 @@ function btrProject_select_fetchdata($level = 0, $previous_level_key = 0) {
 
     case 'lng':
       $project = str_replace(':', '/', $previous_level_key);
-      $result = drupal_http_request($btr_server . '/project/langs/' . $project);
+      $result = drupal_http_request($qtr_server . '/project/langs/' . $project);
       if ($result->code == 200) {
         $data = drupal_json_decode($result->data);
       }
@@ -96,12 +96,12 @@ function btrProject_select_fetchdata($level = 0, $previous_level_key = 0) {
 }
 
 /**
- * Submit callback for the form: btrProject_select_form
+ * Submit callback for the form: qtrProject_select_form
  */
-function btrProject_select_form_submit($form, &$form_state) {
+function qtrProject_select_form_submit($form, &$form_state) {
   $values = $form_state['values']['select_project'];
   list($origin, $project) = explode(':', $values['project'], 2);
   $lng = $values['lng'];
 
-  drupal_goto("/btr/project/$origin/$project/$lng/dashboard");
+  drupal_goto("/qtr/project/$origin/$project/$lng/dashboard");
 }

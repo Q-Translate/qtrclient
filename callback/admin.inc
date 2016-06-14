@@ -1,48 +1,48 @@
 <?php
 /**
  * @file
- * Administrative pages for the btrClient module.
+ * Administrative pages for the qtrClient module.
  */
 
 /**
- * General configuration settings for the module btrClient.
+ * General configuration settings for the module qtrClient.
  *
  * @return array
  *   An array containing form items to place on the module settings page.
  */
-function btrClient_config() {
+function qtrClient_config() {
 
   $form['defaults'] = array(
     '#type'  => 'fieldset',
-    '#title' => t('B-Translator Client Default Settings'),
+    '#title' => t('Q-Translate Client Default Settings'),
   );
 
   // Get a list of available languages,
-  $languages = bcl::get_languages();
+  $languages = qcl::get_languages();
   $lang_options['all'] = t('All languages');
   foreach ($languages as $code => $lang) {
     $lang_options[$code] = $lang['name'];
   }
 
-  // Field btrClient_translation_lng.
-  $form['defaults']['btrClient_translation_lng'] = array(
+  // Field qtrClient_translation_lng.
+  $form['defaults']['qtrClient_translation_lng'] = array(
     '#type' => 'select',
     '#title' => t('Translation Language'),
     '#description' => t('The translation language of the client. If <em>All languages</em> is selected, the client will not restrict the language of the translations and votes (it will be restricted only by the translation language of the user).'),
     '#options' => $lang_options,
-    '#default_value' => variable_get('btrClient_translation_lng', 'fr'),
+    '#default_value' => variable_get('qtrClient_translation_lng', 'fr'),
   );
 
-  // Field btrClient_server.
-  $form['defaults']['btrClient_server'] = array(
+  // Field qtrClient_server.
+  $form['defaults']['qtrClient_server'] = array(
     '#type' => 'textfield',
     '#title' => t('Server URL'),
-    '#default_value' => variable_get('btrClient_server', ''),
-    '#description' => t('The URL of the B-Translator server.'),
+    '#default_value' => variable_get('qtrClient_server', ''),
+    '#description' => t('The URL of the Q-Translate server.'),
   );
 
-  // Field btrClient_voting_mode.
-  $form['defaults']['btrClient_voting_mode'] = array(
+  // Field qtrClient_voting_mode.
+  $form['defaults']['qtrClient_voting_mode'] = array(
     '#title'         => t('Select Voting Mode'),
     '#description'   => t('When voting mode is <em>Single</em>, only one translation can be voted as suitable for each string. When voting mode is <em>Multiple</em>, more than one translation can be selected as suitable for each string. <br/> <strong>Note:</strong> This setting must have the same value as the one on the server.'),
     '#type'          => 'radios',
@@ -50,18 +50,18 @@ function btrClient_config() {
       'single'   => t('Single'),
       'multiple' => t('Multiple'),
     ),
-    '#default_value' => variable_get('btrClient_voting_mode', 'single'),
+    '#default_value' => variable_get('qtrClient_voting_mode', 'single'),
   );
 
   $form = system_settings_form($form);
-  $form['#submit'][] = 'btrClient_config_get_languages';
+  $form['#submit'][] = 'qtrClient_config_get_languages';
   return $form;
 }
 
 /**
  * Update the cached value of languages.
  */
-function btrClient_config_get_languages() {
-  cache_clear_all('btrClient_languages', 'cache_btrClient');
-  $languages = bcl::get_languages();
+function qtrClient_config_get_languages() {
+  cache_clear_all('qtrClient_languages', 'cache_qtrClient');
+  $languages = qcl::get_languages();
 }

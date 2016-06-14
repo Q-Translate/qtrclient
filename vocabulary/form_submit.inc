@@ -1,31 +1,31 @@
 <?php
 /**
  * @file
- * Submit functions for btrVocabulary_form.
+ * Submit functions for qtrVocabulary_form.
  */
 
 /**
- * Submit callback for: btrVocabulary_form
+ * Submit callback for: qtrVocabulary_form
  */
-function btrVocabulary_form_submit($form, &$form_state) {
+function qtrVocabulary_form_submit($form, &$form_state) {
   $form_values = $form_state['values'];
   $op = $form_values['op'];
 
   if ($op == '<span class="glyphicon glyphicon-repeat"></span>') {
-    btrVocabulary_form_go($form_state);
+    qtrVocabulary_form_go($form_state);
   }
   elseif ($op == t('Save')) {
-    _btrVocabulary_form_save($form, $form_state);
+    _qtrVocabulary_form_save($form, $form_state);
   }
   elseif ($op == t('Next')) {
     $form_state['values']['search_term'] = '';
-    btrVocabulary_form_go($form_state);
+    qtrVocabulary_form_go($form_state);
   }
   elseif ($op == t('Add Term')) {
-    _btrVocabulary_form_add($form, $form_state);
+    _qtrVocabulary_form_add($form, $form_state);
   }
   elseif ($op == t('Delete Term')) {
-    _btrVocabulary_form_delete($form, $form_state);
+    _qtrVocabulary_form_delete($form, $form_state);
   }
   else {
     // Do nothing.
@@ -35,7 +35,7 @@ function btrVocabulary_form_submit($form, &$form_state) {
 /**
  * Go to the selected term.
  */
-function btrVocabulary_form_go($form_state) {
+function qtrVocabulary_form_go($form_state) {
   $form_values = $form_state['values'];
   $term = $form_values['search_term'];
   $vocabulary = $form_values['vocabulary'];
@@ -52,7 +52,7 @@ function btrVocabulary_form_go($form_state) {
 /**
  * The button 'Save' has been clicked.
  */
-function _btrVocabulary_form_save($form, $form_state) {
+function _qtrVocabulary_form_save($form, $form_state) {
   // Make sure that user is authenticated.
   if (!oauth2_user_is_authenticated()) {
     oauth2_user_authenticate($form_state, $redirection = $form===NULL);
@@ -60,23 +60,23 @@ function _btrVocabulary_form_save($form, $form_state) {
   }
 
   // Save the values selected on the form.
-  bcl::translateform_save($form_state['values']);
+  qcl::translateform_save($form_state['values']);
 
   // Redirect to the same term.
-  btrVocabulary_form_go($form_state);
+  qtrVocabulary_form_go($form_state);
 }
 
 /**
  * The button 'Add Term' has been clicked.
  */
-function _btrVocabulary_form_add($form, $form_state) {
+function _qtrVocabulary_form_add($form, $form_state) {
   // Make sure that user is authenticated.
   if (!oauth2_user_is_authenticated()) {
     oauth2_user_authenticate($form_state, $redirection = $form===NULL);
   }
 
   // Check access rights.
-  if (!bcl::user_access('btranslator-import')) {
+  if (!qcl::user_access('qtranslator-import')) {
     drupal_set_message(t("You don't have enough rights for adding new terms."), 'error');
     return;
   }
@@ -85,8 +85,8 @@ function _btrVocabulary_form_add($form, $form_state) {
   try {
     $term =  $form_state['values']['search_term'];
     $vocabulary =  $form_state['values']['vocabulary'];
-    $btr = wsclient_service_load('btr');
-    $result = $btr->add_string(array(
+    $qtr = wsclient_service_load('qtr');
+    $result = $qtr->add_string(array(
                 'origin' => 'vocabulary',
                 'project' => $vocabulary,
                 'tplname' => $vocabulary,
@@ -96,7 +96,7 @@ function _btrVocabulary_form_add($form, $form_state) {
               ));
     if ($result['sguid']) {
       // Redirect to the new term.
-      btrVocabulary_form_go($form_state);
+      qtrVocabulary_form_go($form_state);
     }
   }
   catch (Exception $e) {
@@ -107,14 +107,14 @@ function _btrVocabulary_form_add($form, $form_state) {
 /**
  * The button 'Delete Term' has been clicked.
  */
-function _btrVocabulary_form_delete($form, $form_state) {
+function _qtrVocabulary_form_delete($form, $form_state) {
   // Make sure that user is authenticated.
   if (!oauth2_user_is_authenticated()) {
     oauth2_user_authenticate($form_state, $redirection = $form===NULL);
   }
 
   // Check access rights.
-  if (!bcl::user_access('btranslator-admin')) {
+  if (!qcl::user_access('qtranslator-admin')) {
     drupal_set_message(t('Only an admin can delete vocabulary terms.'), 'error');
     return;
   }
@@ -125,12 +125,12 @@ function _btrVocabulary_form_delete($form, $form_state) {
   }
 
   // Delete the term.
-  $btr = wsclient_service_load('btr');
+  $qtr = wsclient_service_load('qtr');
   try {
     $term =  $form_state['values']['search_term'];
-    $btr->del_string(array('sguid' => $sguid));
+    $qtr->del_string(array('sguid' => $sguid));
     drupal_set_message(t('Term "!term" was deleted.', array('!term' => $term)));
-    btrVocabulary_form_go($form_state);
+    qtrVocabulary_form_go($form_state);
   }
   catch (Exception $e) {
     drupal_set_message($e->getMessage(), 'error');

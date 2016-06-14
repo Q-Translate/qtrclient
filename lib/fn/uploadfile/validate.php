@@ -5,7 +5,7 @@
  */
 
 namespace BTranslator\Client;
-use \bcl;
+use \qcl;
 
 
 /**

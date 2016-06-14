@@ -1,41 +1,41 @@
 <?php
 /**
  * @file
- * Callback for menu item: 'btr/project/%/%/%/list'
+ * Callback for menu item: 'qtr/project/%/%/%/list'
  */
 
 /**
- * Menu callback for 'btr/project/%/%/%/list'
+ * Menu callback for 'qtr/project/%/%/%/list'
  *
  * List strings and translations of the project.
  *
  * If the request header 'Accept: application/json' is set, then
  * the output will be in JSON, otherwise it will be an HTML page.
  */
-function btrProject_list($origin, $project, $lng) {
+function qtrProject_list($origin, $project, $lng) {
   // Set the filter parameters.
-  $params = bcl::filter_get_params();
+  $params = qcl::filter_get_params();
   unset($params['sguid']);
   $params['origin'] = $origin;
   $params['project'] = $project;
   $params['lng'] = $lng;
 
   // Get the strings that match the search params.
-  $btr = oauth2_user_is_authenticated() ?
-    wsclient_service_load('btr') :
-    wsclient_service_load('public_btr');
-  $result = $btr->search($params);
+  $qtr = oauth2_user_is_authenticated() ?
+    wsclient_service_load('qtr') :
+    wsclient_service_load('public_qtr');
+  $result = $qtr->search($params);
 
   // If the request has the header 'Accept: application/json'
   // or '?format=json' return the output in JSON format and stop.
-  bcl::return_json($result['strings']);
+  qcl::return_json($result['strings']);
 
   // Set the title.
   drupal_set_title(t('Strings of !origin/!project/!lng',
     ['!origin' => $origin, '!project' => $project, '!lng' => $lng]));
 
   // Add the filter form.
-  $output[] = drupal_get_form('btrProject_listfilter_form', $result['filter']);
+  $output[] = drupal_get_form('qtrProject_listfilter_form', $result['filter']);
 
   // Output the strings.
   $strings = $result['strings'];
@@ -45,7 +45,7 @@ function btrProject_list($origin, $project, $lng) {
   else {
     $pager = $result['pager'];
     pager_default_initialize($pager['number_of_items'], $pager['items_per_page']);
-    $output[] = drupal_get_form('btrProject_list_form', $strings, $lng);
+    $output[] = drupal_get_form('qtrProject_list_form', $strings, $lng);
 
   }
 
@@ -53,24 +53,24 @@ function btrProject_list($origin, $project, $lng) {
 }
 
 /**
- * Form callback for: btrProject_list_form
+ * Form callback for: qtrProject_list_form
  */
-function btrProject_list_form($form, &$form_state, $strings, $lng) {
-  $form = bcl::translateform_build($strings, $lng);
+function qtrProject_list_form($form, &$form_state, $strings, $lng) {
+  $form = qcl::translateform_build($strings, $lng);
   return $form;
 }
 
 /**
- * Submit callback for the form: btrProject_list_form
+ * Submit callback for the form: qtrProject_list_form
  */
-function btrProject_list_form_submit($form, &$form_state) {
-  bcl::translateform_submit($form, $form_state);
+function qtrProject_list_form_submit($form, &$form_state) {
+  qcl::translateform_submit($form, $form_state);
 }
 
 /**
- * Form callback for: btrProject_listfilter_form
+ * Form callback for: qtrProject_listfilter_form
  */
-function btrProject_listfilter_form($form, &$form_state, $filter) {
+function qtrProject_listfilter_form($form, &$form_state, $filter) {
   // If the form has no values yet (either it is the first time that
   // the form is opened, or we have a get request), we set the values
   // of the form according to the $filter values.
@@ -82,7 +82,7 @@ function btrProject_listfilter_form($form, &$form_state, $filter) {
   $form_values['show'] = isset($_GET['show']) ? $_GET['show'] : 'all';
 
   // The number of results that should be displayed per page.
-  list($limit_options, $default) = bcl::filter_get_options('limit', 'assoc');
+  list($limit_options, $default) = qcl::filter_get_options('limit', 'assoc');
 
   $form = [
     '#prefix' => '<div id="listfilter-form">',
@@ -133,9 +133,9 @@ function btrProject_listfilter_form($form, &$form_state, $filter) {
 }
 
 /**
- * Submit callback for the form: btrProject_listfilter_form
+ * Submit callback for the form: qtrProject_listfilter_form
  */
-function btrProject_listfilter_form_submit($form, &$form_state) {
-  module_load_include('php', 'btrClient', 'lib/fn/filter/submit');
+function qtrProject_listfilter_form_submit($form, &$form_state) {
+  module_load_include('php', 'qtrClient', 'lib/fn/filter/submit');
   \BTranslator\Client\filter_submit($form, $form_state);
 }

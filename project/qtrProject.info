@@ -1,0 +1,7 @@
+name = Q-Translate Project
+description = Interface for Q-Translate Project.
+package = Q-Translate
+core = 7.x
+
+dependencies[] = qtrClient
+dependencies[] = ajax_chain_select

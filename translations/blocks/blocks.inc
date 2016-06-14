@@ -1,7 +1,7 @@
 <?php
 /**
  * @file
- * Defining blocks of btrTranslations.
+ * Defining blocks of qtrTranslations.
  */
 
 require_once __DIR__ . '/topcontrib.inc';
@@ -13,7 +13,7 @@ require_once __DIR__ . '/latest.inc';
  *
  * This hook declares what blocks are provided by the module.
  */
-function btrTranslations_block_info() {
+function qtrTranslations_block_info() {
   // This hook returns an array, each component of which is an array of block
   // information. The array keys are the 'delta' values used in other block
   // hooks.
@@ -24,19 +24,19 @@ function btrTranslations_block_info() {
 
   // Displays top 5 (or 10) contributors, over the last week (or month).
   $blocks['topcontrib'] = array(
-    'info' => t('B-Translator: Top contributors during the last period'),
+    'info' => t('Q-Translate: Top contributors during the last period'),
     'cache' => DRUPAL_CACHE_CUSTOM,
   );
 
   // Suggestion and voting statistics for the last week, month and year.
   $blocks['statistics'] = array(
-    'info' => t('B-Translator: Contribution statistics (for the last week, month and year)'),
+    'info' => t('Q-Translate: Contribution statistics (for the last week, month and year)'),
     'cache' => DRUPAL_CACHE_CUSTOM,
   );
 
   // Suggestions and votes submited lately.
   $blocks['latest'] = array(
-    'info' => t('B-Translator: Latest contributions'),
+    'info' => t('Q-Translate: Latest contributions'),
     'cache' => DRUPAL_CACHE_CUSTOM,
   );
 
@@ -48,10 +48,10 @@ function btrTranslations_block_info() {
  *
  * This hook declares configuration options for blocks provided by this module.
  */
-function btrTranslations_block_configure($delta = '') {
+function qtrTranslations_block_configure($delta = '') {
   $form = array();
   // The $delta parameter tells us which block is being configured.
-  $config = 'btrTranslations_' . $delta . '_config';
+  $config = 'qtrTranslations_' . $delta . '_config';
   if (function_exists($config)) {
     $form = $config();
   }
@@ -65,8 +65,8 @@ function btrTranslations_block_configure($delta = '') {
  * This hook declares how the configured options for a block
  * provided by this module are saved.
  */
-function btrTranslations_block_save($delta = '', $edit = array()) {
-  $save = 'btrTranslations_' . $delta . '_save';
+function qtrTranslations_block_save($delta = '', $edit = array()) {
+  $save = 'qtrTranslations_' . $delta . '_save';
   if (function_exists($save))  $save($edit);
 }
 
@@ -75,9 +75,9 @@ function btrTranslations_block_save($delta = '', $edit = array()) {
  *
  * This hook generates the contents of the blocks themselves.
  */
-function btrTranslations_block_view($delta = '') {
+function qtrTranslations_block_view($delta = '') {
   // The $delta parameter tells us which block is being requested.
-  $view = 'btrTranslations_' . $delta . '_view';
+  $view = 'qtrTranslations_' . $delta . '_view';
   if (function_exists($view)) {
     $block = $view();
   }

@@ -1,7 +1,7 @@
 <?php
 /**
  * @file
- * Defining blocks of btrVocabulary.
+ * Defining blocks of qtrVocabulary.
  */
 
 require_once __DIR__ . '/list.inc';
@@ -13,7 +13,7 @@ require_once __DIR__ . '/delete.inc';
  *
  * This hook declares what blocks are provided by the module.
  */
-function btrVocabulary_block_info() {
+function qtrVocabulary_block_info() {
   // This hook returns an array, each component of which is an array of block
   // information. The array keys are the 'delta' values used in other block
   // hooks.
@@ -24,19 +24,19 @@ function btrVocabulary_block_info() {
 
   // List of vocabularies.
   $blocks['list'] = array(
-    'info' => t('B-Translator Vocabularies: List of vocabularies'),
+    'info' => t('Q-Translate Vocabularies: List of vocabularies'),
     'cache' => DRUPAL_NO_CACHE,
   );
 
   // Import.
   $blocks['import'] = array(
-    'info' => t('B-Translator Vocabulary: Import'),
+    'info' => t('Q-Translate Vocabulary: Import'),
     'cache' => DRUPAL_NO_CACHE,
   );
 
   // Delete.
   $blocks['delete'] = array(
-    'info' => t('B-Translator Vocabulary: Delete'),
+    'info' => t('Q-Translate Vocabulary: Delete'),
     'cache' => DRUPAL_NO_CACHE,
   );
 
@@ -48,10 +48,10 @@ function btrVocabulary_block_info() {
  *
  * This hook declares configuration options for blocks provided by this module.
  */
-function btrVocabulary_block_configure($delta = '') {
+function qtrVocabulary_block_configure($delta = '') {
   $form = array();
   // The $delta parameter tells us which block is being configured.
-  $config = 'btrVocabulary_' . $delta . '_config';
+  $config = 'qtrVocabulary_' . $delta . '_config';
   if (function_exists($config)) {
     $form = $config();
   }
@@ -65,8 +65,8 @@ function btrVocabulary_block_configure($delta = '') {
  * This hook declares how the configured options for a block
  * provided by this module are saved.
  */
-function btrVocabulary_block_save($delta = '', $edit = array()) {
-  $save = 'btrVocabulary_' . $delta . '_save';
+function qtrVocabulary_block_save($delta = '', $edit = array()) {
+  $save = 'qtrVocabulary_' . $delta . '_save';
   if (function_exists($save))  $save($edit);
 }
 
@@ -75,9 +75,9 @@ function btrVocabulary_block_save($delta = '', $edit = array()) {
  *
  * This hook generates the contents of the blocks themselves.
  */
-function btrVocabulary_block_view($delta = '') {
+function qtrVocabulary_block_view($delta = '') {
   // The $delta parameter tells us which block is being requested.
-  $view = 'btrVocabulary_' . $delta . '_view';
+  $view = 'qtrVocabulary_' . $delta . '_view';
   if (function_exists($view)) {
     $block = $view();
   }

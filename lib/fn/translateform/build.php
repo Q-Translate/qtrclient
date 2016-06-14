@@ -5,7 +5,7 @@
  */
 
 namespace BTranslator\Client;
-use \bcl;
+use \qcl;
 
 require_once __DIR__ . '/theme_functions.inc';
 
@@ -23,7 +23,7 @@ require_once __DIR__ . '/theme_functions.inc';
  */
 function translateform_build($strings, $lng) {
   // Include on the page the CSS/JS of the editor.
-  bcl::translateform_include_editor();
+  qcl::translateform_include_editor();
 
   $pager = theme('pager', array('tags' => NULL, 'element' => 0));
   $form = array(
@@ -37,13 +37,13 @@ function translateform_build($strings, $lng) {
     ),
     'strings' => array(
       '#tree' => TRUE,
-      '#theme' => 'btrClient_translate_table',
+      '#theme' => 'qtrClient_translate_table',
       '#lng' => $lng,
     ),
 
     'buttons' => (count($strings) == 1 ?
-               bcl::translateform_buttons($lng, key($strings)) :
-               bcl::translateform_buttons($lng)),
+               qcl::translateform_buttons($lng, key($strings)) :
+               qcl::translateform_buttons($lng)),
 
     'pager_bottom' => array(
       '#weight' => 10,
@@ -54,13 +54,13 @@ function translateform_build($strings, $lng) {
   // Fill in string values for the editor.
   foreach ($strings as $string) {
     $sguid = $string['sguid'];
-    $form['strings'][$sguid] = bcl::translateform_string($string, $lng);
+    $form['strings'][$sguid] = qcl::translateform_string($string, $lng);
     // TODO: Display the number of comments for each string.
   }
 
   // If there is only one string, append social and discussions, etc.
   if (count($strings) == 1) {
-    $form += bcl::translateform_meta($lng, $sguid, $string);
+    $form += qcl::translateform_meta($lng, $sguid, $string);
   }
 
   return $form;

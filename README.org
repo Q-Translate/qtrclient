@@ -1,20 +1,20 @@
 
-* B-Translator Client
+* Q-Translate Client
 
-  This Drupal module implements a client based on the B-Translator
-  API. For more info about /B-Translator/ see:
-  http://info.btranslator.org
+  This Drupal module implements a client based on the Q-Translate
+  API. For more info about /Q-Translate/ see:
+  http://info.qtranslator.org
 
 ** Installation
 
    1. Put these lines on the make file of your profile:
       #+BEGIN_EXAMPLE
-      projects[btrclient][version] = "1.0-dev"
-      ;projects[btrClient][type] = "module"
-      ;projects[btrClient][subdir] = "custom"
-      ;projects[btrClient][download][type] = "git"
-      ;projects[btrClient][download][url] = "https://github.com/B-Translator/btrClient.git"
-      ;;projects[btrClient][download][branch] = "7.x-1.x"
+      projects[qtrclient][version] = "1.0-dev"
+      ;projects[qtrClient][type] = "module"
+      ;projects[qtrClient][subdir] = "custom"
+      ;projects[qtrClient][download][type] = "git"
+      ;projects[qtrClient][download][url] = "https://github.com/Q-Translate/qtrClient.git"
+      ;;projects[qtrClient][download][branch] = "7.x-1.x"
       #+END_EXAMPLE
 
       For example, if you have installed the *standard* Drupal
@@ -26,12 +26,12 @@
 
       defaults[projects][subdir] = "contrib"
 
-      projects[btrclient][version] = "1.0-dev"
-      ;projects[btrClient][type] = "module"
-      ;projects[btrClient][subdir] = "custom"
-      ;projects[btrClient][download][type] = "git"
-      ;projects[btrClient][download][url] = "https://github.com/B-Translator/btrClient.git"
-      ;;projects[btrClient][download][branch] = "7.x-1.x"
+      projects[qtrclient][version] = "1.0-dev"
+      ;projects[qtrClient][type] = "module"
+      ;projects[qtrClient][subdir] = "custom"
+      ;projects[qtrClient][download][type] = "git"
+      ;projects[qtrClient][download][url] = "https://github.com/Q-Translate/qtrClient.git"
+      ;;projects[qtrClient][download][branch] = "7.x-1.x"
       #+END_EXAMPLE
 
    2. Install *drush_remake*: =drush dl drush_remake=
@@ -51,18 +51,18 @@
       drush en libraries
       #+END_EXAMPLE
 
-   5. Install the module *btrClient* (all its dependencies will be
+   5. Install the module *qtrClient* (all its dependencies will be
       installed as well):
       #+BEGIN_EXAMPLE
-      drush en btrClient
+      drush en qtrClient
       #+END_EXAMPLE
 
-   6. Optionally, install also the feature *bcl_disqus* (to add
+   6. Optionally, install also the feature *qcl_disqus* (to add
       support for disqus comments).
 
 ** Configuration
 
-   Set the B-Translator *Server URL* on =admin/config/bcl/client=, and
+   Set the Q-Translate *Server URL* on =admin/config/qcl/client=, and
    set the OAuth2 Login parameters (*Client ID* and *Client Secret*)
-   on =admin/config/bcl/oauth2_login=. You have to register first an
-   oauth2 client on the B-Translator server.
+   on =admin/config/qcl/oauth2_login=. You have to register first an
+   oauth2 client on the Q-Translate server.

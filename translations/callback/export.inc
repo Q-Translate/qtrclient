@@ -9,7 +9,7 @@
  *
  * Export the best translations of a project into PO format.
  */
-function btrTranslations_export() {
-  $output = bcl::get_block('btrProject', 'export');
+function qtrTranslations_export() {
+  $output = qcl::get_block('qtrProject', 'export');
   return $output;
 }

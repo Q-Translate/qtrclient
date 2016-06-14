@@ -5,7 +5,7 @@
  */
 
 namespace BTranslator\Client;
-use \bcl;
+use \qcl;
 
 /**
  * Converts the array of form values into a suitable query (for redirect).
@@ -18,7 +18,7 @@ function filter_get_query($form_values) {
   $query = array();
 
   // Get lng.
-  $languages = bcl::get_languages();
+  $languages = qcl::get_languages();
   $lng_codes = array_keys($languages);
   $lng = trim($form_values['lng']);
   if (in_array($lng, $lng_codes)) {
@@ -49,7 +49,7 @@ function filter_get_query($form_values) {
     }
 
     // Get date_filter.
-    list($date_filter_options, $default_date_filter) = bcl::filter_get_options('date_filter');
+    list($date_filter_options, $default_date_filter) = qcl::filter_get_options('date_filter');
     if (in_array($form_values['date_filter'], $date_filter_options) && $form_values['date_filter'] != $default_date_filter) {
       $query['date_filter'] = $form_values['date_filter'];
     }
@@ -66,13 +66,13 @@ function filter_get_query($form_values) {
   }
 
   // Get limit.
-  list($limit_options, $default_limit) = bcl::filter_get_options('limit');
+  list($limit_options, $default_limit) = qcl::filter_get_options('limit');
   if (in_array($form_values['limit'], $limit_options) && $form_values['limit'] != $default_limit) {
     $query['limit'] = $form_values['limit'];
   }
 
   // Get search mode and words.
-  list($search_mode_options, $default_search_mode) = bcl::filter_get_options('mode');
+  list($search_mode_options, $default_search_mode) = qcl::filter_get_options('mode');
   if (in_array($form_values['mode'], $search_mode_options) && $form_values['mode'] != $default_search_mode) {
     $query['mode'] = $form_values['mode'];
   }
@@ -81,7 +81,7 @@ function filter_get_query($form_values) {
   }
 
   // Get list mode.
-  list($list_mode_options, $default_list_mode) = bcl::filter_get_options('list_mode');
+  list($list_mode_options, $default_list_mode) = qcl::filter_get_options('list_mode');
   if (in_array($form_values['list_mode'], $list_mode_options) && $form_values['list_mode'] != $default_list_mode) {
     $query['list_mode'] = $form_values['list_mode'];
   }

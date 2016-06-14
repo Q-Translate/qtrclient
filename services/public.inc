@@ -7,19 +7,19 @@
 /**
  * Create and return the public service.
  */
-function _btrClientWS_public($service_name) {
+function _qtrClientWS_public($service_name) {
   $server_url = variable_get('oauth2_login_oauth2_server', '');
 
   $service = new WSClientServiceDescription();
   $service->name = $service_name;
-  $service->label = 'Public B-Translator Services';
+  $service->label = 'Public Q-Translate Services';
   $service->type = 'rest';
   $service->url = $server_url . '/api/';
 
   $service->settings += oauth2_user_wsclient_dev_settings();
 
-  $service->operations += _btrClientWS_public_report();
-  $service->operations += _btrClientWS_public_translations();
+  $service->operations += _qtrClientWS_public_report();
+  $service->operations += _qtrClientWS_public_translations();
 
   return $service;
 }
@@ -27,7 +27,7 @@ function _btrClientWS_public($service_name) {
 /**
  * Return definitions for operations about reports.
  */
-function _btrClientWS_public_report() {
+function _qtrClientWS_public_report() {
   $operations['report_statistics'] = array(
     'label' => 'report_statistics',
     'url' => 'report/statistics',
@@ -96,7 +96,7 @@ function _btrClientWS_public_report() {
 /**
  * Return definitions for operations about translations.
  */
-function _btrClientWS_public_translations() {
+function _qtrClientWS_public_translations() {
   $operations['get_translations'] = array(
     'label' => 'get_translations',
     'url' => 'translations/@sguid',

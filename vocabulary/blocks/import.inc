@@ -7,16 +7,16 @@
 /**
  * Called from hook_block_view for import.
  */
-function btrVocabulary_import_view() {
+function qtrVocabulary_import_view() {
   $block['subject'] = t('Import Vocabulary');
-  $block['content'] = drupal_get_form('btrVocabulary_import_form', $origin, $vocabulary, $lng);
+  $block['content'] = drupal_get_form('qtrVocabulary_import_form', $origin, $vocabulary, $lng);
   return $block;
 }
 
 /**
- * Form callback for: btrVocabulary_import_form
+ * Form callback for: qtrVocabulary_import_form
  */
-function btrVocabulary_import_form($form, &$form_state, $origin, $vocabulary, $lng) {
+function qtrVocabulary_import_form($form, &$form_state, $origin, $vocabulary, $lng) {
   $description = t('
 <p>Create a vocabulary or update an existing one by importing the terms and
 translations from a text file. The text file has the same format as the exported
@@ -25,7 +25,7 @@ translation2 / translation3</code>.</p>'
   );
 
   // Get an associative array of language codes and names.
-  $arr_languages = bcl::get_languages();
+  $arr_languages = qcl::get_languages();
   $languages = [];
   foreach ($arr_languages as $lng => $lang) {
     $languages[$lng] = $lang['name'];
@@ -68,25 +68,25 @@ translation2 / translation3</code>.</p>'
 }
 
 /**
- * Implements hook form_validate() for btrVocabulary_import_form.
+ * Implements hook form_validate() for qtrVocabulary_import_form.
  */
-function btrVocabulary_import_form_validate($form, &$form_state) {
-  bcl::uploadfile_validate($extensions='txt', $file_types=['text/plain']);
+function qtrVocabulary_import_form_validate($form, &$form_state) {
+  qcl::uploadfile_validate($extensions='txt', $file_types=['text/plain']);
 }
 
 
 /**
- * Implement hook form_submit() for the form btrVocabulary_import_form
+ * Implement hook form_submit() for the form qtrVocabulary_import_form
  */
-function btrVocabulary_import_form_submit($form, &$form_state) {
+function qtrVocabulary_import_form_submit($form, &$form_state) {
   if (!oauth2_user_is_authenticated()) {
     oauth2_user_authenticate($form_state, $redirection = ($form===NULL));
     return;
   }
 
-  $messages = bcl::uploadfile_to_server('vocabulary/import', [
+  $messages = qcl::uploadfile_to_server('vocabulary/import', [
                 'lng' => $form_state['values']['lng'],
                 'name' => $form_state['values']['name'],
               ]);
-  bcl::display_messages($messages);
+  qcl::display_messages($messages);
 }

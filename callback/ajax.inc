@@ -17,9 +17,9 @@
  * @return
  *   HTML code with the details of the given string.
  */
-function btrClient_string_details($lng, $sguid) {
+function qtrClient_string_details($lng, $sguid) {
   // Get the string details from the server.
-  $url = variable_get('btrClient_server') . '/string_details/' . $sguid;
+  $url = variable_get('qtrClient_server') . '/string_details/' . $sguid;
   $output = drupal_http_request($url);
   if (isset($output->data)) {
     $details = json_decode($output->data, TRUE);
@@ -42,7 +42,7 @@ function btrClient_string_details($lng, $sguid) {
   $output .= '<h3>' . t('Used on these projects:') . '</h3>';
   $project_list = array();
   foreach ($details['projects'] as $project) {
-    $url = $GLOBALS['base_url'] . '/btr/project/' . $project . '/' . $lng . '/' . $sguid;
+    $url = $GLOBALS['base_url'] . '/qtr/project/' . $project . '/' . $lng . '/' . $sguid;
     $project_list[] = l($project, $url);
   }
   $output .= theme('item_list', array('items' => $project_list));

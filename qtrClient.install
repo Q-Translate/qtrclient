@@ -1,24 +1,24 @@
 <?php
 /**
  * @file
- * Install and update functions for the module btrClient.
+ * Install and update functions for the module qtrClient.
  */
 
 /**
  * Implements hook_install().
  */
-function btrClient_install() {
+function qtrClient_install() {
   // Set some default values for the variables.
   variable_set('oauth2_server_url', '');
 
   // Set some test/dummy values for oauth2 variables.
-  $server_url = 'http://dev.btranslator.org';
+  $server_url = 'http://dev.qtranslator.org';
   $client_id = 'client1';
   $client_secret = '0123456789';
   $skip_ssl = 1;
 
-  // Set the B-Translator API server.
-  variable_set('btrClient_server', $server_url);
+  // Set the Q-Translate API server.
+  variable_set('qtrClient_server', $server_url);
 
   // Set configuration variables of oauth2_login.
   variable_set('oauth2_login_oauth2_server', $server_url);
@@ -36,14 +36,14 @@ function btrClient_install() {
 /**
  * Implements hook_uninstall().
  */
-function btrClient_uninstall() {
+function qtrClient_uninstall() {
   // Delete variables that were used for this module.
   $variables = array(
-    'btrClient_translation_lng',
-    'btrClient_server',
+    'qtrClient_translation_lng',
+    'qtrClient_server',
 
-    'btrClient_topcontrib_size',
-    'btrClient_topcontrib_period',
+    'qtrClient_topcontrib_size',
+    'qtrClient_topcontrib_period',
   );
   foreach ($variables as $var) {
     variable_del($var);
@@ -53,9 +53,9 @@ function btrClient_uninstall() {
 /**
  * Implements hook_schema().
  */
-function btrClient_schema() {
+function qtrClient_schema() {
   // Create a cache table for this module.
-  $schema['cache_btrClient'] = drupal_get_schema_unprocessed('system', 'cache');
+  $schema['cache_qtrClient'] = drupal_get_schema_unprocessed('system', 'cache');
 
   return $schema;
 }

@@ -1,4 +1,4 @@
-name = bcl_disqus
+name = qcl_disqus
 core = 7.x
 package = Features
 dependencies[] = ctools

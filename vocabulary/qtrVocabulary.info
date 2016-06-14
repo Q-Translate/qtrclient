@@ -1,0 +1,6 @@
+name = Q-Translate Vocabulary
+description = Interface for Q-Translate Vocabulary.
+package = Q-Translate
+core = 7.x
+
+dependencies[] = qtrClient

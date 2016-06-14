@@ -6,7 +6,7 @@
 
 (function($) {
 
-Drupal.behaviors.btrClient_editor = {
+Drupal.behaviors.qtrClient_editor = {
   attach: function (context, settings) {
 
   /**

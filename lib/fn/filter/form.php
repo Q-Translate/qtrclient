@@ -5,7 +5,7 @@
  */
 
 namespace BTranslator\Client;
-use \bcl;
+use \qcl;
 
 /**
  * Build and return the filter form.
@@ -18,7 +18,7 @@ function filter_form($form_values) {
     /* css attachment does not work
     '#attached' => [
       'css' => [
-        drupal_get_path('module', 'btrClient') . '/lib/fn/filter/style.css',
+        drupal_get_path('module', 'qtrClient') . '/lib/fn/filter/style.css',
       ],
     ],
     */
@@ -73,13 +73,13 @@ function filter_form($form_values) {
  */
 function _advanced($form_values) {
   // Language of translations.
-  $languages = bcl::get_languages();
+  $languages = qcl::get_languages();
   foreach ($languages as $code => $lang) {
     $lang_options[$code] = $lang['name'];
   }
 
   // The number of results that should be displayed per page.
-  list($limit_options, $default) = bcl::filter_get_options('limit', 'assoc');
+  list($limit_options, $default) = qcl::filter_get_options('limit', 'assoc');
 
   $advanced = [
     // Language of translations.
@@ -120,7 +120,7 @@ function _advanced($form_values) {
  * Return search mode.
  */
 function _search_mode($form_values) {
-  list($search_mode_options, $default) = bcl::filter_get_options('mode', 'assoc');
+  list($search_mode_options, $default) = qcl::filter_get_options('mode', 'assoc');
 
   $params = array(
     '!url1' => 'http://dev.mysql.com/doc/refman/5.1/en/fulltext-natural-language.html',
@@ -151,7 +151,7 @@ function _search_mode($form_values) {
  * Return project/origin fields.
  */
 function _projects($form_values) {
-  $btr_server = variable_get('btrClient_server');
+  $qtr_server = variable_get('qtrClient_server');
 
   $projects = [
     '#type' => 'fieldset',
@@ -165,7 +165,7 @@ function _projects($form_values) {
       '#title' => t('Project'),
       '#description' => t('Search only the strings belonging to the matching project.'),
       '#default_value' => $form_values['project'],
-      '#autocomplete_path' => $btr_server . '/auto/project',
+      '#autocomplete_path' => $qtr_server . '/auto/project',
     ],
 
     // origin
@@ -174,7 +174,7 @@ function _projects($form_values) {
       '#title' => t('Origin'),
       '#description' => t('Limit search only to the projects from a certain origin.'),
       '#default_value' => $form_values['origin'],
-      '#autocomplete_path' => $btr_server . '/auto/origin',
+      '#autocomplete_path' => $qtr_server . '/auto/origin',
     ],
   ];
 
@@ -185,8 +185,8 @@ function _projects($form_values) {
  * Return the author fieldset.
  */
 function _author($form_values) {
-  $btr_server = variable_get('btrClient_server');
-  $lng = bcl::get_translation_lng();
+  $qtr_server = variable_get('qtrClient_server');
+  $lng = qcl::get_translation_lng();
 
   $author = [
     '#type' => 'fieldset',
@@ -208,7 +208,7 @@ function _author($form_values) {
       '#title' => t('Translated By'),
       '#description' => t('Search only the strings with translations suggested by the selected user.'),
       '#default_value' => $form_values['translated_by'],
-      '#autocomplete_path' => $btr_server . '/auto/user/' . $lng,
+      '#autocomplete_path' => $qtr_server . '/auto/user/' . $lng,
       '#states' => [
         'visible' => [
           ':input[name="only_mine"]' => ['checked' => FALSE],
@@ -221,7 +221,7 @@ function _author($form_values) {
       '#title' => t('Voted By'),
       '#description' => t('Search only the strings with translations voted by the selected user.'),
       '#default_value' => $form_values['voted_by'],
-      '#autocomplete_path' => $btr_server . '/auto/user/' . $lng,
+      '#autocomplete_path' => $qtr_server . '/auto/user/' . $lng,
       '#states' => [
         'visible' => [
           ':input[name="only_mine"]' => ['checked' => FALSE],
@@ -236,7 +236,7 @@ function _author($form_values) {
  * Return the date fieldset.
  */
 function _date($form_values) {
-  list($date_filter_options, $default) = bcl::filter_get_options('date_filter', 'assoc');
+  list($date_filter_options, $default) = qcl::filter_get_options('date_filter', 'assoc');
 
   $date = [
     '#type' => 'fieldset',

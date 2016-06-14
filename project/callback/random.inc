@@ -1,11 +1,11 @@
 <?php
 /**
  * @file
- * Callback for menu item: 'btr/project/%/%/%/random'
+ * Callback for menu item: 'qtr/project/%/%/%/random'
  */
 
 /**
- * Menu callback for 'btr/project/%/%/%/random'
+ * Menu callback for 'qtr/project/%/%/%/random'
  *
  * Vote the best translation for a random string from a project, or suggest a
  * better translation.
@@ -13,15 +13,15 @@
  * If the request header 'Accept: application/json' is set, then the output will
  * be in JSON, otherwise it will be an HTML page.
  */
-function btrProject_random($origin, $project, $lng = NULL, $sguid = NULL) {
-  if ($lng == NULL)  $lng = bcl::get_translation_lng();
+function qtrProject_random($origin, $project, $lng = NULL, $sguid = NULL) {
+  if ($lng == NULL)  $lng = qcl::get_translation_lng();
   if ($sguid == NULL)  $sguid = 'random';
 
   if (in_array($sguid, array('random', 'translated', 'untranslated'))) {
-    $btr = oauth2_user_is_authenticated() ?
-      wsclient_service_load('btr') :
-      wsclient_service_load('public_btr');
-    $result = $btr->get_random_sguid([
+    $qtr = oauth2_user_is_authenticated() ?
+      wsclient_service_load('qtr') :
+      wsclient_service_load('public_qtr');
+    $result = $qtr->get_random_sguid([
                 'scope' => "$origin/$project",
                 'lng' => $lng,
                 'target' => $sguid,
@@ -29,76 +29,76 @@ function btrProject_random($origin, $project, $lng = NULL, $sguid = NULL) {
     $sguid = $result['sguid'];
     if (!$sguid) {
       drupal_set_message(t('No string found!'), 'warning');
-      drupal_goto('btr/project/list');
+      drupal_goto('qtr/project/list');
     }
     else {
-      drupal_goto("btr/project/$origin/$project/$lng/$sguid");
+      drupal_goto("qtr/project/$origin/$project/$lng/$sguid");
     }
     return;
   }
 
   // last_sguid is used in search, to get similar results.
-  $_SESSION['btrClient']['last_sguid'] = $sguid;
+  $_SESSION['qtrClient']['last_sguid'] = $sguid;
 
   if ($lng == 'all') {
     $lng = 'fr';
-    drupal_goto("btr/project/$origin/$project/$lng/$sguid");
+    drupal_goto("qtr/project/$origin/$project/$lng/$sguid");
     return;
   }
 
   // Get the string and its translations.
-  $btr = wsclient_service_load('public_btr');
-  $result = $btr->get_translations($sguid, $lng);
+  $qtr = wsclient_service_load('public_qtr');
+  $result = $qtr->get_translations($sguid, $lng);
 
   // If the request has the header 'Accept: application/json'
   // or '?format=json' return the output in JSON format and stop.
-  bcl::return_json($result);
+  qcl::return_json($result);
 
   // Go to home if there is no string.
   $string = $result['string'];
   if (empty($string)) {
     drupal_set_message(t('No string found!'), 'warning');
-    drupal_goto('btr/project/');
+    drupal_goto('qtr/project/');
     return;
   }
 
   // Build and return the output.
-  $output = drupal_get_form('btrProject_random_form',
+  $output = drupal_get_form('qtrProject_random_form',
             $origin, $project, $lng, $sguid, $string);
 
   return $output;
 }
 
 /**
- * Form callback for: btrProject_random_form
+ * Form callback for: qtrProject_random_form
  */
-function btrProject_random_form($form, &$form_state, $origin, $project, $lng, $sguid, $string) {
-  $form = bcl::translateform_build([$sguid => $string], $lng);
-  $form['buttons'] += _btrProject_random_form_buttons($origin, $project, $lng);
+function qtrProject_random_form($form, &$form_state, $origin, $project, $lng, $sguid, $string) {
+  $form = qcl::translateform_build([$sguid => $string], $lng);
+  $form['buttons'] += _qtrProject_random_form_buttons($origin, $project, $lng);
   return $form;
 }
 
 /**
  * Get the buttons of the form.
  */
-function _btrProject_random_form_buttons($origin, $project, $lng) {
+function _qtrProject_random_form_buttons($origin, $project, $lng) {
   $params['attributes'] = array(
     'class' => array('btn', 'btn-default', 'form-submit'),
     'style' => 'margin-right:3px',
   );
   $buttons['random'] = array(
     '#markup' => l(t('Random'),
-               "btr/project/$origin/$project/$lng/",
+               "qtr/project/$origin/$project/$lng/",
                $params),
   );
   $buttons['translated'] = array(
     '#markup' => l(t('Translated'),
-               "btr/project/$origin/$project/$lng/translated",
+               "qtr/project/$origin/$project/$lng/translated",
                $params),
   );
   $buttons['untranslated'] = array(
     '#markup' => l(t('Untranslated'),
-               "btr/project/$origin/$project/$lng/untranslated",
+               "qtr/project/$origin/$project/$lng/untranslated",
                $params),
   );
 
@@ -106,8 +106,8 @@ function _btrProject_random_form_buttons($origin, $project, $lng) {
 }
 
 /**
- * Submit callback for the form: btrProject_random_form
+ * Submit callback for the form: qtrProject_random_form
  */
-function btrProject_random_form_submit($form, &$form_state) {
-  bcl::translateform_submit($form, $form_state);
+function qtrProject_random_form_submit($form, &$form_state) {
+  qcl::translateform_submit($form, $form_state);
 }

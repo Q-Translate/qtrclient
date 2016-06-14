@@ -1,17 +1,17 @@
 <?php
 /**
  * @file
- * Module file for btrProject.
+ * Module file for qtrProject.
  */
 
-module_load_include('inc', 'btrProject', 'blocks/blocks');
+module_load_include('inc', 'qtrProject', 'blocks/blocks');
 
 /**
  * Implements hook_init().
  */
-function btrProject_init() {
+function qtrProject_init() {
   // Include the stylesheets.
-  $path = drupal_get_path('module', 'btrProject');
+  $path = drupal_get_path('module', 'qtrProject');
   drupal_add_css($path . '/blocks/list.css.less');
   drupal_add_css($path . '/blocks/select.css.less');
   drupal_add_css($path . '/blocks/subscribe.css.less');
@@ -20,68 +20,68 @@ function btrProject_init() {
 /**
  * Implements hook_menu().
  */
-function btrProject_menu() {
-  $items['btr/project'] = array(
+function qtrProject_menu() {
+  $items['qtr/project'] = array(
     'type'            => MENU_NORMAL_ITEM,
     'title'           => 'Project List',
     'description'     => 'List of all the imported projects.',
-    'page callback'   => 'btrProject_projlist',
+    'page callback'   => 'qtrProject_projlist',
     'file'            => 'callback/projlist.inc',
     'access callback' => TRUE,
   );
 
-  $items['btr/project/list'] = array(
+  $items['qtr/project/list'] = array(
     'type'            => MENU_NORMAL_ITEM,
     'title'           => 'Project List',
     'description'     => 'List of all the imported projects.',
-    'page callback'   => 'btrProject_projlist',
+    'page callback'   => 'qtrProject_projlist',
     'file'            => 'callback/projlist.inc',
     'access callback' => TRUE,
   );
 
-  $items['btr/project/%/%/%'] = array(
+  $items['qtr/project/%/%/%'] = array(
     'type'            => MENU_NORMAL_ITEM,
     'title'           => 'Project',
     'description'     => 'Review a random string from the project.',
-    'page callback'   => 'btrProject_random',
+    'page callback'   => 'qtrProject_random',
     'page arguments'  => array(2, 3, 4),
     'file'            => 'callback/random.inc',
     'access callback' => TRUE,
   );
 
-  $items['btr/project/%/%/%/dashboard'] = array(
+  $items['qtr/project/%/%/%/dashboard'] = array(
     'type'            => MENU_LOCAL_TASK,
     'title'           => 'Dashboard',
     'description'     => 'Details of the project, statistics, latest activity, etc..',
-    'page callback'   => 'btrProject_dashboard',
+    'page callback'   => 'qtrProject_dashboard',
     'page arguments'  => array(2, 3, 4),
     'file'            => 'callback/dashboard.inc',
     'access callback' => TRUE,
     'weight'          => 1,
   );
 
-  $items['btr/project/%/%/%/random'] = array(
+  $items['qtr/project/%/%/%/random'] = array(
     'type'            => MENU_DEFAULT_LOCAL_TASK,
     'title'           => 'Random',
     'weight'          => 2,
   );
 
-  $items['btr/project/%/%/%/list'] = array(
+  $items['qtr/project/%/%/%/list'] = array(
     'type'            => MENU_LOCAL_TASK,
     'title'           => 'List',
     'description'     => 'List strings and translations of the project.',
-    'page callback'   => 'btrProject_list',
+    'page callback'   => 'qtrProject_list',
     'page arguments'  => array(2, 3, 4),
     'file'            => 'callback/list.inc',
     'access callback' => TRUE,
     'weight'          => 3,
   );
 
-  $items['btr/project/%/%/%/search'] = array(
+  $items['qtr/project/%/%/%/search'] = array(
     'type'            => MENU_LOCAL_TASK,
     'title'           => 'Search',
     'description'     => 'Search strings and translations of the project.',
-    'page callback'   => 'btrProject_search',
+    'page callback'   => 'qtrProject_search',
     'page arguments'  => array(2, 3, 4),
     'file'            => 'callback/search.inc',
     'access callback' => TRUE,
@@ -89,11 +89,11 @@ function btrProject_menu() {
   );
 
   /*
-  $items['btr/project/%/%/%/edit'] = array(
+  $items['qtr/project/%/%/%/edit'] = array(
     'type'            => MENU_LOCAL_TASK,
     'title'           => 'Edit',
     'description'     => 'Edit details of the project.',
-    'page callback'   => 'btrProject_edit',
+    'page callback'   => 'qtrProject_edit',
     'page arguments'  => array(2, 3, 4),
     'file'            => 'callback/edit.inc',
     'access callback' => TRUE,
@@ -101,11 +101,11 @@ function btrProject_menu() {
   );
   */
 
-  $items['btr/project/%/%/%/admin'] = array(
+  $items['qtr/project/%/%/%/admin'] = array(
     'type'            => MENU_LOCAL_TASK,
     'title'           => 'Admin',
     'description'     => 'Administrative tasks of the project.',
-    'page callback'   => 'btrProject_admin',
+    'page callback'   => 'qtrProject_admin',
     'page arguments'  => array(2, 3, 4),
     'file'            => 'callback/admin.inc',
     'access callback' => TRUE,

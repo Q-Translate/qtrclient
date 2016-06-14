@@ -10,7 +10,7 @@ namespace BTranslator\Client;
  * Display any messages, warnings and errors.
  *
  * @param array $messages
- *   Array of messages, usually returned from btr rest services.
+ *   Array of messages, usually returned from qtr rest services.
  *   Each item is an array that contains a string message and a type,
  *   where type can be one of: status, warning, error.
  */

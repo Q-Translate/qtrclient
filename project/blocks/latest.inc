@@ -7,9 +7,9 @@
 /**
  * Called from hook_block_view for latest.
  */
-function btrProject_latest_view() {
+function qtrProject_latest_view() {
   // Return cache if possible.
-  $cache = cache_get('btrProject_block_latest', 'cache_btrClient');
+  $cache = cache_get('qtrProject_block_latest', 'cache_qtrClient');
   if (!empty($cache) && isset($cache->data) && !empty($cache->data)) {
     return $cache->data;
   }
@@ -21,7 +21,7 @@ function btrProject_latest_view() {
   $block['content'] = $content;
 
   // Cache for 12 hours.
-  cache_set('btrProject_block_latest', $block, 'cache_btrClient', time() + 12 * 60 * 60);
+  cache_set('qtrProject_block_latest', $block, 'cache_qtrClient', time() + 12 * 60 * 60);
 
   return $block;
 }

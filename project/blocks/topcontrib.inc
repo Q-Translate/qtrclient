@@ -11,14 +11,14 @@
  * block. Drupal will take care of the standard block configuration options
  * (block title, page visibility, etc.) and the save button.
  */
-function btrProject_topcontrib_config() {
-  $form['btrProject_topcontrib_size'] = array(
+function qtrProject_topcontrib_config() {
+  $form['qtrProject_topcontrib_size'] = array(
     '#type' => 'textfield',
     '#title' => t('Size of the list'),
     '#description' => t('The number of top contributers that will be shown in the list (5, 10, etc)'),
-    '#default_value' => variable_get('btrProject_topcontrib_size', 5),
+    '#default_value' => variable_get('qtrProject_topcontrib_size', 5),
   );
-  $form['btrProject_topcontrib_period'] = array(
+  $form['qtrProject_topcontrib_period'] = array(
     '#type' => 'select',
     '#title' => t('Accumulation period'),
     '#description' => t('The period during which the contributions will be counted (last week or last month).'),
@@ -26,7 +26,7 @@ function btrProject_topcontrib_config() {
       'week' => t('Last week'),
       'month' => t('Last month'),
     ),
-    '#default_value' => variable_get('btrProject_topcontrib_period', 'week'),
+    '#default_value' => variable_get('qtrProject_topcontrib_period', 'week'),
   );
   return $form;
 }
@@ -34,36 +34,36 @@ function btrProject_topcontrib_config() {
 /**
  * Called from hook_block_save for topcontrib.
  */
-function btrProject_topcontrib_save($edit) {
+function qtrProject_topcontrib_save($edit) {
   // Have Drupal save them to the database.
-  variable_set('btrProject_topcontrib_size', $edit['btrProject_topcontrib_size']);
-  variable_set('btrProject_topcontrib_period', $edit['btrProject_topcontrib_period']);
+  variable_set('qtrProject_topcontrib_size', $edit['qtrProject_topcontrib_size']);
+  variable_set('qtrProject_topcontrib_period', $edit['qtrProject_topcontrib_period']);
 }
 
 /**
  * Called from hook_block_view for topcontrib.
  */
-function btrProject_topcontrib_view() {
+function qtrProject_topcontrib_view() {
   // Get parameters.
-  $period = variable_get('btrProject_topcontrib_period', 'week');
-  $size = variable_get('btrProject_topcontrib_size', 5);
+  $period = variable_get('qtrProject_topcontrib_period', 'week');
+  $size = variable_get('qtrProject_topcontrib_size', 5);
 
   // Get the arguments from the path.
-  list($origin, $project, $lng) = bcl::get_project_from_path();
+  list($origin, $project, $lng) = qcl::get_project_from_path();
 
   // Return cache if possible.
-  $cid = "btrProject_block_topcontrib:$period:$size:$lng:$origin:$project";
-  $cache = cache_get($cid, 'cache_btrClient');
+  $cid = "qtrProject_block_topcontrib:$period:$size:$lng:$origin:$project";
+  $cache = cache_get($cid, 'cache_qtrClient');
   if (!empty($cache) && isset($cache->data) && !empty($cache->data)) {
     return $cache->data;
   }
 
   // Build the block view.
   $block['subject'] = t('Top @nr contributors', array('@nr' => $size));
-  $block['content'] = bcl::render_topcontrib($period, $size, $lng, $origin, $project);
+  $block['content'] = qcl::render_topcontrib($period, $size, $lng, $origin, $project);
 
   // Cache for 12 hours.
-  cache_set($cid, $block, 'cache_btrClient', time() + 12 * 60 * 60);
+  cache_set($cid, $block, 'cache_qtrClient', time() + 12 * 60 * 60);
 
   return $block;
 }

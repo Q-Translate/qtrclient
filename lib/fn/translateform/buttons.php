@@ -5,7 +5,7 @@
  */
 
 namespace BTranslator\Client;
-use \bcl;
+use \qcl;
 
 /**
  * Get the buttons of the form as a render array.
@@ -24,7 +24,7 @@ function translateform_buttons($lng, $sguid = NULL) {
 
   // The save button will appear only when the user has
   // permissions to submit votes and suggestions.
-  $translation_lng = variable_get('btrClient_translation_lng', 'all');
+  $translation_lng = variable_get('qtrClient_translation_lng', 'all');
   $enable_save = ($translation_lng == $lng or $translation_lng == 'all');
   $buttons['save'] = [
     '#type' => 'submit',

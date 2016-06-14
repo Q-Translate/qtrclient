@@ -1,0 +1,8 @@
+<?php
+/**
+ * @file
+ * Code for the qcl_disqus feature.
+ */
+
+include_once 'qcl_disqus.admin.inc';
+include_once 'qcl_disqus.features.inc';

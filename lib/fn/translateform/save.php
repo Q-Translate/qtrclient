@@ -5,7 +5,7 @@
  */
 
 namespace BTranslator\Client;
-use \bcl;
+use \qcl;
 
 /**
  * Save the values selected on the form (votes or new suggestions).
@@ -15,16 +15,16 @@ function translateform_save($form_values) {
   $lng = $form_values['langcode'];
 
   // Get the voting mode.
-  $voting_mode = variable_get('btrClient_voting_mode', 'single');
+  $voting_mode = variable_get('qtrClient_voting_mode', 'single');
 
-  // Iterate outer structure built in bcl::translateform_build().
+  // Iterate outer structure built in qcl::translateform_build().
   foreach ($form_values['strings'] as $sguid => $string) {
 
     if ($voting_mode == 'single') {
       _submit_single($sguid, $lng, $string);
     }
 
-    // Iterate the inner structure built in bcl::translateform_string().
+    // Iterate the inner structure built in qcl::translateform_string().
     // Form items have numeric $tguid values and other keys here.
     foreach ($string as $tguid => $translation) {
       if ($voting_mode == 'multiple') {
@@ -38,30 +38,30 @@ function translateform_save($form_values) {
   }
 
   // Submit the actions.
-  global $_btrclient_actions;
-  if (empty($_btrclient_actions)) {
+  global $_qtrclient_actions;
+  if (empty($_qtrclient_actions)) {
     return;
   }
-  $btr = wsclient_service_load('btr');
-  $result = $btr->submit($_btrclient_actions);
+  $qtr = wsclient_service_load('qtr');
+  $result = $qtr->submit($_qtrclient_actions);
 
   // Display any messages, warnings and errors.
-  bcl::display_messages($result['messages']);
+  qcl::display_messages($result['messages']);
 }
 
 /**
  * Add an action to the list of actions.
  */
 function _add_action($action, $params) {
-  global $_btrclient_actions;
-  $_btrclient_actions[] = array('action' => $action, 'params' => $params);
+  global $_qtrclient_actions;
+  $_qtrclient_actions[] = array('action' => $action, 'params' => $params);
 }
 
 /**
  * Return true if a new translation has been submitted.
  */
 function _not_empty_translation($translation) {
-  $translation = bcl::string_pack($translation);
+  $translation = qcl::string_pack($translation);
   $translation = str_replace(t('<New translation>'), '', $translation);
   $translation = trim($translation);
   return !empty($translation);
@@ -87,8 +87,8 @@ function _submit_single($sguid, $lng, $string) {
     // If this is not an existing vote,
     // then add a new vote for this translation.
     $previous_votes = $string[$tguid]['original']['votes'];
-    $btr_user = oauth2_user_get();
-    if (!in_array($btr_user['name'], array_keys($previous_votes))) {
+    $qtr_user = oauth2_user_get();
+    if (!in_array($qtr_user['name'], array_keys($previous_votes))) {
       _add_action('vote', array('tguid' => $tguid));
     }
   }
@@ -99,7 +99,7 @@ function _submit_single($sguid, $lng, $string) {
  */
 function _submit_multiple($sguid, $tguid, $lng, $translation) {
 
-  $btr_user = oauth2_user_get();
+  $qtr_user = oauth2_user_get();
 
   $approved = $translation['approved'];
   if ($tguid == 'new' and _not_empty_translation($translation['value'])) {
@@ -113,14 +113,14 @@ function _submit_multiple($sguid, $tguid, $lng, $translation) {
     // Add a new vote for this translation
     // if such a vote does not exist.
     $previous_votes = $translation['original']['votes'];
-    if (!in_array($btr_user['name'], array_keys($previous_votes))) {
+    if (!in_array($qtr_user['name'], array_keys($previous_votes))) {
       _add_action('vote', array('tguid' => $tguid));
     }
   }
   elseif ($approved == '') {
     // Remove this vote, if it exists.
     $previous_votes = $translation['original']['votes'];
-    if (in_array($btr_user['name'], array_keys($previous_votes))) {
+    if (in_array($qtr_user['name'], array_keys($previous_votes))) {
       _add_action('del_vote', array('tguid' => $tguid));
     }
   }

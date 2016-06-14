@@ -12,16 +12,16 @@
  * If the request header 'Accept: application/json' is set, then
  * the output will be in JSON, otherwise it will be an HTML page.
  */
-function btrTranslations_random($lng = NULL, $sguid = NULL) {
+function qtrTranslations_random($lng = NULL, $sguid = NULL) {
 
   if ($sguid == NULL)  $sguid = 'random';
-  if ($lng == NULL or $lng == 'all')  $lng = bcl::get_translation_lng();
+  if ($lng == NULL or $lng == 'all')  $lng = qcl::get_translation_lng();
 
   if (in_array($sguid, ['random', 'translated', 'untranslated'])) {
-    $btr = oauth2_user_is_authenticated() ?
-      wsclient_service_load('btr') :
-      wsclient_service_load('public_btr');
-    $result = $btr->get_random_sguid([
+    $qtr = oauth2_user_is_authenticated() ?
+      wsclient_service_load('qtr') :
+      wsclient_service_load('public_qtr');
+    $result = $qtr->get_random_sguid([
                 'target' => $sguid,
                 'lng' => $lng,
               ]);
@@ -37,15 +37,15 @@ function btrTranslations_random($lng = NULL, $sguid = NULL) {
   }
 
   // last_sguid is used in search, to get similar results.
-  $_SESSION['btrClient']['last_sguid'] = $sguid;
+  $_SESSION['qtrClient']['last_sguid'] = $sguid;
 
   // Get the string and its translations.
-  $btr = wsclient_service_load('public_btr');
-  $result = $btr->get_translations($sguid, $lng);
+  $qtr = wsclient_service_load('public_qtr');
+  $result = $qtr->get_translations($sguid, $lng);
 
   // If the request has the header 'Accept: application/json'
   // or '?format=json' return the output in JSON format and stop.
-  bcl::return_json($result);
+  qcl::return_json($result);
 
   // Go to home if there is no string.
   $string = $result['string'];
@@ -56,24 +56,24 @@ function btrTranslations_random($lng = NULL, $sguid = NULL) {
   }
 
   // Output the form of the strings and translations.
-  $output = drupal_get_form('btrTranslations_random_form', $sguid, $string, $lng);
+  $output = drupal_get_form('qtrTranslations_random_form', $sguid, $string, $lng);
 
   return $output;
 }
 
 /**
- * Form callback for: btrTranslations_random_form
+ * Form callback for: qtrTranslations_random_form
  */
-function btrTranslations_random_form($form, &$form_state, $sguid, $string, $lng) {
-  $form = bcl::translateform_build([$sguid => $string], $lng);
-  $form['buttons'] += _btrTranslations_random_form_buttons($lng);
+function qtrTranslations_random_form($form, &$form_state, $sguid, $string, $lng) {
+  $form = qcl::translateform_build([$sguid => $string], $lng);
+  $form['buttons'] += _qtrTranslations_random_form_buttons($lng);
   return $form;
 }
 
 /**
  * Get the buttons of the form.
  */
-function _btrTranslations_random_form_buttons($lng) {
+function _qtrTranslations_random_form_buttons($lng) {
   $params = array(
     'attributes' => array(
       'class' => array('btn', 'btn-default', 'form-submit'),
@@ -97,8 +97,8 @@ function _btrTranslations_random_form_buttons($lng) {
 }
 
 /**
- * Submit callback for the form: btrTranslations_random_form
+ * Submit callback for the form: qtrTranslations_random_form
  */
-function btrTranslations_random_form_submit($form, &$form_state) {
-  bcl::translateform_submit($form, $form_state);
+function qtrTranslations_random_form_submit($form, &$form_state) {
+  qcl::translateform_submit($form, $form_state);
 }

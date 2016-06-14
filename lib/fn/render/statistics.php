@@ -5,7 +5,7 @@
  */
 
 namespace BTranslator\Client;
-use \bcl;
+use \qcl;
 
 /**
  * Build the content of statistics.
@@ -13,8 +13,8 @@ use \bcl;
 function render_statistics($lng = 'fr', $origin = NULL, $project = NULL) {
   // Get the statistics.
   try {
-    $btr = wsclient_service_load('public_btr');
-    $stats = $btr->report_statistics($lng, $origin, $project);
+    $qtr = wsclient_service_load('public_qtr');
+    $stats = $qtr->report_statistics($lng, $origin, $project);
   }
   catch (Exception $e) {
     drupal_set_message($e->getMessage(), 'error');
@@ -48,7 +48,7 @@ function render_statistics($lng = 'fr', $origin = NULL, $project = NULL) {
             )));
     }
     else {
-      $search_url = "btr/project/$origin/$project/$lng/search";
+      $search_url = "qtr/project/$origin/$project/$lng/search";
       $url_votes =
         url($search_url, array(
             'query' => array(

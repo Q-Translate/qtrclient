@@ -15,11 +15,11 @@ core = 7.x
 
 defaults[projects][subdir] = "contrib"
 
-projects[btrClient][type] = "module"
-projects[btrClient][subdir] = "custom"
-projects[btrClient][download][type] = "git"
-projects[btrClient][download][url] = "https://github.com/B-Translator/btrClient.git"
-;projects[btrClient][download][branch] = "7.x-1.x"
+projects[qtrClient][type] = "module"
+projects[qtrClient][subdir] = "custom"
+projects[qtrClient][download][type] = "git"
+projects[qtrClient][download][url] = "https://github.com/Q-Translate/qtrClient.git"
+;projects[qtrClient][download][branch] = "7.x-1.x"
 EOF
 
 ### get the dependencies

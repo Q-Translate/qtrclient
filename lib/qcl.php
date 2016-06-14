@@ -2,7 +2,7 @@
 /**
  * A class that is used to autoload library functions.
  *
- * If the function bcl::some_function_name() is called, this class will convert
+ * If the function qcl::some_function_name() is called, this class will convert
  * it into a call to the function 'BTranslator\Client\some_function_name()'. If
  * such a function is not declared then it will try to load these files (in this
  * order):
@@ -22,9 +22,9 @@
  *
  * See: http://stackoverflow.com/questions/4737199/autoloader-for-functions
  */
-class bcl {
+class qcl {
   /**
-   * Make it TRUE to output debug info on '/tmp/bcl.log'.
+   * Make it TRUE to output debug info on '/tmp/qcl.log'.
    */
   const DEBUG = FALSE;
 
@@ -60,18 +60,18 @@ class bcl {
    * If a function does not exist, try to load it from the proper file.
    */
   public static function __callStatic($function, $args) {
-    $bcl_function = self::function_name($function);
-    if (!function_exists($bcl_function)) {
-      self::log_var($bcl_function, 'Autoload');
+    $qcl_function = self::function_name($function);
+    if (!function_exists($qcl_function)) {
+      self::log_var($qcl_function, 'Autoload');
       // Try to load the file that contains the function.
-      if (!self::load_search_dirs($function) or !function_exists($bcl_function)) {
+      if (!self::load_search_dirs($function) or !function_exists($qcl_function)) {
         $dir = dirname(self::file($fname));
         $dir = str_replace(DRUPAL_ROOT, '', $dir);
         self::log_var("Raising an exception.\n", 'Not found');
-        throw new Exception("Function $bcl_function could not be found on $dir");
+        throw new Exception("Function $qcl_function could not be found on $dir");
       }
     }
-    return call_user_func_array($bcl_function, $args);
+    return call_user_func_array($qcl_function, $args);
   }
 
   /**
@@ -121,7 +121,7 @@ class bcl {
    * Output the given parameter to a log file (useful for debugging).
    */
   public static function log($var, $comment ='') {
-    $file = '/tmp/bcl.log';
+    $file = '/tmp/qcl.log';
     $content = "\n==> $comment: " . print_r($var, true);
     file_put_contents($file, $content, FILE_APPEND);
   }

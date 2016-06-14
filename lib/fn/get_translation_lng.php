@@ -5,18 +5,18 @@
  */
 
 namespace BTranslator\Client;
-use \bcl;
+use \qcl;
 
 /**
  * Return the language of translations.
  */
 function get_translation_lng() {
   if (oauth2_user_is_authenticated()) {
-    $btr_user = oauth2_user_get();
-    $lng = $btr_user['translation_lng'];
+    $qtr_user = oauth2_user_get();
+    $lng = $qtr_user['translation_lng'];
   }
   else {
-    $lng = variable_get('btrClient_translation_lng', 'fr');
+    $lng = variable_get('qtrClient_translation_lng', 'fr');
     if ($lng == 'all')  $lng = 'fr';
   }
 

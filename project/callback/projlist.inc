@@ -1,13 +1,13 @@
 <?php
 /**
  * @file
- * Callback for menu item: 'btr/project/list'
+ * Callback for menu item: 'qtr/project/list'
  */
 
 /**
- * Menu callback: btr/project/list
+ * Menu callback: qtr/project/list
  */
-function btrProject_projlist() {
+function qtrProject_projlist() {
   $output = [
     'project_list' => [
       '#prefix' => '<div class="row">',
@@ -15,14 +15,14 @@ function btrProject_projlist() {
 
       'list' => [
         '#prefix' => '<div class="col-sm-6">',
-        bcl::get_block('btrProject', 'list'),
+        qcl::get_block('qtrProject', 'list'),
         '#suffix' => '</div>',
       ],
 
       'import' => [
         '#prefix' => '<div class="col-sm-6">',
-        _btrProject_projlist_import(),
-        bcl::get_block('btrProject', 'delete'),
+        _qtrProject_projlist_import(),
+        qcl::get_block('qtrProject', 'delete'),
         '#suffix' => '</div>',
       ],
     ],
@@ -34,9 +34,9 @@ function btrProject_projlist() {
 /**
  * Import a project.
  */
-function _btrProject_projlist_import() {
-  $import = bcl::get_block('btrProject', 'import');
-  $import['btrProject_import']['import']['#collapsible'] = TRUE;
-  $import['btrProject_import']['import']['#collapsed'] = TRUE;
+function _qtrProject_projlist_import() {
+  $import = qcl::get_block('qtrProject', 'import');
+  $import['qtrProject_import']['import']['#collapsible'] = TRUE;
+  $import['qtrProject_import']['import']['#collapsed'] = TRUE;
   return $import;
 }

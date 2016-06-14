@@ -1,30 +1,30 @@
 <?php
 /**
  * @file
- * Module file for btrVocabulary.
+ * Module file for qtrVocabulary.
  */
 
-module_load_include('inc', 'btrVocabulary', 'form_build');
-module_load_include('inc', 'btrVocabulary', 'form_submit');
-module_load_include('inc', 'btrVocabulary', 'blocks/blocks');
+module_load_include('inc', 'qtrVocabulary', 'form_build');
+module_load_include('inc', 'qtrVocabulary', 'form_submit');
+module_load_include('inc', 'qtrVocabulary', 'blocks/blocks');
 
 /**
  * Implements hook_init().
  */
-function btrVocabulary_init() {
+function qtrVocabulary_init() {
   // Include the stylesheets.
-  $path = drupal_get_path('module', 'btrVocabulary');
+  $path = drupal_get_path('module', 'qtrVocabulary');
   drupal_add_css($path . '/blocks/list.css.less');
 }
 
 /**
  * Implements hook_menu().
  */
-function btrVocabulary_menu() {
+function qtrVocabulary_menu() {
   $items['vocabulary'] = array(
     'title'           => 'Vocabulary',
     'description'     => 'Lookup vocabulary items.',
-    'page callback'   => 'btrVocabulary_page',
+    'page callback'   => 'qtrVocabulary_page',
     'access callback' => TRUE,
   );
 
@@ -32,7 +32,7 @@ function btrVocabulary_menu() {
     'type'            => MENU_NORMAL_ITEM,
     'title'           => 'Vocabulary List',
     'description'     => 'List of vocabularies.',
-    'page callback'   => 'btrVocabulary_list',
+    'page callback'   => 'qtrVocabulary_list',
     'access callback' => TRUE,
   );
 
@@ -40,7 +40,7 @@ function btrVocabulary_menu() {
     'type'            => MENU_NORMAL_ITEM,
     'title'           => 'Vocabulary List',
     'description'     => 'List of vocabularies.',
-    'page callback'   => 'btrVocabulary_list',
+    'page callback'   => 'qtrVocabulary_list',
     'access callback' => TRUE,
   );
 
@@ -50,7 +50,7 @@ function btrVocabulary_menu() {
 /**
  * Implements hook_menu_link_alter().
  */
-function btrVocabulary_menu_link_alter(&$item) {
+function qtrVocabulary_menu_link_alter(&$item) {
   // Open vocabulary on a new tab.
   if ($item['link_path'] == 'vocabulary') {
     $item['options']['attributes']['target'] = '_blank';
@@ -60,9 +60,9 @@ function btrVocabulary_menu_link_alter(&$item) {
 /**
  * Implements hook_theme().
  */
-function btrVocabulary_theme($existing, $type, $theme, $path) {
+function qtrVocabulary_theme($existing, $type, $theme, $path) {
   return array(
-    'btrVocabulary_table' => array(
+    'qtrVocabulary_table' => array(
       'render element' => 'element',
     ),
   );
@@ -71,9 +71,9 @@ function btrVocabulary_theme($existing, $type, $theme, $path) {
 /**
  * Menu callback: vocabulary.
  */
-function btrVocabulary_page($vocabulary = NULL, $term = NULL) {
+function qtrVocabulary_page($vocabulary = NULL, $term = NULL) {
   if ($vocabulary == NULL) {
-    $lng = bcl::get_translation_lng();
+    $lng = qcl::get_translation_lng();
     $vocabulary = 'ICT_' . $lng;
     drupal_goto("vocabulary/$vocabulary");
   }
@@ -84,14 +84,14 @@ function btrVocabulary_page($vocabulary = NULL, $term = NULL) {
       array('context' => 'set the page title')));
 
   // Build and return the output.
-  $output = drupal_get_form('btrVocabulary_form', $vocabulary, $term);
+  $output = drupal_get_form('qtrVocabulary_form', $vocabulary, $term);
   return $output;
 }
 
 /**
  * Menu callback: vocabulary/list
  */
-function btrVocabulary_list() {
+function qtrVocabulary_list() {
   $output = [
     'vocabulary_list' => [
       '#prefix' => '<div class="row">',
@@ -99,14 +99,14 @@ function btrVocabulary_list() {
 
       'list' => [
         '#prefix' => '<div class="col-sm-6">',
-        bcl::get_block('btrVocabulary', 'list'),
+        qcl::get_block('qtrVocabulary', 'list'),
         '#suffix' => '</div>',
       ],
 
       'import' => [
         '#prefix' => '<div class="col-sm-6">',
-        _btrVocabulary_list_import(),
-        bcl::get_block('btrVocabulary', 'delete'),
+        _qtrVocabulary_list_import(),
+        qcl::get_block('qtrVocabulary', 'delete'),
         '#suffix' => '</div>',
       ],
     ],
@@ -118,9 +118,9 @@ function btrVocabulary_list() {
 /**
  * Import a vocabulary.
  */
-function _btrVocabulary_list_import() {
-  $import = bcl::get_block('btrVocabulary', 'import');
-  $import['btrVocabulary_import']['import']['#collapsible'] = TRUE;
-  $import['btrVocabulary_import']['import']['#collapsed'] = TRUE;
+function _qtrVocabulary_list_import() {
+  $import = qcl::get_block('qtrVocabulary', 'import');
+  $import['qtrVocabulary_import']['import']['#collapsible'] = TRUE;
+  $import['qtrVocabulary_import']['import']['#collapsed'] = TRUE;
   return $import;
 }

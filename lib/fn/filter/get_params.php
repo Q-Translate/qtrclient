@@ -5,7 +5,7 @@
  */
 
 namespace BTranslator\Client;
-use \bcl;
+use \qcl;
 
 /**
  * Get the filter parameters from the GET request.
@@ -18,22 +18,22 @@ function filter_get_params() {
 
   // If the search filter is empty, try to search for strings
   // similar to the last one that was reviewed.
-  if (count($request)==1 and isset($_SESSION['btrClient']['last_sguid']))
+  if (count($request)==1 and isset($_SESSION['qtrClient']['last_sguid']))
     {
-      $request['lng'] = bcl::get_translation_lng();
-      $params['sguid'] = $_SESSION['btrClient']['last_sguid'];
+      $request['lng'] = qcl::get_translation_lng();
+      $params['sguid'] = $_SESSION['qtrClient']['last_sguid'];
     }
 
   // Get and check the language.
   $lng = isset($request['lng']) ? trim($request['lng']) : '';
-  $languages = bcl::get_languages();
+  $languages = qcl::get_languages();
   $lng_codes = array_keys($languages);
   $params['lng'] = in_array($lng, $lng_codes) ? $lng : 'fr';
 
   // Number of results to be displayed.
   if (isset($request['limit'])) {
     $limit = (int) trim($request['limit']);
-    list($limit_options, $default_limit) = bcl::filter_get_options('limit');
+    list($limit_options, $default_limit) = qcl::filter_get_options('limit');
     $params['limit'] = in_array($limit, $limit_options) ? $limit : $default_limit;
   }
   // Page of results to be displayed.
@@ -46,7 +46,7 @@ function filter_get_params() {
   // Search can be performed either on l10n strings or on the translations.
   if (isset($request['mode'])) {
     $mode = $request['mode'];
-    list($search_mode_options, $default_search_mode) = bcl::filter_get_options('mode');
+    list($search_mode_options, $default_search_mode) = qcl::filter_get_options('mode');
     $params['mode'] = in_array($mode, $search_mode_options) ? $mode : $default_search_mode;
   }
   if (isset($request['words'])) {
@@ -78,7 +78,7 @@ function filter_get_params() {
   // Limit by date of string, translation or voting (used by admins).
   if (isset($request['date_filter'])) {
     $date_filter = trim($request['date_filter']);
-    list($date_filter_options, $default_date_filter) = bcl::filter_get_options('date_filter');
+    list($date_filter_options, $default_date_filter) = qcl::filter_get_options('date_filter');
     $params['date_filter'] = in_array($date_filter, $date_filter_options) ? $date_filter : $default_date_filter;
   }
 
@@ -105,7 +105,7 @@ function filter_get_params() {
   // List all the strings of a project, or only the translated/untranslated strings.
   if (isset($request['list_mode'])) {
     $list_mode = $request['list_mode'];
-    list($list_mode_options, $default_list_mode) = bcl::filter_get_options('list_mode');
+    list($list_mode_options, $default_list_mode) = qcl::filter_get_options('list_mode');
     $params['list_mode'] = in_array($list_mode, $list_mode_options) ? $list_mode : $default_list_mode;
   }
   return $params;

@@ -1,13 +1,13 @@
 <?php
 /**
  * @file
- * Callback for menu item: 'btr/project/%/%/%/edit'
+ * Callback for menu item: 'qtr/project/%/%/%/edit'
  */
 
 /**
- * Menu callback for 'btr/project/%/%/%/edit'
+ * Menu callback for 'qtr/project/%/%/%/edit'
  */
-function btrProject_edit($origin, $project, $lng) {
-  $output = "btrProject_edit($origin, $project, $lng)";
+function qtrProject_edit($origin, $project, $lng) {
+  $output = "qtrProject_edit($origin, $project, $lng)";
   return $output;
 }

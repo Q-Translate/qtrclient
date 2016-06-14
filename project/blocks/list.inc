@@ -7,10 +7,10 @@
 /**
  * Called from hook_block_view for list.
  */
-function btrProject_list_view() {
+function qtrProject_list_view() {
   // Build the block.
   $block['subject'] = t('List of Projects');
-  $block['content'] = array('#markup' => btrProject_list_view_html());
+  $block['content'] = array('#markup' => qtrProject_list_view_html());
 
   return $block;
 }
@@ -18,10 +18,10 @@ function btrProject_list_view() {
 /**
  * Return the html body of the block.
  */
-function btrProject_list_view_html() {
+function qtrProject_list_view_html() {
 
-  $btr_server = variable_get('btrClient_server');
-  $result = drupal_http_request($btr_server . '/project/list/all');
+  $qtr_server = variable_get('qtrClient_server');
+  $result = drupal_http_request($qtr_server . '/project/list/all');
   if ($result->code != 200) {
     drupal_set_message(t('Could not fetch data from the server.'));
     return '';
@@ -44,7 +44,7 @@ function btrProject_list_view_html() {
       foreach ($arr_lng as $lng) {
         $html .= "
             <li>
-              <a href='/btr/project/$origin/$project/$lng/dashboard'>$origin/$project/$lng</a>
+              <a href='/qtr/project/$origin/$project/$lng/dashboard'>$origin/$project/$lng</a>
             </li>";
       }
       $html .= "

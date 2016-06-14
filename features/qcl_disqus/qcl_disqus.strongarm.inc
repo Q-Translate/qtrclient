@@ -1,13 +1,13 @@
 <?php
 /**
  * @file
- * bcl_disqus.strongarm.inc
+ * qcl_disqus.strongarm.inc
  */
 
 /**
  * Implements hook_strongarm().
  */
-function bcl_disqus_strongarm() {
+function qcl_disqus_strongarm() {
   $export = array();
 
   $strongarm = new stdClass();
@@ -21,7 +21,7 @@ function bcl_disqus_strongarm() {
   $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
   $strongarm->api_version = 1;
   $strongarm->name = 'disqus_domain';
-  $strongarm->value = 'btranslator';
+  $strongarm->value = 'qtranslator';
   $export['disqus_domain'] = $strongarm;
 
   $strongarm = new stdClass();

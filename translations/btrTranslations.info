@@ -1,6 +1,0 @@
-name = B-Translator Translations
-description = Interface for B-Translator Translations.
-package = B-Translator
-core = 7.x
-
-dependencies[] = btrClient

@@ -1,26 +1,26 @@
 <?php
 /**
  * @file
- * Form: btrVocabulary_form
+ * Form: qtrVocabulary_form
  */
 
 /**
- * Form callback for: btrVocabulary_form
+ * Form callback for: qtrVocabulary_form
  */
-function btrVocabulary_form($form, &$form_state, $vocabulary, $term) {
+function qtrVocabulary_form($form, &$form_state, $vocabulary, $term) {
   // Include the CSS and JS of the editor.
-  bcl::translateform_include_editor();
+  qcl::translateform_include_editor();
 
   // Get a string to display on the form.
   $op = $form_state['input']['op'];
   if ($op == t('Save')) {
     $term = $form_state['input']['search_term'];
   }
-  $string = _btrVocabulary_get_string($vocabulary, $term);
+  $string = _qtrVocabulary_get_string($vocabulary, $term);
   $term = ($string ? $string['string'] : $term);
   $sguid = ($string ? $string['sguid'] : NULL);
   list($_, $lng) = explode('_', $vocabulary, 2);
-  $btr_server = variable_get('btrClient_server');
+  $qtr_server = variable_get('qtrClient_server');
 
   $form = array(
     'get_query' => array(
@@ -54,7 +54,7 @@ function btrVocabulary_form($form, &$form_state, $vocabulary, $term) {
     // search term
     'search_term' => [
       '#type' => 'textfield',
-      '#autocomplete_path' => $btr_server . '/auto/string/vocabulary/' . $vocabulary,
+      '#autocomplete_path' => $qtr_server . '/auto/string/vocabulary/' . $vocabulary,
       '#default_value' => $term,
       '#attributes' => [
         'onblur' => 'this.form.submit()',
@@ -66,16 +66,16 @@ function btrVocabulary_form($form, &$form_state, $vocabulary, $term) {
   if ($sguid) {
     $form['strings'] = array(
       '#tree' => TRUE,
-      '#theme' => 'btrVocabulary_table',
+      '#theme' => 'qtrVocabulary_table',
       '#lng' => $lng,
-      $sguid => bcl::translateform_string($string, $lng),
+      $sguid => qcl::translateform_string($string, $lng),
     );
   }
-  $form['buttons']  = _btrVocabulary_form_buttons($vocabulary, $sguid, $term);
-  $form['download-buttons'] = _btrVocabulary_form_download($vocabulary);
+  $form['buttons']  = _qtrVocabulary_form_buttons($vocabulary, $sguid, $term);
+  $form['download-buttons'] = _qtrVocabulary_form_download($vocabulary);
 
   if ($sguid) {
-    $form += bcl::translateform_meta($lng, $sguid, $string);
+    $form += qcl::translateform_meta($lng, $sguid, $string);
   }
 
   return $form;
@@ -84,7 +84,7 @@ function btrVocabulary_form($form, &$form_state, $vocabulary, $term) {
 /**
  * Main theme function for vocabulary.
  */
-function theme_btrVocabulary_table($variables) {
+function theme_qtrVocabulary_table($variables) {
   $element = $variables['element'];
 
   $rows = array();
@@ -92,7 +92,7 @@ function theme_btrVocabulary_table($variables) {
     $rows[] =  array(
       array(
         'class' => ['translation'],
-        'data' => theme('btrClient_translate_translation_list', array('element' => $element[$key])),
+        'data' => theme('qtrClient_translate_translation_list', array('element' => $element[$key])),
       ));
   }
 
@@ -106,7 +106,7 @@ function theme_btrVocabulary_table($variables) {
 /**
  * Get and return a string from the vocabulary.
  */
-function _btrVocabulary_get_string($vocabulary, $search_term = NULL) {
+function _qtrVocabulary_get_string($vocabulary, $search_term = NULL) {
   list($_, $lng) = explode('_', $vocabulary, 2);
 
   // Get the sguid of the given search_term, or a random sguid
@@ -117,10 +117,10 @@ function _btrVocabulary_get_string($vocabulary, $search_term = NULL) {
   }
   else {
     // Get a random sguid from the vocabulary.
-    $btr = oauth2_user_is_authenticated() ?
-      wsclient_service_load('btr') :
-      wsclient_service_load('public_btr');
-    $result = $btr->get_random_sguid([
+    $qtr = oauth2_user_is_authenticated() ?
+      wsclient_service_load('qtr') :
+      wsclient_service_load('public_qtr');
+    $result = $qtr->get_random_sguid([
                 'target' => 'random',
                 'lng' => $lng,
                 'scope' => "vocabulary/$vocabulary",
@@ -132,8 +132,8 @@ function _btrVocabulary_get_string($vocabulary, $search_term = NULL) {
   }
 
   // Get the string details and its translations.
-  $btr = wsclient_service_load('public_btr');
-  $result = $btr->get_translations($sguid, $lng);
+  $qtr = wsclient_service_load('public_qtr');
+  $result = $qtr->get_translations($sguid, $lng);
   $string = $result['string'];
   if (empty($string)) {
     return NULL;
@@ -145,11 +145,11 @@ function _btrVocabulary_get_string($vocabulary, $search_term = NULL) {
 /**
  * Add the buttons to the vocabulary form.
  */
-function _btrVocabulary_form_buttons($vocabulary, $sguid, $term) {
+function _qtrVocabulary_form_buttons($vocabulary, $sguid, $term) {
   list($_, $lng) = explode('_', $vocabulary, 2);
-  $btr_server = variable_get('btrClient_server');
+  $qtr_server = variable_get('qtrClient_server');
 
-  $buttons = bcl::translateform_buttons($lng, $sguid);
+  $buttons = qcl::translateform_buttons($lng, $sguid);
 
   if (!$sguid) {
     $buttons = array();
@@ -174,7 +174,7 @@ function _btrVocabulary_form_buttons($vocabulary, $sguid, $term) {
   );
 
   // If the user is admin, he can delete the current term.
-  if ($sguid and bcl::user_access('btranslator-admin')) {
+  if ($sguid and qcl::user_access('qtranslator-admin')) {
     $buttons['del_term'] = array(
       '#type' => 'submit',
       '#value' => t('Delete Term'),
@@ -194,7 +194,7 @@ function _btrVocabulary_form_buttons($vocabulary, $sguid, $term) {
   }
   $buttons['list_all'] = array(
     '#markup' => l('<span class="glyphicon glyphicon-list"></span>',
-               "btr/project/vocabulary/$vocabulary/$lng/list",
+               "qtr/project/vocabulary/$vocabulary/$lng/list",
                ['html' => TRUE, 'attributes' => $attributes]),
   );
 
@@ -203,7 +203,7 @@ function _btrVocabulary_form_buttons($vocabulary, $sguid, $term) {
     $url = "http://fjalori.fs.al/#$term";
   }
   else {
-    $url = "http://v.btranslator.org/?proj=$vocabulary&lng=$lng#$term";
+    $url = "http://v.qtranslator.org/?proj=$vocabulary&lng=$lng#$term";
   }
   $attributes = array(
     'class' => ['btn', 'btn-default', 'form-submit'],
@@ -238,8 +238,8 @@ function _btrVocabulary_form_buttons($vocabulary, $sguid, $term) {
 /**
  * Add the download buttons to the vocabulary form.
  */
-function _btrVocabulary_form_download($vocabulary) {
-  $btr_server = variable_get('btrClient_server');
+function _qtrVocabulary_form_download($vocabulary) {
+  $qtr_server = variable_get('qtrClient_server');
 
   // Downloading the whole vocabulary in different formats.
   $download_formats = [
@@ -254,7 +254,7 @@ function _btrVocabulary_form_download($vocabulary) {
     '#attributes' => ['style' => 'float: right; border: none; margin: 0px;'],
   ];
   foreach ($download_formats as $key => $label) {
-    $url = $btr_server . "/vocabulary/export/$vocabulary/$key";
+    $url = $qtr_server . "/vocabulary/export/$vocabulary/$key";
     $download[$key] = [
       '#markup' => "
           <a href='$url' class='btn btn-default'>

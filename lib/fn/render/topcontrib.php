@@ -5,7 +5,7 @@
  */
 
 namespace BTranslator\Client;
-use \bcl;
+use \qcl;
 
 /**
  * Build the content of top contributors.
@@ -13,8 +13,8 @@ use \bcl;
 function render_topcontrib($period = 'week', $size = '5', $lng = 'fr', $origin = NULL, $project = NULL) {
   // Get the list of top contributers.
   try {
-    $btr = wsclient_service_load('public_btr');
-    $topusers = $btr->report_topcontrib($period, $size, $lng, $origin, $project);
+    $qtr = wsclient_service_load('public_qtr');
+    $topusers = $qtr->report_topcontrib($period, $size, $lng, $origin, $project);
   }
   catch (Exception $e) {
     drupal_set_message($e->getMessage(), 'error');
@@ -37,7 +37,7 @@ function render_topcontrib($period = 'week', $size = '5', $lng = 'fr', $origin =
     ),
   );
 
-  $btr_server = variable_get('btrClient_server');
+  $qtr_server = variable_get('qtrClient_server');
   foreach ($topusers as $user) {
     $uid = $user['uid'];
     $name = $user['name'];
@@ -45,7 +45,7 @@ function render_topcontrib($period = 'week', $size = '5', $lng = 'fr', $origin =
     $score = $user['score'];
     $nr_translations = $user['translations'];
     $nr_votes = $user['votes'];
-    $url_user = $btr_server . '/user/' . $user['uid'];
+    $url_user = $qtr_server . '/user/' . $user['uid'];
 
     if ($origin == NULL) {
       $url_translations =
@@ -65,7 +65,7 @@ function render_topcontrib($period = 'week', $size = '5', $lng = 'fr', $origin =
             )));
     }
     else {
-      $search_url = "btr/project/$origin/$project/$lng/search";
+      $search_url = "qtr/project/$origin/$project/$lng/search";
       $url_translations =
         url($search_url, array(
             'query' => array(

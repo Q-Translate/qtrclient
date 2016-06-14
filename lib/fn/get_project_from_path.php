@@ -8,12 +8,12 @@ namespace BTranslator\Client;
 
 /**
  * Extract the $origin, $project and $lng from the current path,
- * if it is in the form: /btr/project/$origin/$project/$lng/...
+ * if it is in the form: /qtr/project/$origin/$project/$lng/...
  */
 function get_project_from_path() {
   // Get the arguments from the path.
   $args = explode('/', current_path());
-  if ($args[0]=='btr' and $args[1]=='project') {
+  if ($args[0]=='qtr' and $args[1]=='project') {
     $origin = $args[2];
     $project = $args[3];
     $lng = $args[4];

@@ -7,19 +7,19 @@
 /**
  * Called from hook_block_view for import.
  */
-function btrProject_import_view() {
+function qtrProject_import_view() {
   // Get the arguments from the path.
-  list($origin, $project, $lng) = bcl::get_project_from_path();
+  list($origin, $project, $lng) = qcl::get_project_from_path();
 
   $block['subject'] = t('Import Project');
-  $block['content'] = drupal_get_form('btrProject_import_form', $origin, $project, $lng);
+  $block['content'] = drupal_get_form('qtrProject_import_form', $origin, $project, $lng);
   return $block;
 }
 
 /**
- * Form callback for: btrProject_import_form
+ * Form callback for: qtrProject_import_form
  */
-function btrProject_import_form($form, &$form_state, $origin, $project, $lng) {
+function qtrProject_import_form($form, &$form_state, $origin, $project, $lng) {
   $description = t('
 
 <p>Create a project or update an existing one by importing the
@@ -34,12 +34,12 @@ function btrProject_import_form($form, &$form_state, $origin, $project, $lng) {
        except for the extension (.po instead of .pot).</li>
 </ul>
 </p>',
-                 ['!lng_codes' => implode(', ', array_keys(bcl::get_languages()))]
+                 ['!lng_codes' => implode(', ', array_keys(qcl::get_languages()))]
   );
 
   // Suggest the username as the default value for the origin.
-  $btr_user = oauth2_user_get();
-  $default_origin = str_replace(' ', '', $btr_user['name']);
+  $qtr_user = oauth2_user_get();
+  $default_origin = str_replace(' ', '', $qtr_user['name']);
   if (!$default_origin) $default_origin = 'test';
 
   // Build the form.
@@ -79,26 +79,26 @@ function btrProject_import_form($form, &$form_state, $origin, $project, $lng) {
 }
 
 /**
- * Implements hook form_validate() for btrProject_import_form.
+ * Implements hook form_validate() for qtrProject_import_form.
  */
-function btrProject_import_form_validate($form, &$form_state) {
+function qtrProject_import_form_validate($form, &$form_state) {
   $extensions = 'tgz bz2 7z zip';
-  bcl::uploadfile_validate($extensions);
+  qcl::uploadfile_validate($extensions);
 }
 
 
 /**
- * Implement hook form_submit() for the form btrProject_import_form
+ * Implement hook form_submit() for the form qtrProject_import_form
  */
-function btrProject_import_form_submit($form, &$form_state) {
+function qtrProject_import_form_submit($form, &$form_state) {
   if (!oauth2_user_is_authenticated()) {
     oauth2_user_authenticate($form_state, $redirection = ($form===NULL));
     return;
   }
 
-  $messages = bcl::uploadfile_to_server('project/import', [
+  $messages = qcl::uploadfile_to_server('project/import', [
                 'origin' => $form_state['values']['origin'],
                 'project' => $form_state['values']['project'],
               ]);
-  bcl::display_messages($messages);
+  qcl::display_messages($messages);
 }

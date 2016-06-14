@@ -7,13 +7,13 @@
 /**
  * Implements hook_menu().
  */
-function bcl_disqus_menu() {
+function qcl_disqus_menu() {
   $items = array();
-  $items['admin/config/bcl/disqus'] = array(
+  $items['admin/config/qcl/disqus'] = array(
     'title'            => 'Disqus',
     'description'      => 'Private Disqus settings.',
     'page callback'    => 'drupal_get_form',
-    'page arguments'   => array('bcl_disqus_config'),
+    'page arguments'   => array('qcl_disqus_config'),
     'access callback'  => TRUE,
   );
 
@@ -27,7 +27,7 @@ function bcl_disqus_menu() {
  * @return array
  *   An array containing form items to place on the module settings page.
  */
-function bcl_disqus_config() {
+function qcl_disqus_config() {
   $form = array();
 
   $form['disqus_domain'] = array(

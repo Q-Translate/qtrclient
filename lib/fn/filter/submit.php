@@ -5,7 +5,7 @@
  */
 
 namespace BTranslator\Client;
-use \bcl;
+use \qcl;
 
 /**
  * Handle the submit of the filter form.
@@ -23,7 +23,7 @@ function filter_submit($form, &$form_state) {
     // in the URL.
     $form_state['redirect'] = array(
       $_GET['q'],
-      array('query' => bcl::filter_get_query($form_state['values'])),
+      array('query' => qcl::filter_get_query($form_state['values'])),
     );
     return;
   }

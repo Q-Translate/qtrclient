@@ -1,19 +1,19 @@
 <?php
 /**
  * @file
- * Callback for menu item: 'btr/project/%/%/%/dashboard'
+ * Callback for menu item: 'qtr/project/%/%/%/dashboard'
  */
 
 /**
- * Menu callback for 'btr/project/%/%/%/dashboard'
+ * Menu callback for 'qtr/project/%/%/%/dashboard'
  */
-function btrProject_dashboard($origin, $project, $lng) {
-  $output[] = bcl::get_block('btrProject', 'select');
-  $output[] = bcl::get_block('btrProject', 'subscribe');
+function qtrProject_dashboard($origin, $project, $lng) {
+  $output[] = qcl::get_block('qtrProject', 'select');
+  $output[] = qcl::get_block('qtrProject', 'subscribe');
   $output[] = [ '#markup' => '<hr style="clear: both;"/>' ];
-  $output[] = _btrProject_dashboard_stats();
+  $output[] = _qtrProject_dashboard_stats();
   $output[] = [ '#markup' => '<hr style="clear: both;"/>' ];
-  $output[] = _btrProject_export_import_diffs();
+  $output[] = _qtrProject_export_import_diffs();
 
   return $output;
 }
@@ -21,7 +21,7 @@ function btrProject_dashboard($origin, $project, $lng) {
 /**
  * Render-array for stats.
  */
-function _btrProject_dashboard_stats() {
+function _qtrProject_dashboard_stats() {
   return [
     'stats' => [
       '#prefix' => '<div class="row">',
@@ -29,19 +29,19 @@ function _btrProject_dashboard_stats() {
 
       'statistics' => [
         '#prefix' => '<div class="col-sm-4">',
-        bcl::get_block('btrProject', 'statistics'),
+        qcl::get_block('qtrProject', 'statistics'),
         '#suffix' => '</div>',
       ],
 
       'topcontrib' => [
         '#prefix' => '<div class="col-sm-4">',
-        bcl::get_block('btrProject', 'topcontrib'),
+        qcl::get_block('qtrProject', 'topcontrib'),
         '#suffix' => '</div>',
       ],
 
       'project_stats' => [
         '#prefix' => '<div class="col-sm-4">',
-        bcl::get_block('btrProject', 'project_stats'),
+        qcl::get_block('qtrProject', 'project_stats'),
         '#suffix' => '</div>',
       ],
     ],
@@ -51,18 +51,18 @@ function _btrProject_dashboard_stats() {
 /**
  * Render-array for export-import-diffs.
  */
-function _btrProject_export_import_diffs() {
-  $export = bcl::get_block('btrProject', 'export');
-  $export['btrProject_export']['export']['#collapsible'] = TRUE;
-  $export['btrProject_export']['export']['#collapsed'] = TRUE;
+function _qtrProject_export_import_diffs() {
+  $export = qcl::get_block('qtrProject', 'export');
+  $export['qtrProject_export']['export']['#collapsible'] = TRUE;
+  $export['qtrProject_export']['export']['#collapsed'] = TRUE;
 
-  $import = bcl::get_block('btrProject', 'import_translations');
-  $import['btrProject_import_translations']['import_translations']['#collapsible'] = TRUE;
-  $import['btrProject_import_translations']['import_translations']['#collapsed'] = TRUE;
+  $import = qcl::get_block('qtrProject', 'import_translations');
+  $import['qtrProject_import_translations']['import_translations']['#collapsible'] = TRUE;
+  $import['qtrProject_import_translations']['import_translations']['#collapsed'] = TRUE;
 
-  $diffs = bcl::get_block('btrProject', 'diffs');
-  $diffs['btrProject_diffs']['project_diffs']['#collapsible'] = TRUE;
-  $diffs['btrProject_diffs']['project_diffs']['#collapsed'] = TRUE;
+  $diffs = qcl::get_block('qtrProject', 'diffs');
+  $diffs['qtrProject_diffs']['project_diffs']['#collapsible'] = TRUE;
+  $diffs['qtrProject_diffs']['project_diffs']['#collapsed'] = TRUE;
 
   return [
     'export_import' => [

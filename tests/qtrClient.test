@@ -2,7 +2,7 @@
 
 /**
  * @file
- * Test cases for the module btrClient.
+ * Test cases for the module qtrClient.
  */
 
 /*
@@ -15,7 +15,7 @@
  */
 
 /**
- * Test btrClient module.
+ * Test qtrClient module.
  */
 class BtrClientTestCase extends DrupalWebTestCase {
   protected $profile = 'testing';
@@ -25,9 +25,9 @@ class BtrClientTestCase extends DrupalWebTestCase {
    */
   public static function getInfo() {
     return array(
-      'name' => 'btrClient',
-      'description' => 'Test the functionality of module btrClient.',
-      'group' => 'B-Translator',
+      'name' => 'qtrClient',
+      'description' => 'Test the functionality of module qtrClient.',
+      'group' => 'Q-Translate',
     );
   }
 
@@ -35,7 +35,7 @@ class BtrClientTestCase extends DrupalWebTestCase {
    * Setup the environment for the test.
    */
   public function setUp() {
-    parent::setUp(array('libraries', 'btrClient'));
+    parent::setUp(array('libraries', 'qtrClient'));
   }
 
   /**
