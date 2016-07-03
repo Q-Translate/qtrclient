@@ -4,7 +4,7 @@
  * Function: translateform_submit()
  */
 
-namespace BTranslator\Client;
+namespace QTranslate\Client;
 use \qcl;
 
 /**

@@ -4,7 +4,7 @@
  * Function: filter_form()
  */
 
-namespace BTranslator\Client;
+namespace QTranslate\Client;
 use \qcl;
 
 /**
@@ -95,16 +95,13 @@ function _advanced($form_values) {
     'limit' => [
       '#type' => 'select',
       '#title' => t('Limit'),
-      '#description' => t('The number of the results (strings) that can be displayed on a page.'),
+      '#description' => t('The number of the results (verses) that can be displayed on a page.'),
       '#options' => $limit_options,
       '#default_value' => $form_values['limit'],
     ],
 
     // search mode
     'search_mode' => _search_mode($form_values),
-
-    // projects
-    'projects' => _projects($form_values),
   ];
 
   // Search by author and by date are available only to authenticated users.
@@ -126,7 +123,7 @@ function _search_mode($form_values) {
     '!url1' => 'http://dev.mysql.com/doc/refman/5.1/en/fulltext-natural-language.html',
     '!url2' => 'http://dev.mysql.com/doc/refman/5.1/en/fulltext-boolean.html',
   );
-  $description = t('Search for l10n strings or translations that contain the given words. The <emphasized>natural</emphasized> search will try to find strings similar to the given one (see: <a href="!url1">Natural Language Full-Text Searches</a>). The <emphasized>boolean</emphasized> search will try to match words according to logical rules. The words can be preceded by + (plus), - (minus), etc. (for more details see: <a href="!url2">Boolean Full-Text Searches</a>).', $params);
+  $description = t('Search for verses or translations that contain the given words. The <emphasized>natural</emphasized> search will try to find words similar to the given one (see: <a href="!url1">Natural Language Full-Text Searches</a>). The <emphasized>boolean</emphasized> search will try to match words according to logical rules. The words can be preceded by + (plus), - (minus), etc. (for more details see: <a href="!url2">Boolean Full-Text Searches</a>).', $params);
 
   $search_mode = [
     '#type' => 'fieldset',
@@ -148,40 +145,6 @@ function _search_mode($form_values) {
 }
 
 /**
- * Return project/origin fields.
- */
-function _projects($form_values) {
-  $qtr_server = variable_get('qtrClient_server');
-
-  $projects = [
-    '#type' => 'fieldset',
-    '#title' => t('Projects'),
-    '#collapsible' => TRUE,
-    '#collapsed' => TRUE,
-
-    // project
-    'project' => [
-      '#type' => 'textfield',
-      '#title' => t('Project'),
-      '#description' => t('Search only the strings belonging to the matching project.'),
-      '#default_value' => $form_values['project'],
-      '#autocomplete_path' => $qtr_server . '/auto/project',
-    ],
-
-    // origin
-    'origin' => [
-      '#type' => 'textfield',
-      '#title' => t('Origin'),
-      '#description' => t('Limit search only to the projects from a certain origin.'),
-      '#default_value' => $form_values['origin'],
-      '#autocomplete_path' => $qtr_server . '/auto/origin',
-    ],
-  ];
-
-  return $projects;
-}
-
-/**
  * Return the author fieldset.
  */
 function _author($form_values) {
@@ -198,7 +161,7 @@ function _author($form_values) {
     'only_mine' => [
       '#type' => 'checkbox',
       '#title' => t('Only Mine'),
-      '#description' => t('Search only the strings with translations suggested or voted by me.'),
+      '#description' => t('Search only the verses with translations suggested or liked by me.'),
       '#default_value' => $form_values['only_mine'],
     ],
 
@@ -206,7 +169,7 @@ function _author($form_values) {
     'translated_by' => [
       '#type' => 'textfield',
       '#title' => t('Translated By'),
-      '#description' => t('Search only the strings with translations suggested by the selected user.'),
+      '#description' => t('Search only the verses with translations suggested by the selected user.'),
       '#default_value' => $form_values['translated_by'],
       '#autocomplete_path' => $qtr_server . '/auto/user/' . $lng,
       '#states' => [
@@ -215,12 +178,12 @@ function _author($form_values) {
         ]],
     ],
 
-    // Voted by.
-    'voted_by' => [
+    // Liked by.
+    'liked_by' => [
       '#type' => 'textfield',
-      '#title' => t('Voted By'),
-      '#description' => t('Search only the strings with translations voted by the selected user.'),
-      '#default_value' => $form_values['voted_by'],
+      '#title' => t('Liked By'),
+      '#description' => t('Search only the verses with translations liked by the selected user.'),
+      '#default_value' => $form_values['liked_by'],
       '#autocomplete_path' => $qtr_server . '/auto/user/' . $lng,
       '#states' => [
         'visible' => [
@@ -248,7 +211,7 @@ function _date($form_values) {
     'date_filter' => [
       '#type' => 'select',
       '#title' => t('What to Filter'),
-      '#description' => t('Select what to filter by date (strings, translations, or votes).'),
+      '#description' => t('Select what to filter by date (translations, or likes).'),
       '#options' => $date_filter_options,
       '#default_value' => $form_values['date_filter'],
     ],

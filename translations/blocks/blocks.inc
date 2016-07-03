@@ -4,8 +4,8 @@
  * Defining blocks of qtrTranslations.
  */
 
-require_once __DIR__ . '/topcontrib.inc';
-require_once __DIR__ . '/statistics.inc';
+require_once __DIR__ . '/topusers.inc';
+require_once __DIR__ . '/stats.inc';
 require_once __DIR__ . '/latest.inc';
 
 /**
@@ -23,18 +23,18 @@ function qtrTranslations_block_info() {
   // provide initial settings for block weight, status, etc.
 
   // Displays top 5 (or 10) contributors, over the last week (or month).
-  $blocks['topcontrib'] = array(
+  $blocks['topusers'] = array(
     'info' => t('Q-Translate: Top contributors during the last period'),
     'cache' => DRUPAL_CACHE_CUSTOM,
   );
 
-  // Suggestion and voting statistics for the last week, month and year.
-  $blocks['statistics'] = array(
-    'info' => t('Q-Translate: Contribution statistics (for the last week, month and year)'),
+  // Suggestion and voting stats for the last week, month and year.
+  $blocks['stats'] = array(
+    'info' => t('Q-Translate: Contribution statisticss (for the last week, month and year)'),
     'cache' => DRUPAL_CACHE_CUSTOM,
   );
 
-  // Suggestions and votes submited lately.
+  // Suggestions and likes submited lately.
   $blocks['latest'] = array(
     'info' => t('Q-Translate: Latest contributions'),
     'cache' => DRUPAL_CACHE_CUSTOM,

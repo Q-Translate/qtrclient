@@ -4,7 +4,7 @@
  * Function: filter_get_options()
  */
 
-namespace BTranslator\Client;
+namespace QTranslate\Client;
 
 /**
  * Return an array of options for the given field and the default value.
@@ -33,20 +33,20 @@ function filter_get_options($field, $assoc = FALSE) {
     case 'mode':
       // Options for search mode.
       $options = array(
-        'natural-strings' => t('Natural search on strings.'),
+        'natural-verses' => t('Natural search on verses.'),
         'natural-translations' => t('Natural search on translations.'),
-        'boolean-strings' => t('Boolean search on strings.'),
+        'boolean-verses' => t('Boolean search on verses.'),
         'boolean-translations' => t('Boolean search on translations.'),
       );
-      $default = 'natural-strings';
+      $default = 'natural-translations';
       break;
 
     case 'date_filter':
       // Which date to filter.
       $options = array(
-        'strings' => t('Filter Strings By Date'),
+        'verses' => t('Filter Verses By Date'),
         'translations' => t('Filter Translations By Date'),
-        'votes' => t('Filter Votes By Date'),
+        'likes' => t('Filter Likes By Date'),
       );
       $default = 'translations';
       break;

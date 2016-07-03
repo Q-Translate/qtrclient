@@ -1,15 +1,15 @@
 <?php
 /**
  * @file
- * Export the best translations of a project into PO format.
+ * Export translations to a file.
  */
 
 /**
  * Callback for translations/export.
  *
- * Export the best translations of a project into PO format.
+ * Export the translations to a file.
  */
 function qtrTranslations_export() {
-  $output = qcl::get_block('qtrProject', 'export');
+  $output = qcl::get_block('qtrTranslations', 'export');
   return $output;
 }

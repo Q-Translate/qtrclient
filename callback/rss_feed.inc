@@ -7,22 +7,12 @@
 /**
  * Callback for 'qtr/rss-feed'.
  */
-function qtrClient_rss_feed($origin = NULL, $project = NULL, $lng = NULL) {
+function qtrClient_rss_feed($lng = NULL) {
   // Get the translation language.
   if ($lng === NULL)  $lng = qcl::get_translation_lng();
 
-  // Get the domain of the feed in the form of 'origin/project'
-  // (or just 'origin').
-  $domain = '';
-  if (!empty($origin)) {
-    $domain = $origin;
-    if (!empty($project)) {
-      $domain .= '/' . $project;
-    }
-  }
-
   // Get the feed data from cache, if possible.
-  $cid = "qtrClient_rss_feed:$lng:$domain";
+  $cid = "qtrClient_rss_feed:$lng";
   $cache = cache_get($cid, 'cache_qtrClient');
   if (!empty($cache) && isset($cache->data) && !empty($cache->data)) {
     $rss_feed = $cache->data;
@@ -37,7 +27,7 @@ function qtrClient_rss_feed($origin = NULL, $project = NULL, $lng = NULL) {
     $translations = array();
   }
   else {
-    $url = $qtr_server . "/latest/$lng/$origin/$project";
+    $url = $qtr_server . "/latest/$lng";
     $output = drupal_http_request($url);
     $translations = json_decode($output->data, TRUE);
   }
@@ -47,16 +37,8 @@ function qtrClient_rss_feed($origin = NULL, $project = NULL, $lng = NULL) {
   $rss_feed .= '<rss version="2.0">';
 
   $link = url('qtr/rss-feed', array('absolute' => TRUE));
-  if (!empty($domain)) {
-    $link .= '/' . $domain;
-  }
   $title = variable_get('site_name', 'Q-Translate');
-  if (empty($domain)) {
-    $description = t('Latest translation suggestions on Q-Translate');
-  }
-  else {
-    $description = t('Latest translation suggestions on Q-Translate, for @domain', array('@domain' => $domain));
-  }
+  $description = t('Latest translation suggestions on Q-Translate');
   $ttl = 180;
   $site_mail = variable_get('site_mail');
   $site_name = variable_get('site_name');
@@ -79,9 +61,9 @@ function qtrClient_rss_feed($origin = NULL, $project = NULL, $lng = NULL) {
   $base_url = url('translations', array('absolute' => TRUE));
   foreach ($translations as $translation) {
     extract($translation);
-    $title = qcl::shorten($string, 60);
-    $link = $base_url . "/$lng/$sguid";
-    $description = "<xmp>$string</xmp> -- <xmp>$translation</xmp>";
+    $title = qcl::shorten($verse, 60);
+    $link = $base_url . "/$lng/$vid";
+    $description = "<xmp>$verse</xmp> -- <xmp>$translation</xmp>";
     $pub_date = date('r', strtotime($time));
     $rss_feed .= "
       <item>
@@ -89,8 +71,6 @@ function qtrClient_rss_feed($origin = NULL, $project = NULL, $lng = NULL) {
         <link>$link</link>
         <description><![CDATA[$description]]></description>
         <author>$umail ($name)</author>
-        <category>$origin</category>
-        <category>$project</category>
         <guid isPermaLink='false'>$tguid</guid>
         <pubDate>$pub_date</pubDate>
       </item>

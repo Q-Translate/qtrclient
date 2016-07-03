@@ -4,7 +4,7 @@
  * Function: get_languages()
  */
 
-namespace BTranslator\Client;
+namespace QTranslate\Client;
 use \qcl;
 
 /**
@@ -25,9 +25,9 @@ function get_languages() {
   }
   else {
     $languages = array(
-      'fr' => array(
-        'code' => 'fr',
-        'name' => 'French',
+      'en' => array(
+        'code' => 'en',
+        'name' => 'English',
         'direction' => LANGUAGE_LTR,
         'plurals' => 2,
       ));

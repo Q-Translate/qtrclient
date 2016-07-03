@@ -4,24 +4,24 @@
  * Function: translateform_build()
  */
 
-namespace BTranslator\Client;
+namespace QTranslate\Client;
 use \qcl;
 
 require_once __DIR__ . '/theme_functions.inc';
 
 /**
- * List strings and the corresponding translations/suggestions.
+ * List verses and the corresponding translations.
  *
- * @param array $strings
- *   A multi-dimentional associative array of the string and the corresponding
+ * @param array $verses
+ *   A multi-dimentional associative array of the verse and the corresponding
  *   translations that are to be rendered.
- * @param string $lng
+ * @param verse $lng
  *   The language code of the translations.
  *
  * @return array
- *   A render array of the given strings and translations.
+ *   A render array of the given verses and translations.
  */
-function translateform_build($strings, $lng) {
+function translateform_build($verses, $lng) {
   // Include on the page the CSS/JS of the editor.
   qcl::translateform_include_editor();
 
@@ -35,14 +35,14 @@ function translateform_build($strings, $lng) {
       '#weight' => -10,
       '#markup' => $pager,
     ),
-    'strings' => array(
+    'verses' => array(
       '#tree' => TRUE,
       '#theme' => 'qtrClient_translate_table',
       '#lng' => $lng,
     ),
 
-    'buttons' => (count($strings) == 1 ?
-               qcl::translateform_buttons($lng, key($strings)) :
+    'buttons' => (count($verses) == 1 ?
+               qcl::translateform_buttons($lng, key($verses)) :
                qcl::translateform_buttons($lng)),
 
     'pager_bottom' => array(
@@ -51,16 +51,16 @@ function translateform_build($strings, $lng) {
     ),
   );
 
-  // Fill in string values for the editor.
-  foreach ($strings as $string) {
-    $sguid = $string['sguid'];
-    $form['strings'][$sguid] = qcl::translateform_string($string, $lng);
-    // TODO: Display the number of comments for each string.
+  // Fill in verse values for the editor.
+  foreach ($verses as $verse) {
+    $vid = $verse['vid'];
+    $form['verses'][$vid] = qcl::translateform_verse($verse, $lng);
+    // TODO: Display the number of comments for each verse.
   }
 
-  // If there is only one string, append social and discussions, etc.
-  if (count($strings) == 1) {
-    $form += qcl::translateform_meta($lng, $sguid, $string);
+  // If there is only one verse, append social and discussions, etc.
+  if (count($verses) == 1) {
+    $form += qcl::translateform_meta($lng, $vid, $verse);
   }
 
   return $form;

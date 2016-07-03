@@ -17,7 +17,7 @@
 /**
  * Test qtrClient module.
  */
-class BtrClientTestCase extends DrupalWebTestCase {
+class QtrClientTestCase extends DrupalWebTestCase {
   protected $profile = 'testing';
 
   /**
@@ -41,7 +41,7 @@ class BtrClientTestCase extends DrupalWebTestCase {
   /**
    * Test Case1.
    */
-  public function testBtrClientCase1() {
+  public function testQtrClientCase1() {
     $this->drupalGet('translations');
     $this->assertText(t('Source text'), 'The text "Source text" appears on the translation page.');
     $this->assertFieldById('edit-next', t('Next'), 'Button "Next" exists.');

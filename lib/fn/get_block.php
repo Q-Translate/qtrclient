@@ -4,7 +4,7 @@
  * Function: get_block()
  */
 
-namespace BTranslator\Client;
+namespace QTranslate\Client;
 
 
 /**

@@ -32,4 +32,4 @@ drush en simpletest --yes
 
 ### run the tests
 drush test-clean
-drush test-run BtrClientTestCase
+drush test-run QtrClientTestCase

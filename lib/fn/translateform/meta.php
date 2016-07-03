@@ -4,25 +4,25 @@
  * Function translateform_meta()
  */
 
-namespace BTranslator\Client;
+namespace QTranslate\Client;
 use \qcl;
 
 /**
- * When there is only a single string displayed, we can add metatags
- * about the string, social share buttons, discussions/comments, etc.
+ * When there is only a single verse displayed, we can add metatags
+ * about the verse, social share buttons, discussions/comments, etc.
  */
-function translateform_meta($lng, $sguid, $string) {
+function translateform_meta($lng, $vid, $verse) {
   $form = array();
 
-  // Get string properties: title, url, description, hashtags
-  $properties = _get_string_properties($string);
+  // Get verse properties: title, url, description, hashtags
+  $properties = _get_verse_properties($verse);
   $properties['lng'] = $lng;
 
   // Set the page title.
   drupal_set_title($properties['title']);
 
   // Add metatags: og:title, og:description, og:image, etc.
-  _add_metatags($properties);
+  _add_metatags($properties, $lng);
 
   // Add RRSSB share buttons.
   $form['rrssb'] = array(
@@ -46,7 +46,7 @@ function translateform_meta($lng, $sguid, $string) {
         'status' => TRUE,
         'url' => $properties['url'],
         'title' => $properties['title'],
-        'identifier' => "translations/$lng/$sguid",
+        'identifier' => "translations/$lng/$vid",
         'developer' => variable_get('disqus_developer', '1'),
       ),
       '#weight' => 101,
@@ -57,31 +57,20 @@ function translateform_meta($lng, $sguid, $string) {
 }
 
 /**
- * Return string properties as an associative array of:
+ * Return verse properties as an associative array of:
  * title, url, description, hashtags, etc.
  * These will be used for metatags and for the social share buttons.
  */
-function _get_string_properties($string) {
-  // Get some context info from the path.
-  $context = _get_context_info();
-
+function _get_verse_properties($verse) {
   // Get the page title.
-  $str = strip_tags(check_plain($string['string']));
-  if ($context['vocabulary']) {
-    $title = $context['vocabulary'] . ': ' . $str;
-  }
-  elseif ($context['origin'] and $context['project']) {
-    $title = $context['origin'] . '/' . $context['project'] . ': ' . $str;
-  }
-  else {
-    $title = t('String') . ': ' . $str;
-  }
+  $str = strip_tags(check_plain($verse['verse']));
+  $title = t('Verse') . ': ' . $str;
   $title = qcl::shorten($title, 50);
 
   // Get the description.
   $description = $str;
   $arr_translations = array();
-  foreach ($string['translations'] as $trans) {
+  foreach ($verse['translations'] as $trans) {
     $arr_translations[] = strip_tags(check_plain($trans['translation']));
   }
   if (!empty($arr_translations)) {
@@ -93,26 +82,10 @@ function _get_string_properties($string) {
 
   // Get the url.
   $uri = substr(request_uri(), 1);
-  if ($context['vocabulary']) {
-    $arr_parts = explode('/', $uri);
-    if (!$arr_parts[2]) {
-      $arr_parts[2] = $str;
-      $uri = implode('/', $arr_parts);
-    }
-  }
   $url = url($uri, ['absolute' => TRUE]);
 
   // Get hashtags.
   $arr_tags = array();
-  if ($context['origin'] and $context['origin'] != 'vocabulary') {
-    $arr_tags[] = '#' . $context['origin'];
-  }
-  if ($context['project']) {
-    $arr_tags[] = '#' . $context['project'];
-  }
-  if ($context['vocabulary']) {
-    $arr_tags[] = '#' . $context['vocabulary'];
-  }
   $hashtags = implode(' ', $arr_tags);
 
   // Return properties.
@@ -126,38 +99,9 @@ function _get_string_properties($string) {
 }
 
 /**
- * Return some context info from the path, as an associative array of origin,
- * project, and vocabulary.
- */
-function _get_context_info() {
-  $args = explode('/', current_path());
-  if ($args[0] == 'qtr' and $args[1] == 'project') {
-    $origin = $args[2];
-    $project = $args[3];
-    $vocabulary = NULL;
-  }
-  elseif ($args[0] == 'vocabulary') {
-    $origin = NULL;
-    $project = NULL;
-    $vocabulary = $args[1];
-  }
-  else {
-    $origin = NULL;
-    $project = NULL;
-    $vocabulary = NULL;
-  }
-
-  return array(
-    'origin' => $origin,
-    'project' => $project,
-    'vocabulary' => $vocabulary,
-  );
-}
-
-/**
  * Add metatags: og:title, og:description, og:image, og:image:size, etc.
  */
-function _add_metatags($properties) {
+function _add_metatags($properties, $lng) {
   // Add og:type
   $element = array(
     '#tag' => 'meta',
@@ -233,7 +177,7 @@ function _add_metatags($properties) {
     '#tag' => 'meta',
     '#attributes' => array(
       "property" => "twitter:site",
-      "content" => '@l10n_sq',
+      "content" => '@qtr_' . $lng,
     ),
   );
   drupal_add_html_head($element, 'twitter_site');

@@ -7,19 +7,19 @@
 /**
  * Menu callback: translations/search.
  *
- * Search strings and translations using various filters.
+ * Search verses and translations using various filters.
  *
  * If the request header 'Accept: application/json' is set, then
  * the output will be in JSON, otherwise it will be an HTML page.
  * For example:
  *   curl -k -i -H 'Accept: application/json' \
- *        'https://dev.l10n.org.xx/translations/search?lng=sq&words=space'
+ *        'https://qtranslate.org/translations/search?words=unseen&chapter=2'
  */
 function qtrTranslations_search() {
   // Get the filter parameters from the GET request.
   $params = qcl::filter_get_params();
 
-  // Get the strings that match the search params.
+  // Get the verses that match the search params.
   $qtr = oauth2_user_is_authenticated() ?
     wsclient_service_load('qtr') :
     wsclient_service_load('public_qtr');
@@ -27,7 +27,7 @@ function qtrTranslations_search() {
 
   // If the request has the header 'Accept: application/json'
   // or '?format=json' return the output in JSON format and stop.
-  qcl::return_json($result['strings']);
+  qcl::return_json($result['verses']);
 
   // Set the title.
   drupal_set_title(t('Search Translations'));
@@ -35,16 +35,16 @@ function qtrTranslations_search() {
   // Add the filter form.
   $output[] = drupal_get_form('qtrTranslations_filter_form', $result['filter']);
 
-  // Output the strings.
-  $strings = $result['strings'];
+  // Output the verses.
+  $verses = $result['verses'];
   $pager = $result['pager'];
-  if (empty($strings)) {
-    drupal_set_message(t('No strings found. Try adjusting the filter options.'));
+  if (empty($verses)) {
+    drupal_set_message(t('No verses found. Try adjusting the filter options.'));
   }
   else {
     pager_default_initialize($pager['number_of_items'], $pager['items_per_page']);
     $lng = (isset($params['lng']) ? $params['lng'] : qcl::get_translation_lng());
-    $output[] = drupal_get_form('qtrTranslations_search_form', $strings, $lng);
+    $output[] = drupal_get_form('qtrTranslations_search_form', $verses, $lng);
   }
 
   return $output;
@@ -69,14 +69,14 @@ function qtrTranslations_filter_form($form, &$form_state, $filter) {
  */
 function qtrTranslations_filter_form_submit($form, &$form_state) {
   module_load_include('php', 'qtrClient', 'lib/fn/filter/submit');
-  \BTranslator\Client\filter_submit($form, $form_state);
+  \QTranslate\Client\filter_submit($form, $form_state);
 }
 
 /**
  * Form callback for: qtrTranslations_search_form
  */
-function qtrTranslations_search_form($form, &$form_state, $strings, $lng) {
-  $form = qcl::translateform_build($strings, $lng);
+function qtrTranslations_search_form($form, &$form_state, $verses, $lng) {
+  $form = qcl::translateform_build($verses, $lng);
   return $form;
 }
 

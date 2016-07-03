@@ -4,16 +4,16 @@
  * Function: shorten()
  */
 
-namespace BTranslator\Client;
+namespace QTranslate\Client;
 
 /**
- * Shorten the given string.
+ * Shorten the given verse.
  *
- * From the given (possibly long) string, returns a short string
+ * From the given (possibly long) verse, returns a short verse
  * of the given length that can be suitable for title, subject, etc.
  */
-function shorten($string, $length) {
-  $str = str_replace("\n", ' ', $string);
+function shorten($verse, $length) {
+  $str = str_replace("\n", ' ', $verse);
   $str = str_replace(' <==> ', ' (==) ', $str);
   $str = strip_tags($str);
   if (strlen($str) > $length) {

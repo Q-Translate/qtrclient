@@ -28,9 +28,9 @@ function qtrClient_config() {
   $form['defaults']['qtrClient_translation_lng'] = array(
     '#type' => 'select',
     '#title' => t('Translation Language'),
-    '#description' => t('The translation language of the client. If <em>All languages</em> is selected, the client will not restrict the language of the translations and votes (it will be restricted only by the translation language of the user).'),
+    '#description' => t('The translation language of the client. If <em>All languages</em> is selected, the client will not restrict the language of the translations and likes (it will be restricted only by the translation language of the user).'),
     '#options' => $lang_options,
-    '#default_value' => variable_get('qtrClient_translation_lng', 'fr'),
+    '#default_value' => variable_get('qtrClient_translation_lng', 'en'),
   );
 
   // Field qtrClient_server.
@@ -39,18 +39,6 @@ function qtrClient_config() {
     '#title' => t('Server URL'),
     '#default_value' => variable_get('qtrClient_server', ''),
     '#description' => t('The URL of the Q-Translate server.'),
-  );
-
-  // Field qtrClient_voting_mode.
-  $form['defaults']['qtrClient_voting_mode'] = array(
-    '#title'         => t('Select Voting Mode'),
-    '#description'   => t('When voting mode is <em>Single</em>, only one translation can be voted as suitable for each string. When voting mode is <em>Multiple</em>, more than one translation can be selected as suitable for each string. <br/> <strong>Note:</strong> This setting must have the same value as the one on the server.'),
-    '#type'          => 'radios',
-    '#options'       => array(
-      'single'   => t('Single'),
-      'multiple' => t('Multiple'),
-    ),
-    '#default_value' => variable_get('qtrClient_voting_mode', 'single'),
   );
 
   $form = system_settings_form($form);

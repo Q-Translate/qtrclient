@@ -4,16 +4,16 @@
  * Function: translateform_buttons()
  */
 
-namespace BTranslator\Client;
+namespace QTranslate\Client;
 use \qcl;
 
 /**
  * Get the buttons of the form as a render array.
  */
-function translateform_buttons($lng, $sguid = NULL) {
-  if ($sguid and inside_iframe()) {
+function translateform_buttons($lng, $vid = NULL) {
+  if ($vid and inside_iframe()) {
     $buttons['details'] = [
-      '#markup' => l('#', "translations/$lng/$sguid", [
+      '#markup' => l('#', "translations/$lng/$vid", [
                    'attributes' => [
                      'class' => ['btn', 'btn-default'],
                      'style' => 'font-weight:bold; margin-right:3px;',
@@ -23,7 +23,7 @@ function translateform_buttons($lng, $sguid = NULL) {
   }
 
   // The save button will appear only when the user has
-  // permissions to submit votes and suggestions.
+  // permissions to submit likes and suggestions.
   $translation_lng = variable_get('qtrClient_translation_lng', 'all');
   $enable_save = ($translation_lng == $lng or $translation_lng == 'all');
   $buttons['save'] = [

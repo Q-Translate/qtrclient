@@ -4,31 +4,23 @@
  * Function: filter_get_params()
  */
 
-namespace BTranslator\Client;
+namespace QTranslate\Client;
 use \qcl;
 
 /**
  * Get the filter parameters from the GET request.
  *
- * The GET request is like: translations/search?lng=fr&words=xyz&limit=10
+ * The GET request is like: translations/search?lng=en&words=xyz&limit=10
  */
 function filter_get_params() {
   // Get a copy of the request parameters.
   $request = $_GET;
 
-  // If the search filter is empty, try to search for strings
-  // similar to the last one that was reviewed.
-  if (count($request)==1 and isset($_SESSION['qtrClient']['last_sguid']))
-    {
-      $request['lng'] = qcl::get_translation_lng();
-      $params['sguid'] = $_SESSION['qtrClient']['last_sguid'];
-    }
-
   // Get and check the language.
   $lng = isset($request['lng']) ? trim($request['lng']) : '';
   $languages = qcl::get_languages();
   $lng_codes = array_keys($languages);
-  $params['lng'] = in_array($lng, $lng_codes) ? $lng : 'fr';
+  $params['lng'] = in_array($lng, $lng_codes) ? $lng : 'en';
 
   // Number of results to be displayed.
   if (isset($request['limit'])) {
@@ -41,9 +33,9 @@ function filter_get_params() {
     $params['page'] = (int) trim($request['page']);
   }
 
-  // Search can be done either by similarity of l10n strings (natural search),
+  // Search can be done either by similarity of words (natural search),
   // or by matching words according to a certain logic (boolean search).
-  // Search can be performed either on l10n strings or on the translations.
+  // Search can be performed either on verses or on the translations.
   if (isset($request['mode'])) {
     $mode = $request['mode'];
     list($search_mode_options, $default_search_mode) = qcl::filter_get_options('mode');
@@ -53,15 +45,12 @@ function filter_get_params() {
     $params['words'] = $request['words'];
   }
 
-  // Searching can be limited only to certain projects and/or origins.
-  if (isset($request['project'])) {
-    $params['project'] = trim($request['project']);
-  }
-  if (isset($request['origin'])) {
-    $params['origin'] = trim($request['origin']);
+  // Searching can be limited to a chapter.
+  if (isset($request['chapter'])) {
+    $params['chapter'] = trim($request['chapter']);
   }
 
-  // Limit search only to the strings touched (translated or voted)
+  // Limit search only to the verses touched (translated or liked)
   // by the current user.
   if (isset($request['only_mine']) && (int) $request['only_mine']) {
     $params['only_mine'] = 1;
@@ -71,11 +60,11 @@ function filter_get_params() {
   if (isset($request['translated_by'])) {
     $params['translated_by'] = trim($request['translated_by']);
   }
-  if (isset($request['voted_by'])) {
-    $params['voted_by'] = trim($request['voted_by']);
+  if (isset($request['liked_by'])) {
+    $params['liked_by'] = trim($request['liked_by']);
   }
 
-  // Limit by date of string, translation or voting (used by admins).
+  // Limit by date of translation or voting (used by admins).
   if (isset($request['date_filter'])) {
     $date_filter = trim($request['date_filter']);
     list($date_filter_options, $default_date_filter) = qcl::filter_get_options('date_filter');
@@ -102,11 +91,5 @@ function filter_get_params() {
     $params['to_date'] = $to_date;
   }
 
-  // List all the strings of a project, or only the translated/untranslated strings.
-  if (isset($request['list_mode'])) {
-    $list_mode = $request['list_mode'];
-    list($list_mode_options, $default_list_mode) = qcl::filter_get_options('list_mode');
-    $params['list_mode'] = in_array($list_mode, $list_mode_options) ? $list_mode : $default_list_mode;
-  }
   return $params;
 }

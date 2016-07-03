@@ -4,7 +4,7 @@
  * Validate the file uploaded from the import form.
  */
 
-namespace BTranslator\Client;
+namespace QTranslate\Client;
 use \qcl;
 
 

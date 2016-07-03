@@ -1,20 +1,20 @@
 <?php
 /**
  * @file
- * Function: render_topcontrib()
+ * Function: render_topusers()
  */
 
-namespace BTranslator\Client;
+namespace QTranslate\Client;
 use \qcl;
 
 /**
  * Build the content of top contributors.
  */
-function render_topcontrib($period = 'week', $size = '5', $lng = 'fr', $origin = NULL, $project = NULL) {
+function render_topusers($period = 'week', $size = '5', $lng = 'en') {
   // Get the list of top contributers.
   try {
     $qtr = wsclient_service_load('public_qtr');
-    $topusers = $qtr->report_topcontrib($period, $size, $lng, $origin, $project);
+    $topusers = $qtr->report_topusers($period, $size, $lng);
   }
   catch (Exception $e) {
     drupal_set_message($e->getMessage(), 'error');
@@ -44,54 +44,34 @@ function render_topcontrib($period = 'week', $size = '5', $lng = 'fr', $origin =
     $mail = $user['mail'];
     $score = $user['score'];
     $nr_translations = $user['translations'];
-    $nr_votes = $user['votes'];
+    $nr_likes = $user['likes'];
     $url_user = $qtr_server . '/user/' . $user['uid'];
 
-    if ($origin == NULL) {
-      $url_translations =
-        url('translations/search', array(
-            'query' => array(
-              'lng' => $lng,
-              'translated_by' => $user['name'],
-              'from_date' => $from_date,
-            )));
-      $url_votes =
-        url('translations/search', array(
-            'query' => array(
-              'lng' => $lng,
-              'voted_by' => $user['name'],
-              'date_filter' => 'votes',
-              'from_date' => $from_date,
-            )));
-    }
-    else {
-      $search_url = "qtr/project/$origin/$project/$lng/search";
-      $url_translations =
-        url($search_url, array(
-            'query' => array(
-              'translated_by' => $user['name'],
-              'from_date' => $from_date,
-            )));
-      $url_votes =
-        url($search_url, array(
-            'query' => array(
-              'voted_by' => $user['name'],
-              'date_filter' => 'votes',
-              'from_date' => $from_date,
-            )));
-    }
+    $url_translations = url('translations/search', array(
+                          'query' => array(
+                            'lng' => $lng,
+                            'translated_by' => $user['name'],
+                            'from_date' => $from_date,
+                          )));
+    $url_likes = url('translations/search', array(
+                   'query' => array(
+                     'lng' => $lng,
+                     'liked_by' => $user['name'],
+                     'date_filter' => 'likes',
+                     'from_date' => $from_date,
+                   )));
 
     if ($lng == 'all') {
       $list_item = "
       <strong><a href='$url_user' target='_blank'>$name</a></strong><br/>
-        + " . format_plural($nr_votes, '1 vote', '@count votes') . " <br/>
+        + " . format_plural($nr_likes, '1 like', '@count likes') . " <br/>
         + " . format_plural($nr_translations, '1 translation', '@count translations') . " ";
     }
     else {
       $list_item = "
       <strong><a href='$url_user' target='_blank'>$name</a></strong><br/>
-        + <a href='$url_votes' target='_blank'>"
-        . format_plural($nr_votes, '1 vote', '@count votes')
+        + <a href='$url_likes' target='_blank'>"
+        . format_plural($nr_likes, '1 like', '@count likes')
         . " </a><br/>
         + <a href='$url_translations' target='_blank'>"
         . format_plural($nr_translations, '1 translation', '@count translations')

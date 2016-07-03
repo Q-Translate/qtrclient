@@ -4,7 +4,7 @@
  * Function: translateform_include_editor()
  */
 
-namespace BTranslator\Client;
+namespace QTranslate\Client;
 use \qcl;
 
 /**

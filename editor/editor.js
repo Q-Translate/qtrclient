@@ -24,78 +24,26 @@ Drupal.behaviors.qtrClient_editor = {
 
   // Add behaviors to placeholders so that they highlight the corrsponding
   // placeholder(s) with the same name on the same table row.
-  $('em.l10n-placeholder')
+  $('em.qtr-placeholder')
     .on('mouseover', function() {
-      $(this).closest('tr').find('.l10n-placeholder:contains("' + $(this).text() + '")').addClass('highlight');
+      $(this).closest('tr').find('.qtr-placeholder:contains("' + $(this).text() + '")').addClass('highlight');
     })
     .on('mouseout', function() {
-      $('.l10n-placeholder.highlight').removeClass('highlight');
+      $('.qtr-placeholder.highlight').removeClass('highlight');
     });
 
   $(function () {
 
-    // Replace "More information" link with AJAX output.
-    $('.l10n-usage .l10n-more-link').click(function() {
-      if ($(this).siblings('.l10n-more-info').css('display') == 'none') {
-        // Was shown before but is currently hidden.
-        $(this).html(Drupal.t('Hide string details.')).siblings('.l10n-more-info').toggle();
-      }
-      else if ($(this).siblings('.l10n-more-info').html()) {
-        // Is shown and needs to be hidden.
-        $(this).html(Drupal.t('Show string details.')).siblings('.l10n-more-info').toggle();
-      }
-      else {
-        // Was not yet loaded, we want to load the information fresh from the server.
-        // Append /1 to the href, telling the server we want AHAH targeted output.
-        $(this).html(Drupal.t('Loading...')).siblings('.l10n-more-info').load(this.href + '/1', function(){$(this).siblings('.l10n-more-link').html(Drupal.t('Hide string details.'));});
-      }
-      // Prevent the actual link click from happening.
-      return false;
-    });
-
-    // Provide more history about string submissions.
-    $('.l10n-byline .l10n-more-link').click(function() {
-      if (!$(this).siblings('.l10n-more-info').html()) {
-        // Was not yet loaded, we want to load the information fresh from the server.
-        // Append /1 to the href, telling the server we want AHAH targeted output.
-        $(this).html(Drupal.t('Loading...')).siblings('.l10n-more-info').load(this.href + '/1', function(){$(this).siblings('.l10n-more-link').hide();});
-      }
-      // Prevent the actual link click from happening.
-      return false;
-    });
-
      // Add title to all decline buttons. Will be modified dynamically.
      $('.actions .declined label').attr('title', Drupal.t('Decline'));
 
-    var markup = function(string) {
-      // Highlight placeholders with the l10n-placeholder class.
-      string = string.replace(/([!@%]|<(ins|del)>[!@%]<\/(ins|del)>)(\w+|<(ins|del)>\w+<\/(ins|del)>)/g, '<em class="l10n-placeholder">$&</em>');
-
-      // Wrap HTML tags in <code> tags.
-      string = string.replace(/(&lt;.+?(&gt;|$))/g, function(str) {
-        return '<code>' + str.replace(/<[^>]+>/g, '</code>$&<code>') + '</code>';
-      });
-
-      string = string.replace(/\\[^<]/g, '<span class="l10n-escape">$&</span>');
-
-      // Add markers for newlines.
-      string = string.replace(/\n/g, '<span class="l10n-nl"></span>$&');
-
-      return string;
-    };
-
     $('td.translation').parent().each(function() {
       var all = $('li.translation', this);
-      var strings = all.find('.l10n-string > span');
+      var verses = all.find('.qtr-verse > span');
       var source = $('td.source', this);
 
-      // Add special tags to the source markup cells.
-      source.find('.l10n-string span').each(function() {
-        $(this).html(markup($(this).html()));
-      });
-
       // Initialize data for the worddiff tool.
-      strings.each(function() {
+      verses.each(function() {
         var orig = $(this).html(), markedUp = markup(orig);
         $(this)
           .html(markedUp)
@@ -124,7 +72,7 @@ Drupal.behaviors.qtrClient_editor = {
           if (confirmed || val === textarea.attr('defaultValue') || !val || (confirmed === undefined && (confirmed = confirm(Drupal.t("Do you want to overwrite the current suggestion?"))))) {
             // If not the default value, and still editing that means there was something
             // added into the field without it being saved first, and is being edited again.
-            textarea.val(translation.find('.l10n-string > span:eq('+ i +')').text()).keyup();
+            textarea.val(translation.find('.qtr-verse > span:eq('+ i +')').text()).keyup();
             if (i == 0) {
               // Since we can't have multiple focuses, we jut focus the first textarea.
               textarea.focus();
@@ -139,7 +87,7 @@ Drupal.behaviors.qtrClient_editor = {
         var siblings = all.not(this).not('.no-translation');
 
         var removeDiff = function() {
-          strings.worddiffRevert();
+          verses.worddiffRevert();
         };
 
         var updateDiff = function() {
@@ -153,8 +101,8 @@ Drupal.behaviors.qtrClient_editor = {
               orig = all.not('.no-translation').eq(0).not(translation);
             }
             if (orig.length) {
-              orig = orig.find('.l10n-string > span');
-              translation.find('.l10n-string > span').each(function(i) {
+              orig = orig.find('.qtr-verse > span');
+              translation.find('.qtr-verse > span').each(function(i) {
                 $(this).worddiff(orig.get(i), markup);
               });
             }
@@ -183,7 +131,7 @@ Drupal.behaviors.qtrClient_editor = {
         if (isTranslation) {
 	    /*
           // Add doubleclick behavior to decline all other suggestions.
-          translation.filter('.is-selectable').find('.l10n-string').dblclick(function() {
+          translation.filter('.is-selectable').find('.qtr-verse').dblclick(function() {
             translation.siblings('.is-declinable').each(function () {
               setStatus($(this), 'declined', true);
             });
@@ -222,7 +170,7 @@ Drupal.behaviors.qtrClient_editor = {
           textareas.each(function(n) {
             var wrapper = $(this);
             var textarea = $(this);
-            var text = translation.find('.l10n-string > span').eq(n);
+            var text = translation.find('.qtr-verse > span').eq(n);
 
             textarea
               .focus(function() {

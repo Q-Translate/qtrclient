@@ -42,8 +42,8 @@ function qtrClient_uninstall() {
     'qtrClient_translation_lng',
     'qtrClient_server',
 
-    'qtrClient_topcontrib_size',
-    'qtrClient_topcontrib_period',
+    'qtrClient_topusers_size',
+    'qtrClient_topusers_period',
   );
   foreach ($variables as $var) {
     variable_del($var);

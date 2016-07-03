@@ -4,7 +4,7 @@
  * Function: filter_get_query()
  */
 
-namespace BTranslator\Client;
+namespace QTranslate\Client;
 use \qcl;
 
 /**
@@ -25,12 +25,9 @@ function filter_get_query($form_values) {
     $query['lng'] = $lng;
   }
 
-  // Get project and origin.
-  if (trim($form_values['project']) != '') {
-    $query['project'] = $form_values['project'];
-  }
-  if (trim($form_values['origin']) != '') {
-    $query['origin'] = $form_values['origin'];
+  // Get chapter.
+  if (trim($form_values['chapter']) != '') {
+    $query['chapter'] = $form_values['chapter'];
   }
 
   if (oauth2_user_is_authenticated()) {
@@ -39,12 +36,12 @@ function filter_get_query($form_values) {
       $query['only_mine'] = '1';
     }
     else {
-      // Get translated_by, voted_by.
+      // Get translated_by, liked_by.
       if (trim($form_values['translated_by']) != '') {
         $query['translated_by'] = $form_values['translated_by'];
       }
-      if (trim($form_values['voted_by']) != '') {
-        $query['voted_by'] = $form_values['voted_by'];
+      if (trim($form_values['liked_by']) != '') {
+        $query['liked_by'] = $form_values['liked_by'];
       }
     }
 

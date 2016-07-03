@@ -4,7 +4,7 @@
  * Function: user_access()
  */
 
-namespace BTranslator\Client;
+namespace QTranslate\Client;
 use \qcl;
 
 /**

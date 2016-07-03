@@ -4,7 +4,7 @@
  * Function: get_translation_lng()
  */
 
-namespace BTranslator\Client;
+namespace QTranslate\Client;
 use \qcl;
 
 /**
@@ -16,8 +16,8 @@ function get_translation_lng() {
     $lng = $qtr_user['translation_lng'];
   }
   else {
-    $lng = variable_get('qtrClient_translation_lng', 'fr');
-    if ($lng == 'all')  $lng = 'fr';
+    $lng = variable_get('qtrClient_translation_lng', 'en');
+    if ($lng == 'all')  $lng = 'en';
   }
 
   return $lng;

@@ -31,9 +31,9 @@ function _theme_qtrClient_translate_table_1col($element) {
   $elem = $element[$key];
 
   return theme('table', [
-      'attributes' => ['class' => ['l10n-table']],
+      'attributes' => ['class' => ['qtr-table']],
       'rows' => [
-        // row of the english string
+        // row of the arabic verse
         [
           [
             'class' => ['source'],
@@ -69,13 +69,13 @@ function _theme_qtrClient_translate_table_2col($element) {
 
   foreach (element_children($element) as $key) {
     $lng = $element[$key]['#langcode'];
-    $sguid = $element[$key]['#string']['sguid'];
+    $vid = $element[$key]['#verse']['vid'];
     $rows[] = array(
       array(
-        'class' => ['sguid'],
-        'data' => l(t('#'), "translations/$lng/$sguid", [
+        'class' => ['vid'],
+        'data' => l(t('#'), "translations/$lng/$vid", [
                   'attributes' => [
-                    'title' => t('Direct and permanent link to this string.'),
+                    'title' => t('Direct and permanent link to this verse.'),
                     'class' => ['btn', 'btn-default'],
                   ]]),
       ),
@@ -91,7 +91,7 @@ function _theme_qtrClient_translate_table_2col($element) {
   }
 
   return theme('table', [
-      'attributes' => ['class' => ['l10n-table']],
+      'attributes' => ['class' => ['qtr-table']],
       'header' => $header,
       'rows' => $rows,
     ]);
@@ -103,30 +103,19 @@ function _theme_qtrClient_translate_table_2col($element) {
 function theme_qtrClient_translate_source($variables) {
   $element = $variables['element'];
   $output = theme('qtrClient_translate_actions', array('element' => $element['source']));
-  $filter_match = ' filter-no-match';
-  $output .= '<label class="l10n-string' . $filter_match . '">' . drupal_render($element['source']['string']) . '</label>';
-  $output .= theme('qtrClient_in_context', array('source' => $element['#string']));
-
-  $lng = qcl::get_translation_lng();
-  $sguid = $element['#string']['sguid'];
-  $url = $GLOBALS['base_url'] . '/qtr/ajax/string_details/' . $lng . '/' . $sguid;
-  $output .= '<div class="l10n-usage"><a href="' . $url . '" class="l10n-more-link" title="' . t('Show the string context and a list of projects where this string is used.') . '">' . t('Show string details.') . '</a><div class="l10n-more-info"></div></div>';
-
-  // TODO: Improve alternatives in other languages.
-  // $output .= drupal_render($element['alternatives']);
-
+  $output .= '<label class="qtr-verse filter-no-match">' . drupal_render($element['source']['verse']) . '</label>';
   return $output;
 }
 
 /**
- * Theme appropriate actions for the given string element.
+ * Theme appropriate actions for the given verse element.
  */
 function theme_qtrClient_translate_actions($variables) {
   $actions = '';
 
-  $votes = _theme_qtrClient_translate_votes($variables['element']);
-  if ($votes) {
-    $actions .= '<li>' . $votes . '</li>';
+  $likes = _theme_qtrClient_translate_likes($variables['element']);
+  if ($likes) {
+    $actions .= '<li>' . $likes . '</li>';
   }
 
   $element = $variables['element'];
@@ -145,18 +134,7 @@ function theme_qtrClient_translate_actions($variables) {
 }
 
 /**
- * Theme context information for source strings.
- */
-function theme_qtrClient_in_context($variables) {
-  $string = $variables['source'];
-  if (!empty($string->context)) {
-    return '<div class="string-context">' . t('in context: @context', array('@context' => $string->context)) . '</div>';
-  }
-  return '';
-}
-
-/**
- * Theme a suggestion/translation.
+ * Theme a translation.
  */
 function theme_qtrClient_translate_translation($variables) {
   $element = $variables['element'];
@@ -214,13 +192,13 @@ function theme_qtrClient_translate_radio($variables) {
   $output .= drupal_attributes($element['#attributes']) . ' />';
 
   if (isset($element['#title'])) {
-    $output .= '<label class="l10n-string" for="' . $element['#id'] . '">' . $element['#title'] . '</label>';
+    $output .= '<label class="qtr-verse" for="' . $element['#id'] . '">' . $element['#title'] . '</label>';
   }
   return $output;
 }
 
 /**
- * Theme a list of suggestions for a string.
+ * Theme a list of translations for a verse.
  */
 function theme_qtrClient_translate_translation_list($variables) {
   $element = $variables['element'];
@@ -234,35 +212,35 @@ function theme_qtrClient_translate_translation_list($variables) {
   return $output;
 }
 
-function _theme_qtrClient_translate_votes($element) {
-  if (!isset($element['votes'])) return '';
+function _theme_qtrClient_translate_likes($element) {
+  if (!isset($element['likes'])) return '';
   if ($element['approved']['#return_value'] == 'new')  return '';
 
-  $count = $element['votes']['#count'];
-  $voters = $element['votes']['#voters'];
+  $count = $element['likes']['#count'];
+  $likers = $element['likes']['#likers'];
 
-  // Convert voters to an html list.
+  // Convert likers to an html list.
   $qtr_server = variable_get('qtrClient_server');
   $list = array();
-  foreach ($voters as $name => $voter) {
-    $url = $qtr_server . '/user/' . $voter['uid'];
+  foreach ($likers as $name => $liker) {
+    $url = $qtr_server . '/user/' . $liker['uid'];
     $list[] = "<li><a href='$url' target='_blank'>$name</a></li>";
   }
   $content_html = '<ul>' . implode('', $list) . '</ul>';
   $content_html = strtr($content_html, "'", '"');
 
-  // Use a different button type for the voted translation.
+  // Use a different button type for the liked translation.
   $qtr_user = oauth2_user_get();
-  $voted = ($qtr_user['name'] and in_array($qtr_user['name'], array_keys($voters)));
-  $btn_type = ($voted ? 'btn-success' : 'btn-info');
+  $liked = ($qtr_user['name'] and in_array($qtr_user['name'], array_keys($likers)));
+  $btn_type = ($liked ? 'btn-success' : 'btn-info');
 
-  $output = "<div class='votes'><span class='btn $btn_type btn-sm' data-toggle='popover' data-trigger='click' data-placement='bottom auto' data-html='true' data-content='$content_html'>+ $count</span></div>";
+  $output = "<div class='likes'><span class='btn $btn_type btn-sm' data-toggle='popover' data-trigger='click' data-placement='bottom auto' data-html='true' data-content='$content_html'>+ $count</span></div>";
 
   return $output;
 }
 
 /**
- * Display information about the author of the string.
+ * Display information about the author of the verse.
  */
 function _theme_qtrClient_translate_author($author) {
   $time = format_interval(REQUEST_TIME - strtotime($author['#time']));

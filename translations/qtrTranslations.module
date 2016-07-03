@@ -14,7 +14,7 @@ function qtrTranslations_menu() {
   $items['translations'] = array(
     'type'            => MENU_NORMAL_ITEM,
     'title'           => 'Translations',
-    'description'     => 'Get a random string and its translations.',
+    'description'     => 'Get a random verse and its translations.',
     'page callback'   => 'qtrTranslations_random',
     'file'            => 'callback/random.inc',
     'access callback' => TRUE,
@@ -29,7 +29,7 @@ function qtrTranslations_menu() {
   $items['translations/search'] = array(
     'type'            => MENU_LOCAL_TASK,
     'title'           => 'Search',
-    'description'     => 'Search strings and translations using various filters.',
+    'description'     => 'Search verses and translations using various filters.',
     'page callback'   => 'qtrTranslations_search',
     'file'            => 'callback/search.inc',
     'access callback' => TRUE,
@@ -39,7 +39,7 @@ function qtrTranslations_menu() {
   $items['translations/export'] = array(
     'type'            => MENU_LOCAL_TASK,
     'title'           => 'Export',
-    'description'     => 'Export the most voted translations of a project into a PO file.',
+    'description'     => 'Export translations to a file.',
     'page callback'   => 'qtrTranslations_export',
     'file'            => 'callback/export.inc',
     'access callback' => 'oauth2_user_is_authenticated',
@@ -49,7 +49,7 @@ function qtrTranslations_menu() {
   $items['translations/import'] = array(
     'type'            => MENU_LOCAL_TASK,
     'title'           => 'Import',
-    'description'     => 'Import translations from PO files.',
+    'description'     => 'Import translations from file.',
     'page callback'   => 'qtrTranslations_import',
     'file'            => 'callback/import.inc',
     'access callback' => 'oauth2_user_is_authenticated',

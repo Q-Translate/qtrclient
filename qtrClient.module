@@ -58,25 +58,6 @@ function qtrClient_menu() {
     'access callback' => TRUE,
   );
 
-  // Return a random tweet from Q-Translate.
-  $items['qtr/tweet'] = array(
-    'type'            => MENU_CALLBACK,
-    'title'           => 'Return a random string (and translations) in a form suitable for twitter.',
-    'page callback'   => 'qtrClient_tweet',
-    'file'            => 'callback/tweet.inc',
-    'access callback' => TRUE,
-  );
-
-  // Return a string context, related projects (where a string is found), etc.
-  $items['qtr/ajax/string_details'] = array(
-    'type'            => MENU_CALLBACK,
-    'title'           => 'String details',
-    'page callback'   => 'qtrClient_string_details',
-    'file'            => 'callback/ajax.inc',
-    'access callback' => TRUE,
-  );
-
-
   return $items;
 }
 
@@ -98,11 +79,7 @@ function qtrClient_oauth2_profile_fields_alter(&$profile_fields) {
   // on hook_oauth2_loginprovider_userprofile_alter().
   $profile_fields += [
     'translation_lng',
-    'auxiliary_languages',
     'permissions',
-    'subscribed_projects',
-    'admin_projects',
-    'moderate_projects',
   ];
 }
 
@@ -117,11 +94,7 @@ function qtrClient_oauth2_user_alter(&$oauth2_user) {
     'uid' => $oauth2_user['identifier'],
     'name' => $oauth2_user['displayName'],
     'translation_lng' => $oauth2_user['translation_lng'],
-    'auxiliary_languages' => $oauth2_user['auxiliary_languages'],
     'permissions' => $oauth2_user['permissions'],
-    'subscribed_projects' => $oauth2_user['subscribed_projects'],
-    'admin_projects' => $oauth2_user['admin_projects'],
-    'moderate_projects' => $oauth2_user['moderate_projects'],
   ];
   $oauth2_user = $qtr_user;
 }
@@ -159,9 +132,6 @@ function qtrClient_theme($existing, $type, $theme, $path) {
     ),
     'qtrClient_translate_actions' => array(
       'render element' => 'element',
-    ),
-    'qtrClient_in_context' => array(
-      'variables' => array('source' => NULL),
     ),
     'qtrClient_translate_radio' => array(
       'render element' => 'element',

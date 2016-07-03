@@ -3,7 +3,7 @@
  * A class that is used to autoload library functions.
  *
  * If the function qcl::some_function_name() is called, this class will convert
- * it into a call to the function 'BTranslator\Client\some_function_name()'. If
+ * it into a call to the function 'QTranslate\Client\some_function_name()'. If
  * such a function is not declared then it will try to load these files (in this
  * order):
  *   - fn/some_function_name.php
@@ -31,7 +31,7 @@ class qcl {
   /**
    * The namespace of the functions.
    */
-  const NS = 'BTranslator\Client';
+  const NS = 'QTranslate\Client';
 
   /**
    * Relative directory where the functions are located.

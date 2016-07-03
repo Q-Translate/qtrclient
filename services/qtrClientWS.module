@@ -10,8 +10,8 @@
  * Defines web service descriptions (one public and one private).
  * This hook is invoked when web service descriptions
  * are loaded like this:
- *     $qtr = wsclient_service_load('dev.l10n.org.xx');
- *     $result = $qtr->statistics('sq');
+ *     $qtr = wsclient_service_load('qtranslate.org');
+ *     $result = $qtr->stats('en');
  */
 function qtrClientWS_default_wsclient_service() {
   module_load_include('inc', 'qtrClientWS', 'public');

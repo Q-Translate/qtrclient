@@ -4,7 +4,7 @@
  * Function: return_json()
  */
 
-namespace BTranslator\Client;
+namespace QTranslate\Client;
 
 /**
  * If the request has the header 'Accept: application/json'

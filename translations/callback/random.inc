@@ -7,56 +7,56 @@
 /**
  * Menu callback: translations/random
  *
- * Vote the best translation for a string, or suggest a better translation.
+ * Like the best translation for a verse, or suggest a better translation.
  *
  * If the request header 'Accept: application/json' is set, then
  * the output will be in JSON, otherwise it will be an HTML page.
  */
-function qtrTranslations_random($lng = NULL, $sguid = NULL) {
+function qtrTranslations_random($lng = NULL, $vid = NULL) {
 
-  if ($sguid == NULL)  $sguid = 'random';
+  if ($vid == NULL)  $vid = 'random';
   if ($lng == NULL or $lng == 'all')  $lng = qcl::get_translation_lng();
 
-  if (in_array($sguid, ['random', 'translated', 'untranslated'])) {
+  if (in_array($vid, ['random', 'translated', 'untranslated'])) {
     $qtr = oauth2_user_is_authenticated() ?
       wsclient_service_load('qtr') :
       wsclient_service_load('public_qtr');
-    $result = $qtr->get_random_sguid([
-                'target' => $sguid,
+    $result = $qtr->get_random_vid([
+                'target' => $vid,
                 'lng' => $lng,
               ]);
-    $sguid = $result['sguid'];
-    if (!$sguid) {
-      drupal_set_message(t('No string found!'), 'warning');
+    $vid = $result['vid'];
+    if (!$vid) {
+      drupal_set_message(t('No verse found!'), 'warning');
       drupal_goto('/');
     }
     else {
-      drupal_goto("translations/$lng/$sguid");
+      drupal_goto("translations/$lng/$vid");
     }
     return;
   }
 
-  // last_sguid is used in search, to get similar results.
-  $_SESSION['qtrClient']['last_sguid'] = $sguid;
+  // last_vid is used in search, to get similar results.
+  $_SESSION['qtrClient']['last_vid'] = $vid;
 
-  // Get the string and its translations.
+  // Get the verse and its translations.
   $qtr = wsclient_service_load('public_qtr');
-  $result = $qtr->get_translations($sguid, $lng);
+  $result = $qtr->get_translations($vid, $lng);
 
   // If the request has the header 'Accept: application/json'
   // or '?format=json' return the output in JSON format and stop.
   qcl::return_json($result);
 
-  // Go to home if there is no string.
-  $string = $result['string'];
-  if (empty($string)) {
-    drupal_set_message(t('No string found!'), 'warning');
+  // Go to home if there is no verse.
+  $verse = $result['verse'];
+  if (empty($verse)) {
+    drupal_set_message(t('No verse found!'), 'warning');
     drupal_goto('/');
     return;
   }
 
-  // Output the form of the strings and translations.
-  $output = drupal_get_form('qtrTranslations_random_form', $sguid, $string, $lng);
+  // Output the form of the verses and translations.
+  $output = drupal_get_form('qtrTranslations_random_form', $vid, $verse, $lng);
 
   return $output;
 }
@@ -64,8 +64,8 @@ function qtrTranslations_random($lng = NULL, $sguid = NULL) {
 /**
  * Form callback for: qtrTranslations_random_form
  */
-function qtrTranslations_random_form($form, &$form_state, $sguid, $string, $lng) {
-  $form = qcl::translateform_build([$sguid => $string], $lng);
+function qtrTranslations_random_form($form, &$form_state, $vid, $verse, $lng) {
+  $form = qcl::translateform_build([$vid => $verse], $lng);
   $form['buttons'] += _qtrTranslations_random_form_buttons($lng);
   return $form;
 }
