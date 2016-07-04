@@ -60,8 +60,8 @@ body {
 }
 
 td.source {
-  width: 45%;
-  direction: ltr;
+  direction: rtl;
+  font-size: 24px;
 }
   td.source .qtr-vid {
     padding-right: 6px;
@@ -169,8 +169,13 @@ td li.translation > .selector {
     margin: 2px 0;
   }
 
+td.source .qtr-verse {
+  display: block;
+  font-size: 28px;
+  line-height: 32px;
+}
+
 li.translation .qtr-verse,
-td.source .qtr-verse,
 td.vid a {
   display: block;
   line-height: 16px;
