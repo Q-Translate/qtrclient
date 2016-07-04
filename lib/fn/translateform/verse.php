@@ -23,12 +23,6 @@ function translateform_verse($verse, $lng) {
       )),
   );
 
-  $form['source']['edit'] = array(
-    '#markup' => t('Translate'),
-    '#prefix' => '<label title="' . t('Translate') . '">',
-    '#suffix' => '</label>',
-  );
-
   // Translations are stored in an array.
   $translations = $verse['translations'];
 
@@ -69,7 +63,7 @@ function _new_translation($tguid, $vid, $lng) {
       '#theme' => 'qtrClient_translate_radio',
       '#theme_wrappers' => array(),
       '#title' => '<span data-empty="' . t('(empty)') . '"></span>',
-      '#return_value' => $tguid,
+      '#return_value' => 'new',
       '#default_value' => '',
       '#attributes' => array('class' => array('selector')),
       '#parents' => array('verses', $vid, 'approved'),
@@ -95,9 +89,7 @@ function _new_translation($tguid, $vid, $lng) {
 function _translation($translation, $vid, $lng) {
 
   $qtr_user = oauth2_user_get();
-  $is_own = ($qtr_user['name'] and ($qtr_user['name'] == $translation['author']));
   $is_approved = ($qtr_user['name'] and in_array($qtr_user['name'], array_keys($translation['likes'])));
-  $may_moderate = ($is_own or qcl::user_access('qtranslate-resolve'));
 
   $form = array(
     '#theme' => 'qtrClient_translate_translation',
@@ -118,29 +110,26 @@ function _translation($translation, $vid, $lng) {
       '#attributes' => array('class' => array('selector')),
       '#parents' =>  array('verses', $vid, 'approved')
     ),
-  );
 
-  if ($may_moderate) {
-    $form['declined'] = array(
+    'declined' => array(
       '#type' => 'checkbox',
       '#title' => t('Decline'),
       '#default_value' => FALSE,
-    );
-  }
-
-  $form['edit'] = array(
-    '#markup' => t('Edit a copy'),
-    '#prefix' => '<label title="' . t('Edit a copy') . '">',
-    '#suffix' => '</label>',
-  );
-  $form['author'] = array(
-    '#name' => $translation['author'],
-    '#uid' => $translation['uid'],
-    '#time' => $translation['time'],
-  );
-  $form['likes'] = array(
-    '#count' => $translation['count'],
-    '#likers' => $translation['likes'],
+    ),
+    'edit' => array(
+      '#markup' => t('Edit a copy'),
+      '#prefix' => '<label title="' . t('Edit a copy') . '">',
+      '#suffix' => '</label>',
+    ),
+    'author' => array(
+      '#name' => $translation['author'],
+      '#uid' => $translation['uid'],
+      '#time' => $translation['time'],
+    ),
+    'likes' => array(
+      '#count' => $translation['count'],
+      '#likers' => $translation['likes'],
+    ),
   );
 
   return $form;
