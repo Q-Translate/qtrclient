@@ -14,17 +14,19 @@ function qtrTranslations_menu() {
   $items['translations'] = array(
     'type'            => MENU_NORMAL_ITEM,
     'title'           => 'Translations',
-    'description'     => 'Get a random verse and its translations.',
-    'page callback'   => 'qtrTranslations_random',
-    'file'            => 'callback/random.inc',
+    'description'     => 'Get a verse and its translations.',
+    'page callback'   => 'qtrTranslations_get',
+    'file'            => 'callback/get.inc',
     'access callback' => TRUE,
   );
 
-  $items['translations/random'] = array(
+  /*
+  $items['translations/get'] = array(
     'type'            => MENU_DEFAULT_LOCAL_TASK,
-    'title'           => 'Random',
+    'title'           => 'Get Translations',
     'weight'          => 1,
   );
+  */
 
   $items['translations/search'] = array(
     'type'            => MENU_LOCAL_TASK,

@@ -30,10 +30,9 @@ function _qtrClientWS_authenticated($service_name) {
 function _qtrClientWS_authenticated_translations() {
   $operations['get_translations'] = array(
     'label' => 'get_translations',
-    'url' => 'translations/@vid',
+    'url' => 'translations/@selector',
     'parameter' => array(
-      'vid' => array('type' => 'text'),
-      'lng' => array('type' => 'text'),
+      'selector' => array('type' => 'text'),
     ),
   );
 

@@ -73,7 +73,7 @@ function _new_translation($tguid, $vid, $lng) {
       '#default_value' => '',
       '#attributes' => array('class' => array('selector')),
       '#parents' => array('verses', $vid, 'approved'),
-    )
+    ),
 
     'value' => array(
       '#type' => 'textarea',
@@ -117,7 +117,7 @@ function _translation($translation, $vid, $lng) {
       '#default_value' => $is_approved ? $translation['tguid'] : '',
       '#attributes' => array('class' => array('selector')),
       '#parents' =>  array('verses', $vid, 'approved')
-    )
+    ),
   );
 
   if ($may_moderate) {

@@ -75,10 +75,19 @@ function _qtrClientWS_public_report() {
 function _qtrClientWS_public_translations() {
   $operations['get_translations'] = array(
     'label' => 'get_translations',
-    'url' => 'translations/@vid',
+    'url' => 'translations/@selector',
     'parameter' => array(
-      'vid' => array('type' => 'text'),
-      'lng' => array('type' => 'text'),
+      'selector' => array('type' => 'text'),
+    ),
+  );
+
+  $operations['get'] = array(
+    'label' => 'get',
+    'url' => 'translations/get',
+    'type' => 'POST',
+    'data' => 'params',
+    'parameter' => array(
+      'params' => array('type' => 'array'),
     ),
   );
 
