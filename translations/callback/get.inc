@@ -18,6 +18,8 @@
  *
  */
 function qtrTranslations_get($chapter = NULL, $verse = NULL, $lng = NULL) {
+  $output[] = qcl::get_block('qtrTranslations', 'select');
+
   // Get the verse and its translations.
   $qtr = wsclient_service_load('public_qtr');
   try {
@@ -39,7 +41,7 @@ function qtrTranslations_get($chapter = NULL, $verse = NULL, $lng = NULL) {
 
   // Output the form of the verses and translations.
   $verse = $result['verse'];
-  $output = drupal_get_form('qtrTranslations_form', $verse, $lng);
+  $output[] = drupal_get_form('qtrTranslations_form', $verse, $lng);
 
   return $output;
 }

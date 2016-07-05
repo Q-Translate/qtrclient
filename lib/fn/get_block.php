@@ -6,7 +6,6 @@
 
 namespace QTranslate\Client;
 
-
 /**
  * Get and return a block as a renderable array.
  */

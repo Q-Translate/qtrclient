@@ -7,11 +7,20 @@
 module_load_include('inc', 'qtrTranslations', 'blocks/blocks');
 
 /**
+ * Implements hook_init().
+ */
+function qtrTranslations_init() {
+  // Include the stylesheets.
+  $path = drupal_get_path('module', 'qtrTranslations');
+  drupal_add_css($path . '/blocks/select.css.less');
+}
+
+/**
  * Implements hook_menu().
  */
 function qtrTranslations_menu() {
 
-  $items['translations'] = array(
+  $items['qtr'] = array(
     'type'            => MENU_NORMAL_ITEM,
     'title'           => 'Translations',
     'description'     => 'Get a verse and its translations.',
@@ -21,14 +30,14 @@ function qtrTranslations_menu() {
   );
 
   /*
-  $items['translations/get'] = array(
+  $items['qtr/get'] = array(
     'type'            => MENU_DEFAULT_LOCAL_TASK,
     'title'           => 'Get Translations',
     'weight'          => 1,
   );
   */
 
-  $items['translations/search'] = array(
+  $items['qtr/search'] = array(
     'type'            => MENU_LOCAL_TASK,
     'title'           => 'Search',
     'description'     => 'Search verses and translations using various filters.',
@@ -38,7 +47,7 @@ function qtrTranslations_menu() {
     'weight'          => 2,
   );
 
-  $items['translations/export'] = array(
+  $items['qtr/export'] = array(
     'type'            => MENU_LOCAL_TASK,
     'title'           => 'Export',
     'description'     => 'Export translations to a file.',
@@ -48,7 +57,7 @@ function qtrTranslations_menu() {
     'weight'          => 3,
   );
 
-  $items['translations/import'] = array(
+  $items['qtr/import'] = array(
     'type'            => MENU_LOCAL_TASK,
     'title'           => 'Import',
     'description'     => 'Import translations from file.',

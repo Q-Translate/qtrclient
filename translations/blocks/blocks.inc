@@ -4,6 +4,7 @@
  * Defining blocks of qtrTranslations.
  */
 
+require_once __DIR__ . '/select.inc';
 require_once __DIR__ . '/topusers.inc';
 require_once __DIR__ . '/stats.inc';
 require_once __DIR__ . '/latest.inc';
@@ -21,6 +22,12 @@ function qtrTranslations_block_info() {
   // The required block information is a block description, which is shown
   // to the site administrator in the list of possible blocks. You can also
   // provide initial settings for block weight, status, etc.
+
+  // Select a verse/language translations.
+  $blocks['select'] = array(
+    'info' => t('Q-Translate: Select verse/language translations.'),
+    'cache' => DRUPAL_CACHE_CUSTOM,
+  );
 
   // Displays top 5 (or 10) contributors, over the last week (or month).
   $blocks['topusers'] = array(
