@@ -18,6 +18,11 @@
  *
  */
 function qtrTranslations_get($chapter = NULL, $verse = NULL, $lng = NULL) {
+  if ($chapter === NULL) {
+    include drupal_get_path('module', 'qtrTranslations') . '/callback/home.inc';
+    return qtrTranslations_home();
+  }
+
   $output[] = qcl::get_block('qtrTranslations', 'select');
 
   // Get the verse and its translations.
