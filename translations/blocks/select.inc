@@ -22,15 +22,15 @@ function qtrTranslations_select_view() {
 function qtrTranslations_select_form($form, &$form_state, $chapter, $verse, $lng) {
   // Get a list of chapters.
   $chapters = qcl::get_chapters();
-  $ch_options[''] = t('- Chapter -');
-  foreach ($chapters as $ch) {
-    $ch_options[$ch['cid']] =  $ch['cid'] . ' : ' . $ch['tname'];
+  $chapter_list[''] = t('- Chapter -');
+  for ($c = 1; $c <=114; $c++) {
+    $chapter_list["$c"] = $c . ' : ' . $chapters[$c]['tname'];
   }
   // Get a list of languages.
   $languages = qcl::get_languages();
-  $lang_options[''] = t('- Language -');
+  $language_list[''] = t('- Language -');
   foreach ($languages as $code => $lang) {
-    $lang_options[$code] = $lang['name'];
+    $language_list[$code] = $lang['name'];
   }
 
   $form = array(
@@ -41,7 +41,7 @@ function qtrTranslations_select_form($form, &$form_state, $chapter, $verse, $lng
       'chapter' => [
         '#type' => 'select',
         '#title' => t('Chapter'),
-        '#options' => $ch_options,
+        '#options' => $chapter_list,
         '#default_value' => $chapter,
       ],
 
@@ -56,7 +56,7 @@ function qtrTranslations_select_form($form, &$form_state, $chapter, $verse, $lng
       'lng' => [
         '#type' => 'select',
         '#title' => t('Language'),
-        '#options' => $lang_options,
+        '#options' => $language_list,
         '#default_value' => $lng,
       ],
     ),
@@ -79,17 +79,36 @@ function qtrTranslations_select_form_validate($form, &$form_state) {
   $verse = $values['verse'];
   $lng = $values['lng'];
 
+  if ($chapter == '') {
+    form_set_error('chapter', t('No chapter selected.'));
+    return;
+  }
+
   if ($chapter < 1 or $chapter > 114) {
     form_set_error('chapter', t('Chapter must be between 1 and 114.'));
+    return;
   }
+
+  if ($verse == '') {
+    $verse = 1;
+    $form_state['values']['verse'] = 1;
+  }
+
   $chapters = qcl::get_chapters();
-  if ($verse < 1 or $verse > $chapters[$chapter - 1]['verses']) {
+  if ($verse < 1 or $verse > $chapters[$chapter]['verses']) {
     form_set_error('verse', t('The verse number :chapter,:verse is not correct.',
         [':chapter' => $chapter, ':verse' => $verse]));
+    return;
   }
+
+  if ($lng == '')  $lng = variable_get('qtrClient_translation_lng', 'en');
+  if ($lng == 'all')  $lng = 'en';
+  $form_state['values']['lng'] = $lng;
+
   $languages = qcl::get_languages();
   if (!isset($languages[$lng])) {
     form_set_error('lng', t('Language :lng is not supported.', [':lng' => $lng]));
+    return;
   }
 }
 
