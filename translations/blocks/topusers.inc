@@ -57,7 +57,7 @@ function qtrTranslations_topusers_view() {
   }
 
   // Build the block view.
-  $block['subject'] = t('Top @nr contributors', array('@nr' => $size));
+  $block['subject'] = t('Top @nr translators', array('@nr' => $size));
   $block['content'] = qcl::render_topusers($period, $size, $lng);
 
   // Cache for 12 hours.

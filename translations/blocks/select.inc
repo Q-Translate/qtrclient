@@ -33,38 +33,37 @@ function qtrTranslations_select_form($form, &$form_state, $chapter, $verse, $lng
     $language_list[$code] = $lang['name'];
   }
 
-  $form = array(
-    'select_translations' => array(
-      '#type' => 'fieldset',
-      '#title' => t('Select Translations'),
+  $form['select_translations'] = array(
 
-      'chapter' => [
-        '#type' => 'select',
-        '#title' => t('Chapter'),
-        '#options' => $chapter_list,
-        '#default_value' => $chapter,
-      ],
+    '#type' => 'fieldset',
+    '#title' => t('Select Translations'),
 
-      'verse' => [
-        '#type' => 'textfield',
-        '#title' => t('Verse'),
-        '#default_value' => $verse,
-        '#size' => 3,
-        '#maxlength' => 3,
-      ],
+    'chapter' => [
+      '#type' => 'select',
+      '#title' => t('Chapter'),
+      '#options' => $chapter_list,
+      '#default_value' => $chapter,
+    ],
 
-      'lng' => [
-        '#type' => 'select',
-        '#title' => t('Language'),
-        '#options' => $language_list,
-        '#default_value' => $lng,
-      ],
-    ),
+    'verse' => [
+      '#type' => 'textfield',
+      '#title' => t('Verse'),
+      '#default_value' => $verse,
+      '#size' => 3,
+      '#maxlength' => 3,
+    ],
 
-    'submit' => array(
+    'lng' => [
+      '#type' => 'select',
+      '#title' => t('Language'),
+      '#options' => $language_list,
+      '#default_value' => $lng,
+    ],
+
+    'submit' => [
       '#type' => 'submit',
       '#value' => t('Go'),
-    ),
+    ],
   );
 
   return $form;

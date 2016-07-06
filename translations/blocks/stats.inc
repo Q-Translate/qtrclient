@@ -17,7 +17,7 @@ function qtrTranslations_stats_view() {
     return $cache->data;
   }
 
-  $block['subject'] = t('Contribution stats');
+  $block['subject'] = t('Translation stats');
   $block['content'] = qcl::render_stats($lng);
 
   // Cache for 12 hours.

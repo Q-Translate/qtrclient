@@ -25,7 +25,7 @@ function render_topusers($period = 'week', $size = '5', $lng = 'en') {
   $content = array(
     'first_para' => array(
       '#type' => 'markup',
-      '#markup' => t("<p>Top !nr contributors since !date:</p>",
+      '#markup' => t("<p>Top !nr translators since !date:</p>",
                  array(
                    '!nr' => $size,
                    '!date' => $from_date,
