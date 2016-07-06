@@ -36,7 +36,7 @@ function qtrTranslations_select_form($form, &$form_state, $chapter, $verse, $lng
   $form['select_translations'] = array(
 
     '#type' => 'fieldset',
-    '#title' => t('Select Translations'),
+    '#title' => t('Select'),
 
     'chapter' => [
       '#type' => 'select',

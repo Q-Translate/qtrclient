@@ -44,7 +44,7 @@ function qtrTranslations_search() {
   else {
     pager_default_initialize($pager['number_of_items'], $pager['items_per_page']);
     $lng = (isset($params['lng']) ? $params['lng'] : qcl::get_translation_lng());
-    $output[] = drupal_get_form('qtrTranslations_search_form', $verses, $lng);
+    $output[] = drupal_get_form('qtrTranslations_result_form', $verses, $lng);
   }
 
   return $output;
@@ -73,16 +73,16 @@ function qtrTranslations_filter_form_submit($form, &$form_state) {
 }
 
 /**
- * Form callback for: qtrTranslations_search_form
+ * Form callback for: qtrTranslations_result_form
  */
-function qtrTranslations_search_form($form, &$form_state, $verses, $lng) {
+function qtrTranslations_result_form($form, &$form_state, $verses, $lng) {
   $form = qcl::translateform_build($verses, $lng);
   return $form;
 }
 
 /**
- * Submit callback for the form: qtrTranslations_search_form
+ * Submit callback for the form: qtrTranslations_result_form
  */
-function qtrTranslations_search_form_submit($form, &$form_state) {
+function qtrTranslations_result_form_submit($form, &$form_state) {
   qcl::translateform_submit($form, $form_state);
 }

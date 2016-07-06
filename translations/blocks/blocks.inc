@@ -5,6 +5,7 @@
  */
 
 require_once __DIR__ . '/select.inc';
+require_once __DIR__ . '/search.inc';
 require_once __DIR__ . '/topusers.inc';
 require_once __DIR__ . '/stats.inc';
 require_once __DIR__ . '/latest.inc';
@@ -26,6 +27,12 @@ function qtrTranslations_block_info() {
   // Select a verse/language translations.
   $blocks['select'] = array(
     'info' => t('Q-Translate: Select verse/language translations.'),
+    'cache' => DRUPAL_CACHE_CUSTOM,
+  );
+
+  // Search translations.
+  $blocks['search'] = array(
+    'info' => t('Q-Translate: Search translations.'),
     'cache' => DRUPAL_CACHE_CUSTOM,
   );
 
