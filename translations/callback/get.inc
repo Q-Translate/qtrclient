@@ -18,11 +18,13 @@
  *
  */
 function qtrTranslations_get($lng = NULL, $chapter = NULL, $verse = NULL) {
+  // If there is no $chapter/$verse, display the home/dashboard/main page.
   if ($chapter === NULL) {
     include drupal_get_path('module', 'qtrTranslations') . '/callback/home.inc';
     return qtrTranslations_home();
   }
 
+  $output[] = qcl::get_block('qtrTranslations', 'navigate');
   $output[] = qcl::get_block('qtrTranslations', 'select');
 
   // Get the verse and its translations.

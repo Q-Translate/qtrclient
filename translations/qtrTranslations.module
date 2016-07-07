@@ -12,6 +12,7 @@ module_load_include('inc', 'qtrTranslations', 'blocks/blocks');
 function qtrTranslations_init() {
   // Include the stylesheets.
   $path = drupal_get_path('module', 'qtrTranslations');
+  drupal_add_css($path . '/blocks/navigate.css.less');
   drupal_add_css($path . '/blocks/select.css.less');
   drupal_add_css($path . '/blocks/search.css.less');
 }

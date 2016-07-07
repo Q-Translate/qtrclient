@@ -4,6 +4,7 @@
  * Defining blocks of qtrTranslations.
  */
 
+require_once __DIR__ . '/navigate.inc';
 require_once __DIR__ . '/select.inc';
 require_once __DIR__ . '/search.inc';
 require_once __DIR__ . '/topusers.inc';
@@ -23,6 +24,12 @@ function qtrTranslations_block_info() {
   // The required block information is a block description, which is shown
   // to the site administrator in the list of possible blocks. You can also
   // provide initial settings for block weight, status, etc.
+
+  // Subscribe to a project.
+  $blocks['navigate'] = array(
+    'info' => t('Q-Translate: Go to the next/prev verse, etc.'),
+    'cache' => DRUPAL_NO_CACHE,
+  );
 
   // Select a verse/language translations.
   $blocks['select'] = array(
