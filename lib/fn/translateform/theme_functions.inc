@@ -76,7 +76,7 @@ function _theme_qtrClient_translate_table_2col($element) {
         'class' => ['vid'],
         'data' => l("$cid,$nr", "qtr/$lng/$cid/$nr", [
                   'attributes' => [
-                    'title' => t('Direct and permanent link to this verse.'),
+                    'title' => t('Link to the verse.'),
                     'class' => ['btn', 'btn-default'],
                   ]]),
       ),

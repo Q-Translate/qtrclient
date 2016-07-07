@@ -77,12 +77,6 @@ function filter_get_query($form_values) {
     $query['words'] = $form_values['words'];
   }
 
-  // Get list mode.
-  list($list_mode_options, $default_list_mode) = qcl::filter_get_options('list_mode');
-  if (in_array($form_values['list_mode'], $list_mode_options) && $form_values['list_mode'] != $default_list_mode) {
-    $query['list_mode'] = $form_values['list_mode'];
-  }
-
   // Get the page.
   $page = (int)$form_values['page'] - 1;
   if ($page > 0) {

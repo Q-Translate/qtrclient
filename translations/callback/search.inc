@@ -39,7 +39,7 @@ function qtrTranslations_search() {
   $verses = $result['verses'];
   $pager = $result['pager'];
   if (empty($verses)) {
-    drupal_set_message(t('No verses found. Try adjusting the filter options.'));
+    drupal_set_message(t('No translations found. Try adjusting the filter options.'));
   }
   else {
     pager_default_initialize($pager['number_of_items'], $pager['items_per_page']);

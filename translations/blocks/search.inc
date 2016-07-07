@@ -8,26 +8,29 @@
  * Called from hook_block_view for search.
  */
 function qtrTranslations_search_view() {
+  // Get the arguments from the path.
+  list($lng, $_, $_) = qcl::get_args_from_path();
+
   //$block['subject'] = t('Search');
-  $block['content'] = drupal_get_form('qtrTranslations_search_form');
+  $block['content'] = drupal_get_form('qtrTranslations_search_form', $lng);
   return $block;
 }
 
 /**
  * Form callback for: qtrTranslations_search_form
  */
-function qtrTranslations_search_form($form, &$form_state) {
-  // Get a list of chapters.
-  $chapters = qcl::get_chapters();
-  $chapter_list[''] = t('- Chapter -');
-  for ($c = 1; $c <=114; $c++) {
-    $chapter_list["$c"] = $c . ' : ' . $chapters[$c]['tname'];
-  }
+function qtrTranslations_search_form($form, &$form_state, $lng) {
   // Get a list of languages.
   $languages = qcl::get_languages();
   $language_list[''] = t('- Language -');
   foreach ($languages as $code => $lang) {
     $language_list[$code] = $lang['name'];
+  }
+  // Get a list of chapters.
+  $chapters = qcl::get_chapters();
+  $chapter_list[''] = t('- Chapter -');
+  for ($c = 1; $c <=114; $c++) {
+    $chapter_list["$c"] = $c . ' : ' . $chapters[$c]['tname'];
   }
 
   $form['search_translations'] = array(
@@ -39,6 +42,7 @@ function qtrTranslations_search_form($form, &$form_state) {
       '#type' => 'select',
       '#title' => t('Language'),
       '#options' => $language_list,
+      '#default_value' => $lng,
     ],
 
     'chapter' => [

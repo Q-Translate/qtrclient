@@ -44,21 +44,10 @@ function filter_get_options($field, $assoc = FALSE) {
     case 'date_filter':
       // Which date to filter.
       $options = array(
-        'verses' => t('Filter Verses By Date'),
         'translations' => t('Filter Translations By Date'),
         'likes' => t('Filter Likes By Date'),
       );
       $default = 'translations';
-      break;
-
-    case 'list_mode':
-      // What to list.
-      $options = array(
-        'all' => '',
-        'translated' => t('Translated'),
-        'untranslated' => t('Untranslated'),
-      );
-      $default = 'all';
       break;
   }
   if (!$assoc) {

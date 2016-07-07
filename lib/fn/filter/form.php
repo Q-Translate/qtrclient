@@ -72,43 +72,87 @@ function filter_form($form_values) {
  * Return the fieldset of advanced search.
  */
 function _advanced($form_values) {
-  // Language of translations.
+  // Get a list of languages.
   $languages = qcl::get_languages();
+  $language_list[''] = t('- Language -');
   foreach ($languages as $code => $lang) {
-    $lang_options[$code] = $lang['name'];
+    $language_list[$code] = $lang['name'];
+  }
+  // Get a list of chapters.
+  $chapters = qcl::get_chapters();
+  $chapter_list[''] = t('- Chapter -');
+  for ($c = 1; $c <=114; $c++) {
+    $chapter_list["$c"] = $c . ' : ' . $chapters[$c]['tname'];
   }
 
   // The number of results that should be displayed per page.
   list($limit_options, $default) = qcl::filter_get_options('limit', 'assoc');
 
   $advanced = [
-    // Language of translations.
-    'lng' => [
-      '#type' => 'select',
-      '#title' => t('Language of Translation'),
-      '#description' => t('Select the language of the translations to be searched and displayed.'),
-      '#options' => $lang_options,
-      '#default_value' => $form_values['lng'],
+    'first-row' => [
+      '#prefix' => '<div class="row">',
+      '#suffix' => '</div>',
+
+      // Language of translations.
+      'lng' => [
+        '#type' => 'select',
+        '#title' => t('Language'),
+        '#description' => t('Select the language of the translations to be searched and displayed.'),
+        '#options' => $language_list,
+        '#default_value' => $form_values['lng'],
+        '#prefix' => '<div class="col-xs-4">',
+        '#suffix' => '</div>',
+      ],
+
+      // Chapter to search on.
+      'chapter' => [
+        '#type' => 'select',
+        '#title' => t('Chapter'),
+        '#description' => t('Chapter to be searched.'),
+        '#options' => $chapter_list,
+        '#default_value' => $form_values['chapter'],
+        '#prefix' => '<div class="col-xs-4">',
+        '#suffix' => '</div>',
+      ],
+
+      // Number of results that can be displayed on a page.
+      'limit' => [
+        '#type' => 'select',
+        '#title' => t('Limit'),
+        '#description' => t('The number of the results (verses) that can be displayed on a page.'),
+        '#options' => $limit_options,
+        '#default_value' => $form_values['limit'],
+        '#prefix' => '<div class="col-xs-4">',
+        '#suffix' => '</div>',
+      ],
     ],
 
-    // Number of results that can be displayed on a page.
-    'limit' => [
-      '#type' => 'select',
-      '#title' => t('Limit'),
-      '#description' => t('The number of the results (verses) that can be displayed on a page.'),
-      '#options' => $limit_options,
-      '#default_value' => $form_values['limit'],
-    ],
+    'second-row' => [
+      '#prefix' => '<div class="row">',
+      '#suffix' => '</div>',
 
-    // search mode
-    'search_mode' => _search_mode($form_values),
+      // search mode
+      'search_mode' => [
+        _search_mode($form_values),
+        '#prefix' => '<div class="col-sm-4">',
+        '#suffix' => '</div>',
+      ],
+
+      // author
+      'author' => [
+        _author($form_values),
+        '#prefix' => '<div class="col-sm-4">',
+        '#suffix' => '</div>',
+      ],
+
+      // date
+      'date' => [
+        _date($form_values),
+        '#prefix' => '<div class="col-sm-4">',
+        '#suffix' => '</div>',
+      ],
+    ],
   ];
-
-  // Search by author and by date are available only to authenticated users.
-  if (oauth2_user_is_authenticated()) {
-    $advanced['author'] = _author($form_values);
-    $advanced['date'] = _date($form_values);
-  }
 
   return $advanced;
 }
