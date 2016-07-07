@@ -91,9 +91,13 @@ function qtrTranslations_navigate_form_submit($form, &$form_state) {
     $verse -= 1;
     if ($verse < 1) {
       $chapter -= 1;
+      drupal_set_message(t('Moved to the previous chapter.'));
+      if ($chapter < 1) {
+        $chapter = 114;
+        drupal_set_message(t('Moved to the last chapter.'));
+      }
       $chapters = qcl::get_chapters();
       $verse = $chapters[$chapter]['verses'];
-      drupal_set_message(t('Moved to the previous chapter.'));
     }
     drupal_goto("qtr/$lng/$chapter/$verse");
   }
@@ -107,8 +111,12 @@ function qtrTranslations_navigate_form_submit($form, &$form_state) {
     $chapters = qcl::get_chapters();
     if ($verse > $chapters[$chapter]['verses']) {
       $chapter += 1;
-      $verse = 1;
       drupal_set_message(t('Moved to the next chapter.'));
+      if ($chapter > 114) {
+        $chapter = 1;
+        drupal_set_message(t('Moved to the first chapter.'));
+      }
+      $verse = 1;
     }
     drupal_goto("qtr/$lng/$chapter/$verse");
   }
