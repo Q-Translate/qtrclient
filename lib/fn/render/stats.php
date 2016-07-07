@@ -29,14 +29,14 @@ function render_stats($lng = 'en') {
     $nr_likes = $stat['nr_likes'];
     $nr_translations = $stat['nr_translations'];
 
-    $url_likes = url('translations/search', array(
+    $url_likes = url('qtr/search', array(
                    'query' => array(
                      'lng' => $lng,
                      'limit' => '10',
                      'date_filter' => 'likes',
                      'from_date' => $stat['from_date'],
                    )));
-    $url_translations = url('translations/search', array(
+    $url_translations = url('qtr/search', array(
                           'query' => array(
                             'lng' => $lng,
                             'limit' => '10',

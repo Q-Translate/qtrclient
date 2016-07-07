@@ -6,7 +6,7 @@
  */
 
 /**
- * Menu callback for 'translations/import'.
+ * Menu callback for 'qtr/import'.
  */
 function qtrTranslations_import() {
   $output = qcl::get_block('qtrProject', 'import_translations');

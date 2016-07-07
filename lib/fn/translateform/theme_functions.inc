@@ -69,11 +69,12 @@ function _theme_qtrClient_translate_table_2col($element) {
 
   foreach (element_children($element) as $key) {
     $lng = $element[$key]['#langcode'];
-    $vid = $element[$key]['#verse']['vid'];
+    $cid = $element[$key]['#verse']['cid'];
+    $nr = $element[$key]['#verse']['nr'];
     $rows[] = array(
       array(
         'class' => ['vid'],
-        'data' => l(t('#'), "translations/$lng/$vid", [
+        'data' => l("$cid,$nr", "qtr/$lng/$cid/$nr", [
                   'attributes' => [
                     'title' => t('Direct and permanent link to this verse.'),
                     'class' => ['btn', 'btn-default'],

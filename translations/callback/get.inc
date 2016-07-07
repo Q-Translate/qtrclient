@@ -5,7 +5,7 @@
  */
 
 /**
- * Menu callback: translations/chapter/verse/lng
+ * Menu callback: qtr/lng/chapter/verse
  *
  * Get translations of a verse.
  * If the request header 'Accept: application/json' is set, then
@@ -13,11 +13,11 @@
  *
  * Example:
  *     curl -k -H 'Accept: application/json' \
- *          https://qtranslate.net/translations/2/3/en \
+ *          https://qtranslate.net/qtr/en/2/3 \
  *          | python -m json.tool
  *
  */
-function qtrTranslations_get($chapter = NULL, $verse = NULL, $lng = NULL) {
+function qtrTranslations_get($lng = NULL, $chapter = NULL, $verse = NULL) {
   if ($chapter === NULL) {
     include drupal_get_path('module', 'qtrTranslations') . '/callback/home.inc';
     return qtrTranslations_home();
@@ -29,11 +29,11 @@ function qtrTranslations_get($chapter = NULL, $verse = NULL, $lng = NULL) {
   $qtr = wsclient_service_load('public_qtr');
   try {
     //$result = $qtr->get_translations("$chapter,$verse,$lng");
-    //$result = $qtr->get(compact('chapter', 'verse', 'lng'));
+    //$result = $qtr->get(compact('lng', 'chapter', 'verse'));
     $result = $qtr->get(array(
+                'lng' => $lng,
                 'chapter' => $chapter,
                 'verse' => $verse,
-                'lng' => $lng,
               ));
   }
   catch (WSClientException $e) {
@@ -65,6 +65,8 @@ function qtrTranslations_form($form, &$form_state, $verse, $lng) {
  * Get the buttons of the form.
  */
 function _qtrTranslations_form_buttons($lng) {
+  $buttons = array();
+  /*
   $params = array(
     'attributes' => array(
       'class' => array('btn', 'btn-default', 'form-submit'),
@@ -83,6 +85,7 @@ function _qtrTranslations_form_buttons($lng) {
     '#markup' => l(t('Untranslated'), "translations/$lng/untranslated",
                $params),
   );
+  */
 
   return $buttons;
 }

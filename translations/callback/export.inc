@@ -5,7 +5,7 @@
  */
 
 /**
- * Callback for translations/export.
+ * Callback for qtr/export.
  *
  * Export the translations to a file.
  */

@@ -47,13 +47,13 @@ function render_topusers($period = 'week', $size = '5', $lng = 'en') {
     $nr_likes = $user['likes'];
     $url_user = $qtr_server . '/user/' . $user['uid'];
 
-    $url_translations = url('translations/search', array(
+    $url_translations = url('qtr/search', array(
                           'query' => array(
                             'lng' => $lng,
                             'translated_by' => $user['name'],
                             'from_date' => $from_date,
                           )));
-    $url_likes = url('translations/search', array(
+    $url_likes = url('qtr/search', array(
                    'query' => array(
                      'lng' => $lng,
                      'liked_by' => $user['name'],

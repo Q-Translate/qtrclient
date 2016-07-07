@@ -10,10 +10,12 @@ use \qcl;
 /**
  * Get the buttons of the form as a render array.
  */
-function translateform_buttons($lng, $vid = NULL) {
-  if ($vid and inside_iframe()) {
+function translateform_buttons($lng, $verse = NULL) {
+  if ($verse and inside_iframe()) {
+    $cid = $verse['cid'];
+    $nr = $verse['nr'];
     $buttons['details'] = [
-      '#markup' => l('#', "translations/$lng/$vid", [
+      '#markup' => l("$cid,$nr", "qtr/$lng/$cid/$nr", [
                    'attributes' => [
                      'class' => ['btn', 'btn-default'],
                      'style' => 'font-weight:bold; margin-right:3px;',

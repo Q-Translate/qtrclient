@@ -11,7 +11,7 @@ use \qcl;
  * When there is only a single verse displayed, we can add metatags
  * about the verse, social share buttons, discussions/comments, etc.
  */
-function translateform_meta($lng, $vid, $verse) {
+function translateform_meta($lng, $verse) {
   $form = array();
 
   // Get verse properties: title, url, description, hashtags
@@ -39,6 +39,8 @@ function translateform_meta($lng, $vid, $verse) {
 
   if (module_exists('disqus')) {
     // Define the disqus form element.
+    $cid = $verse['cid'];
+    $nr = $verse['nr'];
     $form['disqus'] = array(
       '#type' => 'disqus',
       '#disqus' => array(
@@ -46,7 +48,7 @@ function translateform_meta($lng, $vid, $verse) {
         'status' => TRUE,
         'url' => $properties['url'],
         'title' => $properties['title'],
-        'identifier' => "translations/$lng/$vid",
+        'identifier' => "qtr/$lng/$cid/$nr",
         'developer' => variable_get('disqus_developer', '1'),
       ),
       '#weight' => 101,

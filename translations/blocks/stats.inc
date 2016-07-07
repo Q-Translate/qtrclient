@@ -8,7 +8,8 @@
  * Called from hook_block_view for topusers.
  */
 function qtrTranslations_stats_view() {
-  $lng = variable_get('qtrClient_translation_lng', 'en');
+  list($lng, $_, $_) = qcl::get_args_from_path();
+  if (!$lng) $lng = variable_get('qtrClient_translation_lng', 'en');
 
   // Return cache if possible.
   $cid = "qtrTranslations_block_stats:$lng";

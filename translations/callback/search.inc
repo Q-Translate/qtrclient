@@ -1,11 +1,11 @@
 <?php
 /**
  * @file
- * Menu callback for translations/search
+ * Menu callback for qtr/search
  */
 
 /**
- * Menu callback: translations/search.
+ * Menu callback: qtr/search.
  *
  * Search verses and translations using various filters.
  *
@@ -13,7 +13,7 @@
  * the output will be in JSON, otherwise it will be an HTML page.
  * For example:
  *   curl -k -i -H 'Accept: application/json' \
- *        'https://qtranslate.org/translations/search?words=unseen&chapter=2'
+ *        'https://qtranslate.org/qtr/search?words=unseen&chapter=2'
  */
 function qtrTranslations_search() {
   // Get the filter parameters from the GET request.

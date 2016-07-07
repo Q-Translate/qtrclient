@@ -42,7 +42,7 @@ function translateform_build($verses, $lng) {
     ),
 
     'buttons' => (count($verses) == 1 ?
-               qcl::translateform_buttons($lng, key($verses)) :
+               qcl::translateform_buttons($lng, $verses[0]) :
                qcl::translateform_buttons($lng)),
 
     'pager_bottom' => array(
@@ -60,7 +60,7 @@ function translateform_build($verses, $lng) {
 
   // If there is only one verse, append social and discussions, etc.
   if (count($verses) == 1) {
-    $form += qcl::translateform_meta($lng, $vid, $verse);
+    $form += qcl::translateform_meta($lng, $verse);
   }
 
   return $form;

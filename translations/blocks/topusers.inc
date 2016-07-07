@@ -47,7 +47,8 @@ function qtrTranslations_topusers_view() {
   // Get parameters.
   $period = variable_get('qtrTranslations_topusers_period', 'week');
   $size = variable_get('qtrTranslations_topusers_size', 5);
-  $lng = variable_get('qtrClient_translation_lng', 'en');
+  list($lng, $_, $_) = qcl::get_args_from_path();
+  if (!$lng) $lng = variable_get('qtrClient_translation_lng', 'en');
 
   // Return cache if possible.
   $cid = "qtrTranslations_block_topusers:$period:$size:$lng";

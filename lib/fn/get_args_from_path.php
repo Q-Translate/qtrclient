@@ -9,19 +9,20 @@ use \qcl;
 
 /**
  * Extract the $chapter, $verse and $lng from the current path,
- * if it is in the form: /qtr/$chapter/$verse/$lng
+ * if it is in the form: /qtr/$lng/$chapter/$verse
  */
 function get_args_from_path() {
   // Get the arguments from the path.
+  $languages = qcl::get_languages();
   $args = explode('/', current_path());
-  if ($args[0]=='qtr' and is_numeric($args[1])) {
-    $chapter = $args[1];
-    $verse = $args[2];
-    $lng = $args[3];
+  $lng = $args[1];
+  if ($args[0]=='qtr' and isset($languages[$lng])) {
+    $chapter = $args[2];
+    $verse = $args[3];
   }
   else {
-    $chapter = $verse = $lng = NULL;
+    $lng = $chapter = $verse = NULL;
   }
 
-  return [$chapter, $verse, $lng];
+  return [$lng, $chapter, $verse];
 }

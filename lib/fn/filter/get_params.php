@@ -10,7 +10,7 @@ use \qcl;
 /**
  * Get the filter parameters from the GET request.
  *
- * The GET request is like: translations/search?lng=en&words=xyz&limit=10
+ * The GET request is like: qtr/search?lng=en&words=unseen&limit=10
  */
 function filter_get_params() {
   // Get a copy of the request parameters.

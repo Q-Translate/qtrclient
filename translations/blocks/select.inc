@@ -9,17 +9,17 @@
  */
 function qtrTranslations_select_view() {
   // Get the arguments from the path.
-  list($chapter, $verse, $lng) = qcl::get_args_from_path();
+  list($lng, $chapter, $verse) = qcl::get_args_from_path();
 
   //$block['subject'] = t('Select');
-  $block['content'] = drupal_get_form('qtrTranslations_select_form', $chapter, $verse, $lng);
+  $block['content'] = drupal_get_form('qtrTranslations_select_form', $lng, $chapter, $verse);
   return $block;
 }
 
 /**
  * Form callback for: qtrTranslations_select_form
  */
-function qtrTranslations_select_form($form, &$form_state, $chapter, $verse, $lng) {
+function qtrTranslations_select_form($form, &$form_state, $lng, $chapter, $verse) {
   // Get a list of chapters.
   $chapters = qcl::get_chapters();
   $chapter_list[''] = t('- Chapter -');
@@ -38,6 +38,13 @@ function qtrTranslations_select_form($form, &$form_state, $chapter, $verse, $lng
     '#type' => 'fieldset',
     '#title' => t('Select'),
 
+    'lng' => [
+      '#type' => 'select',
+      '#title' => t('Language'),
+      '#options' => $language_list,
+      '#default_value' => $lng,
+    ],
+
     'chapter' => [
       '#type' => 'select',
       '#title' => t('Chapter'),
@@ -51,13 +58,6 @@ function qtrTranslations_select_form($form, &$form_state, $chapter, $verse, $lng
       '#default_value' => $verse,
       '#size' => 3,
       '#maxlength' => 3,
-    ],
-
-    'lng' => [
-      '#type' => 'select',
-      '#title' => t('Language'),
-      '#options' => $language_list,
-      '#default_value' => $lng,
     ],
 
     'submit' => [
@@ -119,5 +119,5 @@ function qtrTranslations_select_form_submit($form, &$form_state) {
   $chapter = $values['chapter'];
   $verse = $values['verse'];
   $lng = $values['lng'];
-  drupal_goto("/qtr/$chapter/$verse/$lng");
+  drupal_goto("/qtr/$lng/$chapter/$verse");
 }
