@@ -3,7 +3,6 @@ description = Q-Translate Client Module.
 package = Q-Translate
 core = 7.x
 
-dependencies[] = qtrClientWS
 dependencies[] = qtrTranslations
 dependencies[] = libraries
 dependencies[] = entity
