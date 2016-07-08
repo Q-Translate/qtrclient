@@ -10,6 +10,8 @@ require_once __DIR__ . '/search.inc';
 require_once __DIR__ . '/topusers.inc';
 require_once __DIR__ . '/stats.inc';
 require_once __DIR__ . '/latest.inc';
+require_once __DIR__ . '/export.inc';
+require_once __DIR__ . '/import.inc';
 
 /**
  * Implements hook_block_info().
@@ -59,6 +61,18 @@ function qtrTranslations_block_info() {
   $blocks['latest'] = array(
     'info' => t('Q-Translate: Latest contributions'),
     'cache' => DRUPAL_CACHE_CUSTOM,
+  );
+
+  // Export the project.
+  $blocks['export'] = array(
+    'info' => t('Q-Translate: Export'),
+    'cache' => DRUPAL_NO_CACHE,
+  );
+
+  // Import.
+  $blocks['import'] = array(
+    'info' => t('Q-Translate: Import'),
+    'cache' => DRUPAL_NO_CACHE,
   );
 
   return $blocks;

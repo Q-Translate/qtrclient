@@ -14,6 +14,7 @@ function qtrTranslations_home() {
   $block_search['qtrTranslations_search']['#id'] = 'qtrtranslations-search-form-vertical';
 
   $output[] = array(
+    // select, search, stats, topusers
     'first-row' => [
       '#prefix' => '<div class="row">',
       '#suffix' => '</div>',
@@ -39,6 +40,24 @@ function qtrTranslations_home() {
       'topusers' => [
         '#prefix' => '<div class="col-sm-3">',
         qcl::get_block('qtrTranslations', 'topusers'),
+        '#suffix' => '</div>',
+      ],
+    ],
+
+    // export, import
+    'second-row' => [
+      '#prefix' => '<div class="row">',
+      '#suffix' => '</div>',
+
+      'export' => [
+        '#prefix' => '<div class="col-sm-6">',
+        qcl::get_block('qtrTranslations', 'export'),
+        '#suffix' => '</div>',
+      ],
+
+      'import' => [
+        '#prefix' => '<div class="col-sm-6">',
+        qcl::get_block('qtrTranslations', 'import'),
         '#suffix' => '</div>',
       ],
     ],

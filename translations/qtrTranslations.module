@@ -31,14 +31,6 @@ function qtrTranslations_menu() {
     'access callback' => TRUE,
   );
 
-  /*
-  $items['qtr/get'] = array(
-    'type'            => MENU_DEFAULT_LOCAL_TASK,
-    'title'           => 'Get Translations',
-    'weight'          => 1,
-  );
-  */
-
   $items['qtr/search'] = array(
     'type'            => MENU_LOCAL_TASK,
     'title'           => 'Search',
@@ -47,26 +39,6 @@ function qtrTranslations_menu() {
     'file'            => 'callback/search.inc',
     'access callback' => TRUE,
     'weight'          => 2,
-  );
-
-  $items['qtr/export'] = array(
-    'type'            => MENU_LOCAL_TASK,
-    'title'           => 'Export',
-    'description'     => 'Export translations to a file.',
-    'page callback'   => 'qtrTranslations_export',
-    'file'            => 'callback/export.inc',
-    'access callback' => 'oauth2_user_is_authenticated',
-    'weight'          => 3,
-  );
-
-  $items['qtr/import'] = array(
-    'type'            => MENU_LOCAL_TASK,
-    'title'           => 'Import',
-    'description'     => 'Import translations from file.',
-    'page callback'   => 'qtrTranslations_import',
-    'file'            => 'callback/import.inc',
-    'access callback' => 'oauth2_user_is_authenticated',
-    'weight'          => 4,
   );
 
   return $items;

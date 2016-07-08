@@ -1,7 +1,7 @@
 <?php
 /**
  * @file
- * Function uploadfile_to_server().
+ * Function uploadfile().
  */
 
 namespace QTranslate\Client;
@@ -14,7 +14,7 @@ use \qcl;
  *
  * TODO: Replace this function and wsclient by Guzzle.
  */
-function uploadfile_to_server($endpoint, $params = array()) {
+function uploadfile($endpoint, $params = array()) {
   $qtr = wsclient_service_load('qtr');
 
   // Get an access_token.
