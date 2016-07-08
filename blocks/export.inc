@@ -7,19 +7,19 @@
 /**
  * Called from hook_block_view for export.
  */
-function qtrTranslations_export_view() {
+function qtrClient_export_view() {
   // Get the arguments from the path.
   list($lng, $_, $_) = qcl::get_args_from_path();
 
   //$block['subject'] = t('Export');
-  $block['content'] = drupal_get_form('qtrTranslations_export_form', $lng);
+  $block['content'] = drupal_get_form('qtrClient_export_form', $lng);
   return $block;
 }
 
 /**
- * Form callback for: qtrTranslations_export_form
+ * Form callback for: qtrClient_export_form
  */
-function qtrTranslations_export_form($form, &$form_state, $lng) {
+function qtrClient_export_form($form, &$form_state, $lng) {
   // Get a list of languages.
   $languages = qcl::get_languages();
   $language_list[''] = t('- Language -');
@@ -92,9 +92,9 @@ function qtrTranslations_export_form($form, &$form_state, $lng) {
 }
 
 /**
- * Submit callback for the form: qtrTranslations_export_form
+ * Submit callback for the form: qtrClient_export_form
  */
-function qtrTranslations_export_form_submit($form, &$form_state) {
+function qtrClient_export_form_submit($form, &$form_state) {
   // If user is not authenticated, redirect to login first.
   if (!oauth2_user_is_authenticated()) {
     oauth2_user_authenticate($form_state, $redirection = ($form===NULL));
@@ -116,17 +116,17 @@ function qtrTranslations_export_form_submit($form, &$form_state) {
 
   // Export the project.
   if (qcl::user_is_admin($lng)) {
-    _qtrTranslations_export_now($lng, $chapter, $export_mode, $users);
+    _qtrClient_export_now($lng, $chapter, $export_mode, $users);
   }
   else {
-    _qtrTranslations_export_schedule($lng, $chapter, $export_mode, $users);
+    _qtrClient_export_schedule($lng, $chapter, $export_mode, $users);
   }
 }
 
 /**
  * Export the project immediately.
  */
-function _qtrTranslations_export_now($origin, $project, $lng, $export_mode, $friends) {
+function _qtrClient_export_now($origin, $project, $lng, $export_mode, $friends) {
   $btr_server = variable_get('btrClient_server');
   drupal_goto($btr_server . '/project/export', [
       'absolute' => TRUE,
@@ -144,7 +144,7 @@ function _qtrTranslations_export_now($origin, $project, $lng, $export_mode, $fri
 /**
  * Schedule a project export.
  */
-function _qtrTranslations_export_schedule($origin, $project, $lng, $export_mode, $friends) {
+function _qtrClient_export_schedule($origin, $project, $lng, $export_mode, $friends) {
   $btr = wsclient_service_load('btr');
   $result = $btr->export_projects([
               'origin' => $origin,

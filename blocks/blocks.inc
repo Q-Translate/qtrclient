@@ -1,7 +1,7 @@
 <?php
 /**
  * @file
- * Defining blocks of qtrTranslations.
+ * Defining blocks of qtrClient.
  */
 
 require_once __DIR__ . '/navigate.inc';
@@ -18,7 +18,7 @@ require_once __DIR__ . '/import.inc';
  *
  * This hook declares what blocks are provided by the module.
  */
-function qtrTranslations_block_info() {
+function qtrClient_block_info() {
   // This hook returns an array, each component of which is an array of block
   // information. The array keys are the 'delta' values used in other block
   // hooks.
@@ -83,10 +83,10 @@ function qtrTranslations_block_info() {
  *
  * This hook declares configuration options for blocks provided by this module.
  */
-function qtrTranslations_block_configure($delta = '') {
+function qtrClient_block_configure($delta = '') {
   $form = array();
   // The $delta parameter tells us which block is being configured.
-  $config = 'qtrTranslations_' . $delta . '_config';
+  $config = 'qtrClient_' . $delta . '_config';
   if (function_exists($config)) {
     $form = $config();
   }
@@ -100,8 +100,8 @@ function qtrTranslations_block_configure($delta = '') {
  * This hook declares how the configured options for a block
  * provided by this module are saved.
  */
-function qtrTranslations_block_save($delta = '', $edit = array()) {
-  $save = 'qtrTranslations_' . $delta . '_save';
+function qtrClient_block_save($delta = '', $edit = array()) {
+  $save = 'qtrClient_' . $delta . '_save';
   if (function_exists($save))  $save($edit);
 }
 
@@ -110,9 +110,9 @@ function qtrTranslations_block_save($delta = '', $edit = array()) {
  *
  * This hook generates the contents of the blocks themselves.
  */
-function qtrTranslations_block_view($delta = '') {
+function qtrClient_block_view($delta = '') {
   // The $delta parameter tells us which block is being requested.
-  $view = 'qtrTranslations_' . $delta . '_view';
+  $view = 'qtrClient_' . $delta . '_view';
   if (function_exists($view)) {
     $block = $view();
   }

@@ -1,6 +1,0 @@
-name = Q-Translate Translations
-description = Interface for Q-Translate Translations.
-package = Q-Translate
-core = 7.x
-
-dependencies[] = qtrClient

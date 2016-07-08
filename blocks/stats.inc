@@ -7,12 +7,12 @@
 /**
  * Called from hook_block_view for topusers.
  */
-function qtrTranslations_stats_view() {
+function qtrClient_stats_view() {
   list($lng, $_, $_) = qcl::get_args_from_path();
   if (!$lng) $lng = variable_get('qtrClient_translation_lng', 'en');
 
   // Return cache if possible.
-  $cid = "qtrTranslations_block_stats:$lng";
+  $cid = "qtrClient_block_stats:$lng";
   $cache = cache_get($cid, 'cache_qtrClient');
   if (!empty($cache) && isset($cache->data) && !empty($cache->data)) {
     return $cache->data;

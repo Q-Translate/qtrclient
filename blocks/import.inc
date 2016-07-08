@@ -7,19 +7,19 @@
 /**
  * Called from hook_block_view for import.
  */
-function qtrTranslations_import_view() {
+function qtrClient_import_view() {
   // Get the arguments from the path.
   list($lng, $_, $_) = qcl::get_args_from_path();
 
   //$block['subject'] = t('Import');
-  $block['content'] = drupal_get_form('qtrTranslations_import_form', $lng);
+  $block['content'] = drupal_get_form('qtrClient_import_form', $lng);
   return $block;
 }
 
 /**
- * Form callback for: qtrTranslations_import_form
+ * Form callback for: qtrClient_import_form
  */
-function qtrTranslations_import_form($form, &$form_state, $lng) {
+function qtrClient_import_form($form, &$form_state, $lng) {
   // Get a list of languages.
   $languages = qcl::get_languages();
   $language_list[''] = t('- Language -');
@@ -70,9 +70,9 @@ function qtrTranslations_import_form($form, &$form_state, $lng) {
 }
 
 /**
- * Implements hook form_validate() for qtrTranslations_import_form.
+ * Implements hook form_validate() for qtrClient_import_form.
  */
-function qtrTranslations_import_form_validate($form, &$form_state) {
+function qtrClient_import_form_validate($form, &$form_state) {
   // Check that a file is uploaded.
   $file_tmp_name = $_FILES['files']['tmp_name']['file'];
   if ($file_tmp_name == '') {
@@ -100,9 +100,9 @@ function qtrTranslations_import_form_validate($form, &$form_state) {
 
 
 /**
- * Implement hook form_submit() for the form qtrTranslations_import_form
+ * Implement hook form_submit() for the form qtrClient_import_form
  */
-function qtrTranslations_import_form_submit($form, &$form_state) {
+function qtrClient_import_form_submit($form, &$form_state) {
   if (!oauth2_user_is_authenticated()) {
     oauth2_user_authenticate($form_state, $redirection = ($form===NULL));
     return;

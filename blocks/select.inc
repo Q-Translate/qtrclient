@@ -7,19 +7,19 @@
 /**
  * Called from hook_block_view for select.
  */
-function qtrTranslations_select_view() {
+function qtrClient_select_view() {
   // Get the arguments from the path.
   list($lng, $chapter, $verse) = qcl::get_args_from_path();
 
   //$block['subject'] = t('Select');
-  $block['content'] = drupal_get_form('qtrTranslations_select_form', $lng, $chapter, $verse);
+  $block['content'] = drupal_get_form('qtrClient_select_form', $lng, $chapter, $verse);
   return $block;
 }
 
 /**
- * Form callback for: qtrTranslations_select_form
+ * Form callback for: qtrClient_select_form
  */
-function qtrTranslations_select_form($form, &$form_state, $lng, $chapter, $verse) {
+function qtrClient_select_form($form, &$form_state, $lng, $chapter, $verse) {
   // Get a list of chapters.
   $chapters = qcl::get_chapters();
   $chapter_list[''] = t('- Chapter -');
@@ -70,9 +70,9 @@ function qtrTranslations_select_form($form, &$form_state, $lng, $chapter, $verse
 }
 
 /**
- * Validate callback for the form: qtrTranslations_select_form
+ * Validate callback for the form: qtrClient_select_form
  */
-function qtrTranslations_select_form_validate($form, &$form_state) {
+function qtrClient_select_form_validate($form, &$form_state) {
   $values = $form_state['values'];
   $chapter = $values['chapter'];
   $verse = $values['verse'];
@@ -112,9 +112,9 @@ function qtrTranslations_select_form_validate($form, &$form_state) {
 }
 
 /**
- * Submit callback for the form: qtrTranslations_select_form
+ * Submit callback for the form: qtrClient_select_form
  */
-function qtrTranslations_select_form_submit($form, &$form_state) {
+function qtrClient_select_form_submit($form, &$form_state) {
   $values = $form_state['values'];
   $chapter = $values['chapter'];
   $verse = $values['verse'];

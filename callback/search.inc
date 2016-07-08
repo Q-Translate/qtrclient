@@ -15,7 +15,7 @@
  *   curl -k -i -H 'Accept: application/json' \
  *        'https://qtranslate.org/qtr/search?words=unseen&chapter=2'
  */
-function qtrTranslations_search() {
+function qtrClient_search() {
   // Get the filter parameters from the GET request.
   $params = qcl::filter_get_params();
 
@@ -33,7 +33,7 @@ function qtrTranslations_search() {
   drupal_set_title(t('Search Translations'));
 
   // Add the filter form.
-  $output[] = drupal_get_form('qtrTranslations_filter_form', $result['filter']);
+  $output[] = drupal_get_form('qtrClient_filter_form', $result['filter']);
 
   // Output the verses.
   $verses = $result['verses'];
@@ -44,16 +44,16 @@ function qtrTranslations_search() {
   else {
     pager_default_initialize($pager['number_of_items'], $pager['items_per_page']);
     $lng = (isset($params['lng']) ? $params['lng'] : qcl::get_translation_lng());
-    $output[] = drupal_get_form('qtrTranslations_result_form', $verses, $lng);
+    $output[] = drupal_get_form('qtrClient_result_form', $verses, $lng);
   }
 
   return $output;
 }
 
 /**
- * Form callback for: qtrTranslations_filter_form
+ * Form callback for: qtrClient_filter_form
  */
-function qtrTranslations_filter_form($form, &$form_state, $filter) {
+function qtrClient_filter_form($form, &$form_state, $filter) {
   // If the form has no values yet (either it is the first time that
   // the form is opened, or we have a get request), we set the values
   // of the form according to the $filter values.
@@ -65,24 +65,24 @@ function qtrTranslations_filter_form($form, &$form_state, $filter) {
 }
 
 /**
- * Submit callback for the form: qtrTranslations_filter_form
+ * Submit callback for the form: qtrClient_filter_form
  */
-function qtrTranslations_filter_form_submit($form, &$form_state) {
+function qtrClient_filter_form_submit($form, &$form_state) {
   module_load_include('php', 'qtrClient', 'lib/fn/filter/submit');
   \QTranslate\Client\filter_submit($form, $form_state);
 }
 
 /**
- * Form callback for: qtrTranslations_result_form
+ * Form callback for: qtrClient_result_form
  */
-function qtrTranslations_result_form($form, &$form_state, $verses, $lng) {
+function qtrClient_result_form($form, &$form_state, $verses, $lng) {
   $form = qcl::translateform_build($verses, $lng);
   return $form;
 }
 
 /**
- * Submit callback for the form: qtrTranslations_result_form
+ * Submit callback for the form: qtrClient_result_form
  */
-function qtrTranslations_result_form_submit($form, &$form_state) {
+function qtrClient_result_form_submit($form, &$form_state) {
   qcl::translateform_submit($form, $form_state);
 }

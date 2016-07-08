@@ -7,21 +7,21 @@
 /**
  * Called from hook_block_view for navigate.
  */
-function qtrTranslations_navigate_view() {
+function qtrClient_navigate_view() {
   list($lng, $chapter, $verse) = qcl::get_args_from_path();
   if (!$lng) $lng = variable_get('qtrClient_translation_lng', 'en');
   if ($lng == 'all') $lng = 'en';
 
   //$block['subject'] = t('Navigate');
-  $block['content'] = drupal_get_form('qtrTranslations_navigate_form', $lng, $chapter, $verse);
+  $block['content'] = drupal_get_form('qtrClient_navigate_form', $lng, $chapter, $verse);
 
   return $block;
 }
 
 /**
- * Form callback for: qtrTranslations_navigate_form
+ * Form callback for: qtrClient_navigate_form
  */
-function qtrTranslations_navigate_form($form, &$form_state, $lng, $chapter, $verse) {
+function qtrClient_navigate_form($form, &$form_state, $lng, $chapter, $verse) {
   $form = [
     'lng' => [
       '#type' => 'hidden',
@@ -67,9 +67,9 @@ function qtrTranslations_navigate_form($form, &$form_state, $lng, $chapter, $ver
 }
 
 /**
- * Submit callback for the form: qtrTranslations_navigate_form
+ * Submit callback for the form: qtrClient_navigate_form
  */
-function qtrTranslations_navigate_form_submit($form, &$form_state) {
+function qtrClient_navigate_form_submit($form, &$form_state) {
   // Get the parameters.
   $values = $form_state['values'];
   $operation = $values['op'];

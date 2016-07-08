@@ -7,19 +7,19 @@
 /**
  * Called from hook_block_view for search.
  */
-function qtrTranslations_search_view() {
+function qtrClient_search_view() {
   // Get the arguments from the path.
   list($lng, $_, $_) = qcl::get_args_from_path();
 
   //$block['subject'] = t('Search');
-  $block['content'] = drupal_get_form('qtrTranslations_search_form', $lng);
+  $block['content'] = drupal_get_form('qtrClient_search_form', $lng);
   return $block;
 }
 
 /**
- * Form callback for: qtrTranslations_search_form
+ * Form callback for: qtrClient_search_form
  */
-function qtrTranslations_search_form($form, &$form_state, $lng) {
+function qtrClient_search_form($form, &$form_state, $lng) {
   // Get a list of languages.
   $languages = qcl::get_languages();
   $language_list[''] = t('- Language -');
@@ -66,9 +66,9 @@ function qtrTranslations_search_form($form, &$form_state, $lng) {
 }
 
 /**
- * Validate callback for the form: qtrTranslations_search_form
+ * Validate callback for the form: qtrClient_search_form
  */
-function qtrTranslations_search_form_validate($form, &$form_state) {
+function qtrClient_search_form_validate($form, &$form_state) {
   $values = $form_state['values'];
   $chapter = $values['chapter'];
   $words = $values['words'];
@@ -91,9 +91,9 @@ function qtrTranslations_search_form_validate($form, &$form_state) {
 }
 
 /**
- * Submit callback for the form: qtrTranslations_search_form
+ * Submit callback for the form: qtrClient_search_form
  */
-function qtrTranslations_search_form_submit($form, &$form_state) {
+function qtrClient_search_form_submit($form, &$form_state) {
   $values = $form_state['values'];
   $chapter = $values['chapter'];
   $words = $values['words'];

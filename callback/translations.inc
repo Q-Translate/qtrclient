@@ -1,7 +1,7 @@
 <?php
 /**
  * @file
- * Functions specific to the menu path: translations
+ * Functions specific to the menu path: qtr
  */
 
 /**
@@ -17,15 +17,15 @@
  *          | python -m json.tool
  *
  */
-function qtrTranslations_get($lng = NULL, $chapter = NULL, $verse = NULL) {
+function qtrClient_translations($lng = NULL, $chapter = NULL, $verse = NULL) {
   // If there is no $chapter/$verse, display the home/dashboard/main page.
   if ($chapter === NULL) {
-    include drupal_get_path('module', 'qtrTranslations') . '/callback/home.inc';
-    return qtrTranslations_home();
+    include drupal_get_path('module', 'qtrClient') . '/callback/home.inc';
+    return qtrClient_home();
   }
 
-  $output[] = qcl::get_block('qtrTranslations', 'navigate');
-  $output[] = qcl::get_block('qtrTranslations', 'select');
+  $output[] = qcl::get_block('qtrClient', 'navigate');
+  $output[] = qcl::get_block('qtrClient', 'select');
 
   // Get the verse and its translations.
   $qtr = wsclient_service_load('public_qtr');
@@ -48,25 +48,25 @@ function qtrTranslations_get($lng = NULL, $chapter = NULL, $verse = NULL) {
 
   // Output the form of the verses and translations.
   $verse = $result['verse'];
-  $output[] = drupal_get_form('qtrTranslations_form', $verse, $lng);
+  $output[] = drupal_get_form('qtrClient_form', $verse, $lng);
 
   return $output;
 }
 
 /**
- * Form callback for: qtrTranslations_form
+ * Form callback for: qtrClient_form
  */
-function qtrTranslations_form($form, &$form_state, $verse, $lng) {
+function qtrClient_form($form, &$form_state, $verse, $lng) {
   if (!isset($verse['vid'])) return array();
   $form = qcl::translateform_build([$verse['vid'] => $verse], $lng);
-  $form['buttons'] += _qtrTranslations_form_buttons($lng);
+  $form['buttons'] += _qtrClient_form_buttons($lng);
   return $form;
 }
 
 /**
  * Get the buttons of the form.
  */
-function _qtrTranslations_form_buttons($lng) {
+function _qtrClient_form_buttons($lng) {
   $buttons = array();
   /*
   $params = array(
@@ -93,8 +93,8 @@ function _qtrTranslations_form_buttons($lng) {
 }
 
 /**
- * Submit callback for the form: qtrTranslations_form
+ * Submit callback for the form: qtrClient_form
  */
-function qtrTranslations_form_submit($form, &$form_state) {
+function qtrClient_form_submit($form, &$form_state) {
   qcl::translateform_submit($form, $form_state);
 }

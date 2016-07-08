@@ -5,6 +5,7 @@
  */
 
 module_load_include('php', 'qtrClient', 'lib/qcl');
+module_load_include('inc', 'qtrClient', 'blocks/blocks');
 
 /**
  * Implements hook_init().
@@ -13,6 +14,9 @@ function qtrClient_init() {
   // Include the stylesheets.
   $path = drupal_get_path('module', 'qtrClient');
   drupal_add_css($path . '/css/styles.css.less');
+  drupal_add_css($path . '/blocks/navigate.css.less');
+  drupal_add_css($path . '/blocks/select.css.less');
+  drupal_add_css($path . '/blocks/search.css.less');
 }
 
 /**
@@ -47,6 +51,27 @@ function qtrClient_menu() {
     'page arguments'   => array('qtrClient_config'),
     'access callback'  => TRUE,
     'file'             => 'callback/admin.inc',
+  );
+
+  // Get Translations.
+  $items['qtr'] = array(
+    'type'            => MENU_NORMAL_ITEM,
+    'title'           => 'Translations',
+    'description'     => 'Get a verse and its translations.',
+    'page callback'   => 'qtrClient_translations',
+    'file'            => 'callback/translations.inc',
+    'access callback' => TRUE,
+  );
+
+  // Search Translations.
+  $items['qtr/search'] = array(
+    'type'            => MENU_NORMAL_ITEM,
+    'title'           => 'Search',
+    'description'     => 'Search verses and translations using various filters.',
+    'page callback'   => 'qtrClient_search',
+    'file'            => 'callback/search.inc',
+    'access callback' => TRUE,
+    'weight'          => 2,
   );
 
   // Return a RSS feed.

@@ -7,11 +7,11 @@
 /**
  * Return the homepage or dashboard for translations.
  */
-function qtrTranslations_home() {
-  $block_select = qcl::get_block('qtrTranslations', 'select');
-  $block_select['qtrTranslations_select']['#id'] = 'qtrtranslations-select-form-vertical';
-  $block_search = qcl::get_block('qtrTranslations', 'search');
-  $block_search['qtrTranslations_search']['#id'] = 'qtrtranslations-search-form-vertical';
+function qtrClient_home() {
+  $block_select = qcl::get_block('qtrClient', 'select');
+  $block_select['qtrClient_select']['#id'] = 'qtrclient-select-form-vertical';
+  $block_search = qcl::get_block('qtrClient', 'search');
+  $block_search['qtrClient_search']['#id'] = 'qtrclient-search-form-vertical';
 
   $output[] = array(
     // select, search, stats, topusers
@@ -33,13 +33,13 @@ function qtrTranslations_home() {
 
       'stats' => [
         '#prefix' => '<div class="col-sm-3">',
-        qcl::get_block('qtrTranslations', 'stats'),
+        qcl::get_block('qtrClient', 'stats'),
         '#suffix' => '</div>',
       ],
 
       'topusers' => [
         '#prefix' => '<div class="col-sm-3">',
-        qcl::get_block('qtrTranslations', 'topusers'),
+        qcl::get_block('qtrClient', 'topusers'),
         '#suffix' => '</div>',
       ],
     ],
@@ -51,13 +51,13 @@ function qtrTranslations_home() {
 
       'export' => [
         '#prefix' => '<div class="col-sm-6">',
-        qcl::get_block('qtrTranslations', 'export'),
+        qcl::get_block('qtrClient', 'export'),
         '#suffix' => '</div>',
       ],
 
       'import' => [
         '#prefix' => '<div class="col-sm-6">',
-        qcl::get_block('qtrTranslations', 'import'),
+        qcl::get_block('qtrClient', 'import'),
         '#suffix' => '</div>',
       ],
     ],
