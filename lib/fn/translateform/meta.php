@@ -15,14 +15,13 @@ function translateform_meta($lng, $verse) {
   $form = array();
 
   // Get verse properties: title, url, description, hashtags
-  $properties = _get_verse_properties($verse);
-  $properties['lng'] = $lng;
+  $properties = _get_verse_properties($lng, $verse);
 
   // Set the page title.
   drupal_set_title($properties['title']);
 
   // Add metatags: og:title, og:description, og:image, etc.
-  _add_metatags($properties, $lng);
+  _add_metatags($properties);
 
   // Add RRSSB share buttons.
   $form['rrssb'] = array(
@@ -63,14 +62,16 @@ function translateform_meta($lng, $verse) {
  * title, url, description, hashtags, etc.
  * These will be used for metatags and for the social share buttons.
  */
-function _get_verse_properties($verse) {
+function _get_verse_properties($lng, $verse) {
   // Get the page title.
-  $str = strip_tags(check_plain($verse['verse']));
-  $title = t('Verse') . ': ' . $str;
+  $cid = $verse['cid'];
+  $nr = $verse['nr'];
+  $str = strip_tags(check_plain($verse['translations'][0]['translation']));
+  $title = "Q-Translate $lng/$cid/$nr: " . $str;
   $title = qcl::shorten($title, 50);
 
   // Get the description.
-  $description = $str;
+  $description = $verse['verse'];
   $arr_translations = array();
   foreach ($verse['translations'] as $trans) {
     $arr_translations[] = strip_tags(check_plain($trans['translation']));
@@ -86,16 +87,13 @@ function _get_verse_properties($verse) {
   $uri = substr(request_uri(), 1);
   $url = url($uri, ['absolute' => TRUE]);
 
-  // Get hashtags.
-  $arr_tags = array();
-  $hashtags = implode(' ', $arr_tags);
-
   // Return properties.
   $properties = array(
+    'lng' => $lng,
     'title' => $title,
     'url' => $url,
     'description' => $description,
-    'hashtags' => $hashtags,
+    'hashtags' => "#qtr_$lng",
   );
   return $properties;
 }
@@ -103,7 +101,7 @@ function _get_verse_properties($verse) {
 /**
  * Add metatags: og:title, og:description, og:image, og:image:size, etc.
  */
-function _add_metatags($properties, $lng) {
+function _add_metatags($properties) {
   // Add og:type
   $element = array(
     '#tag' => 'meta',
