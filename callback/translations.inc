@@ -59,37 +59,7 @@ function qtrClient_translations($lng = NULL, $chapter = NULL, $verse = NULL) {
 function qtrClient_form($form, &$form_state, $verse, $lng) {
   if (!isset($verse['vid'])) return array();
   $form = qcl::translateform_build([$verse['vid'] => $verse], $lng);
-  $form['buttons'] += _qtrClient_form_buttons($lng);
   return $form;
-}
-
-/**
- * Get the buttons of the form.
- */
-function _qtrClient_form_buttons($lng) {
-  $buttons = array();
-  /*
-  $params = array(
-    'attributes' => array(
-      'class' => array('btn', 'btn-default', 'form-submit'),
-      'style' => 'margin-right:3px',
-    ),
-  );
-  $buttons['random'] = array(
-    '#markup' => l(t('Random'), "translations/$lng/",
-               $params),
-  );
-  $buttons['translated'] = array(
-    '#markup' => l(t('Translated'), "translations/$lng/translated",
-               $params),
-  );
-  $buttons['untranslated'] = array(
-    '#markup' => l(t('Untranslated'), "translations/$lng/untranslated",
-               $params),
-  );
-  */
-
-  return $buttons;
 }
 
 /**

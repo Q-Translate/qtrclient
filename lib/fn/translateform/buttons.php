@@ -41,5 +41,12 @@ function translateform_buttons($lng, $verse = NULL) {
     $buttons['save']['#attributes']['onclick'] = 'this.form.target="_blank"';
   }
 
+  if ($verse !== NULL) {
+    $buttons += qcl::translateform_meta($lng, $verse);
+  }
+  else {
+    $buttons['save']['#attributes']['style'] = 'margin-left: 50%;';
+  }
+
   return $buttons;
 }

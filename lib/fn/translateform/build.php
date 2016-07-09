@@ -41,9 +41,7 @@ function translateform_build($verses, $lng) {
       '#lng' => $lng,
     ),
 
-    'buttons' => (count($verses) == 1 ?
-               qcl::translateform_buttons($lng, $verses[0]) :
-               qcl::translateform_buttons($lng)),
+    'buttons' => [],
 
     'pager_bottom' => array(
       '#weight' => 10,
@@ -55,13 +53,12 @@ function translateform_build($verses, $lng) {
   foreach ($verses as $verse) {
     $vid = $verse['vid'];
     $form['verses'][$vid] = qcl::translateform_verse($verse, $lng);
-    // TODO: Display the number of comments for each verse.
   }
 
-  // If there is only one verse, append social and discussions, etc.
-  if (count($verses) == 1) {
-    $form += qcl::translateform_meta($lng, $verse);
-  }
+  // Add buttons at the end of the form.
+  $form['buttons'] = (count($verses) == 1) ?
+                   qcl::translateform_buttons($lng, $verse):
+                   qcl::translateform_buttons($lng);
 
   return $form;
 }
