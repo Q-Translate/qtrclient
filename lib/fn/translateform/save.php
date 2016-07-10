@@ -8,7 +8,7 @@ namespace QTranslate\Client;
 use \qcl;
 
 /**
- * Save the values selected on the form (likes or new suggestions).
+ * Save the values selected on the form (likes or new translations).
  */
 function translateform_save($form_values) {
   // Get the langcode submitted with the form.
@@ -64,7 +64,7 @@ function _not_empty_translation($translation) {
 function _submit($vid, $lng, $verse) {
 
   if (_not_empty_translation($verse['new']['value'])) {
-    // Add a new suggestion.
+    // Add a new translation.
     _add_action('add', array(
         'vid' => $vid,
         'lng' => $lng,

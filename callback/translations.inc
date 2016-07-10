@@ -30,7 +30,7 @@ function qtrClient_translations($lng = NULL, $chapter = NULL, $verse = NULL) {
   // Get the verse and its translations.
   $qtr = wsclient_service_load('public_qtr');
   try {
-    //$result = $qtr->get_translations("$chapter,$verse,$lng");
+    //$result = $qtr->get_translations("$lng,$chapter,$verse");
     //$result = $qtr->get(compact('lng', 'chapter', 'verse'));
     $result = $qtr->get(array(
                 'lng' => $lng,

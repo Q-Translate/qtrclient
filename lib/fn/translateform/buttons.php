@@ -25,7 +25,7 @@ function translateform_buttons($lng, $verse = NULL) {
   }
 
   // The save button will appear only when the user has
-  // permissions to submit likes and suggestions.
+  // permissions to submit likes and translations.
   $translation_lng = variable_get('qtrClient_translation_lng', 'all');
   $enable_save = ($translation_lng == $lng or $translation_lng == 'all');
   $buttons['save'] = [

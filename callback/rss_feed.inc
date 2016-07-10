@@ -38,7 +38,7 @@ function qtrClient_rss_feed($lng = NULL) {
 
   $link = url('qtr/rss-feed', array('absolute' => TRUE));
   $title = variable_get('site_name', 'Q-Translate');
-  $description = t('Latest translation suggestions on Q-Translate');
+  $description = t('Latest translations on Q-Translate');
   $ttl = 180;
   $site_mail = variable_get('site_mail');
   $site_name = variable_get('site_name');
