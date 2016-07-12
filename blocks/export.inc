@@ -56,7 +56,7 @@ function qtrClient_export_form($form, &$form_state, $lng) {
         '#options' => $chapter_list,
       ],
 
-      'export_mode' => [
+      'mode' => [
         '#type' => 'select',
         '#title' => t('Export Mode'),
         '#description' => t('The export mode to be used.'),
@@ -79,7 +79,7 @@ function qtrClient_export_form($form, &$form_state, $lng) {
         '#description' => t('Enter usernames separated by comma.'),
         '#states' => [
           'visible' => [
-            ':input[name="export_mode"]' => ['value' => 'liked_by_users'],
+            ':input[name="mode"]' => ['value' => 'liked_by_users'],
           ],
         ],
       ],
@@ -95,63 +95,27 @@ function qtrClient_export_form($form, &$form_state, $lng) {
  * Submit callback for the form: qtrClient_export_form
  */
 function qtrClient_export_form_submit($form, &$form_state) {
-  // If user is not authenticated, redirect to login first.
-  if (!oauth2_user_is_authenticated()) {
-    oauth2_user_authenticate($form_state, $redirection = ($form===NULL));
-    return;
-  }
-
-  // Get lng from the path.
-  list($lng, $_, $_) = qcl::get_args_from_path();
-
+  // Get the other parameters.
   $values = $form_state['values'];
-  if (!$lng)  $lng = bcl::get_translation_lng();
+  $lng = check_plain($values['lng']);
   $chapter = check_plain($values['chapter']);
-  $export_mode = check_plain($values['export_mode']);
+  $mode = check_plain($values['mode']);
   $users = check_plain($values['users']);
 
-  if (in_array($export_mode, ['liked_by_me', 'liked_by_users'])) {
-    $export_mode = 'preferance';
+  if (in_array($mode, ['liked_by_me', 'liked_by_users'])) {
+    $mode = 'preference';
   }
 
-  // Export the project.
-  if (qcl::user_is_admin($lng)) {
-    _qtrClient_export_now($lng, $chapter, $export_mode, $users);
-  }
-  else {
-    _qtrClient_export_schedule($lng, $chapter, $export_mode, $users);
-  }
-}
-
-/**
- * Export the project immediately.
- */
-function _qtrClient_export_now($origin, $project, $lng, $export_mode, $friends) {
-  $btr_server = variable_get('btrClient_server');
-  drupal_goto($btr_server . '/project/export', [
+  // Export
+  $qtr_server = variable_get('qtrClient_server');
+  drupal_goto($qtr_server . '/export', [
       'absolute' => TRUE,
       'external' => TRUE,
       'query' => [
-        'origin' => $origin,
-        'project' => $project,
         'lng' => $lng,
-        'export_mode' => $export_mode,
-        'friends' => $friends,
+        'chapter' => $chapter,
+        'mode' => $mode,
+        'users' => $users,
       ],
     ]);
-}
-
-/**
- * Schedule a project export.
- */
-function _qtrClient_export_schedule($origin, $project, $lng, $export_mode, $friends) {
-  $btr = wsclient_service_load('btr');
-  $result = $btr->export_projects([
-              'origin' => $origin,
-              'project' => $project,
-              'lng' => $lng,
-              'export_mode' => $export_mode,
-              'preferred_likers' => $friends,
-            ]);
-  bcl::display_messages($result['messages']);
 }
