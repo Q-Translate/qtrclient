@@ -102,7 +102,7 @@ function qtrClient_export_form_submit($form, &$form_state) {
   $mode = check_plain($values['mode']);
   $users = check_plain($values['users']);
 
-  if (in_array($mode, ['liked_by_me', 'liked_by_users'])) {
+  if ($mode == 'liked_by_me' || $mode == 'liked_by_users') {
     $mode = 'preference';
   }
 

@@ -53,6 +53,7 @@ function qtrClient_import_form($form, &$form_state, $lng) {
         '#type' => 'select',
         '#title' => t('Chapter'),
         '#options' => $chapter_list,
+        '#disabled' => TRUE,
       ],
 
       'file' => [
@@ -108,9 +109,9 @@ function qtrClient_import_form_submit($form, &$form_state) {
     return;
   }
 
-  $messages = qcl::uploadfile('project/import', [
+  $messages = qcl::uploadfile('translations/import', [
                 'lng' => $form_state['values']['lng'],
-                'chapter' => $form_state['values']['chapter'],
+                //'chapter' => $form_state['values']['chapter'],
               ]);
   qcl::display_messages($messages);
 }
