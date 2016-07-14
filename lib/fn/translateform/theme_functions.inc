@@ -244,14 +244,17 @@ function _theme_qtrClient_translate_likes($element) {
  * Display information about the author of the verse.
  */
 function _theme_qtrClient_translate_author($author) {
-  $time = format_interval(REQUEST_TIME - strtotime($author['#time']));
-  if ($author['#name'] =='' or $author['#name'] == 'admin') {
-    $msg = t('Added !time ago', ['!time' => $time]);
-  }
-  else {
+  qcl::log($author['#time']);
+  if ($author['#name'] != '' && $author['#name'] != 'admin') {
     $qtr_server = variable_get('qtrClient_server');
     $name = l($author['#name'], $qtr_server . '/user/' . $author['uid']);
-    $msg = t('Added by !author !time ago', ['!author' => $name, '!time' => $time]);
+    if ($author['#time']) {
+      $time = format_interval(REQUEST_TIME - strtotime($author['#time']));
+      $msg = t('<strong>!author</strong> (!time ago)', ['!author' => $name, '!time' => $time]);
+    }
+    else {
+      $msg = t('<strong>!author</strong>', ['!author' => $name]);
+    }
   }
 
   // Use different classes for the translations of the current user.
