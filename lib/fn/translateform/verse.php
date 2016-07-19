@@ -29,11 +29,11 @@ function translateform_verse($verse, $lng) {
   foreach ($translations as $translation) {
     // Add the translation to the list.
     $tguid = $translation['tguid'];
-    $form[$tguid] = _translation($translation, $verse['vid'], $lng);
+    $form[$tguid] = _translation($translation, $verse, $lng);
   }
 
   // Display a textarea for adding new translations.
-  $form['new'] = _new_translation($translation['tguid'], $verse['vid'], $lng);
+  $form['new'] = _new_translation($translation['tguid'], $verse, $lng);
 
   return $form;
 }
@@ -41,12 +41,16 @@ function translateform_verse($verse, $lng) {
 /**
  * Create the form fragment for adding a new translation.
  */
-function _new_translation($tguid, $vid, $lng) {
+function _new_translation($tguid, $verse, $lng) {
+  $vid = $verse['vid'];
+
   $form = array(
     '#theme' => 'qtrClient_translate_translation',
     'original' => array(
       '#type' => 'value',
       '#value' => array(
+        'cid' => $verse['cid'],
+        'nr' => $verse['nr'],
         'vid' => $vid,
         'tguid' => 'new',
         'lng' => $lng,
@@ -86,10 +90,11 @@ function _new_translation($tguid, $vid, $lng) {
 /**
  * Create the form fragment for a translation.
  */
-function _translation($translation, $vid, $lng) {
+function _translation($translation, $verse, $lng) {
 
   $qtr_user = oauth2_user_get();
   $is_approved = ($qtr_user['name'] and in_array($qtr_user['name'], array_keys($translation['likes'])));
+  $vid = $verse['vid'];
 
   $form = array(
     '#theme' => 'qtrClient_translate_translation',

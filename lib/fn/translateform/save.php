@@ -17,7 +17,7 @@ function translateform_save($form_values) {
   // Iterate outer structure built in qcl::translateform_build().
   foreach ($form_values['verses'] as $vid => $verse) {
 
-    _submit($vid, $lng, $verse);
+    _submit($lng, $verse);
 
     // Iterate the inner structure built in qcl::translateform_verse().
     // Form items have numeric $tguid values and other keys here.
@@ -61,13 +61,13 @@ function _not_empty_translation($translation) {
 /**
  * Form submit for the case of voting mode 'single'.
  */
-function _submit($vid, $lng, $verse) {
-
+function _submit($lng, $verse) {
   if (_not_empty_translation($verse['new']['value'])) {
     // Add a new translation.
     _add_action('add', array(
-        'vid' => $vid,
         'lng' => $lng,
+        'chapter' => $verse['new']['original']['cid'],
+        'verse' => $verse['new']['original']['nr'],
         'translation' => $verse['new']['value'],
       ));
     return;

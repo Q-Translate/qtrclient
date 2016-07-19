@@ -244,7 +244,6 @@ function _theme_qtrClient_translate_likes($element) {
  * Display information about the author of the verse.
  */
 function _theme_qtrClient_translate_author($author) {
-  qcl::log($author['#time']);
   if ($author['#name'] != '' && $author['#name'] != 'admin') {
     $qtr_server = variable_get('qtrClient_server');
     $name = l($author['#name'], $qtr_server . '/user/' . $author['uid']);
