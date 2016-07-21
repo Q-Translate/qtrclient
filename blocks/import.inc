@@ -109,6 +109,12 @@ function qtrClient_import_form_submit($form, &$form_state) {
     return;
   }
 
+  // Check permissions.
+  if (!qcl::user_access('qtranslate-import') && !qcl::user_access('qtranslate-admin')) {
+    drupal_set_message(t('Only translators or admins are allowed to import.'), 'error');
+    return;
+  }
+
   $messages = qcl::uploadfile('translations/import', [
                 'lng' => $form_state['values']['lng'],
                 //'chapter' => $form_state['values']['chapter'],
