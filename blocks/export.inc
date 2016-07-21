@@ -86,8 +86,6 @@ function qtrClient_export_form($form, &$form_state, $lng) {
     ],
   ];
 
-  if ($lng) unset($form['export']['lng']);
-
   return $form;
 }
 
