@@ -49,16 +49,16 @@ function qtrClient_import_form($form, &$form_state, $lng) {
         '#default_value' => $lng,
       ],
 
-      'chapter' => [
-        '#type' => 'select',
-        '#title' => t('Chapter'),
-        '#options' => $chapter_list,
-        '#disabled' => TRUE,
+      'author' => [
+        '#type' => 'textfield',
+        '#title' => t('Author'),
+        '#default_value' => $GLOBALS['user']->name,
+        '#disabled' => !qcl::user_access('qtranslate-admin'),
       ],
 
       'file' => [
         '#type' => 'file',
-        '#title' => t('Text file of translations.'),
+        '#title' => t('Translations (text file)'),
       ],
 
       'submit' => [
@@ -117,7 +117,7 @@ function qtrClient_import_form_submit($form, &$form_state) {
 
   $messages = qcl::uploadfile('translations/import', [
                 'lng' => $form_state['values']['lng'],
-                //'chapter' => $form_state['values']['chapter'],
+                'author' => $form_state['values']['author'],
               ]);
   qcl::display_messages($messages);
 }
