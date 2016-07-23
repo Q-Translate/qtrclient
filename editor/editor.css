@@ -177,10 +177,10 @@ li.translation:hover > .actions li label {
 }
 
 td.source .qtr-verse {
-    font-family: 'me_quran Regular';
     display: block;
-    font-size: 28px;
-    line-height: 32px;
+    font-family: 'me_quran Regular';
+    font-size: 24px;
+    line-height: 48px;
 }
 
 li.translation .qtr-verse,
