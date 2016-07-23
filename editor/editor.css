@@ -169,7 +169,15 @@ td li.translation > .selector {
     margin: 2px 0;
   }
 
+@font-face {
+  font-family: 'me_quran Regular';
+  src: local('me_quran Regular'),
+  local('me_quran'),
+  url('me_quran.ttf') format('truetype');
+}
+
 td.source .qtr-verse {
+  font-family: 'me_quran Regular';
   display: block;
   font-size: 28px;
   line-height: 32px;
