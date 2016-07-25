@@ -1,25 +1,18 @@
-
-/**
- * Make smaller Number of Likes
- */
-.likes legend {
-    font-size: 12px;
-    margin-left: 10px;
-    margin-bottom: 0px;
-    border-bottom-width: 0px;
-    line-height: 15px;
-}
-.likes legend a {
-    text-decoration: none;
-}
-.likes .fieldset-wrapper {
-    font-size: 12px;
-    margin-left: 10px;
-    margin-bottom: 5px;
-    border-top: 1px solid rgb(229, 229, 229);
+@font-face {
+    font-family: 'me_quran Regular';
+    src: local('me_quran Regular'),
+    local('me_quran'),
+    url('me_quran.ttf') format('truetype');
 }
 
-/**************** end of CSS customizations ********************/
+td.source .qtr-verse {
+    display: block;
+    font-family: 'me_quran Regular';
+    font-size: 24px;
+    line-height: 48px;
+}
+
+/*****************************************************/
 
 body {
     font-family: Verdana;
@@ -27,7 +20,7 @@ body {
 }
 
 
-#qcl-ui-translate-form .sticky-header {
+.qtr-table .sticky-header {
     z-index: 2;
 }
 
@@ -62,34 +55,6 @@ body {
 td.source {
     direction: rtl;
     font-size: 24px;
-}
-td.source .qtr-usage {
-    padding: 0 6px 6px 16px;
-    font-size: 10px;
-    line-height: 12px;
-}
-td.source .qtr-usage .qtr-more-info {
-    padding-left: 16px;
-}
-td.source .qtr-usage .qtr-more-link {
-    font-size: 10px;
-    text-decoration: none;
-    color: #000;
-    opacity: 0.4;
-}
-td.translation .qtr-byline .qtr-more-link:before,
-td.source .qtr-usage .qtr-more-link:before {
-    content: "▾ ";
-}
-td.source .qtr-usage .qtr-more-link:hover,
-td.source .qtr-usage .qtr-more-link:active {
-    color: #666;
-}
-td.source .qtr-usage li {
-    list-style-type:disc;
-    background: none;
-    margin: 0 0 0 22px;
-    padding: 0;
 }
 td li.translation {
     padding: 4px 0 4px 20px; /* LTR */
@@ -158,20 +123,6 @@ li.translation:hover > .actions li label {
     height: 1px;
     background: #CCC;
     margin: 2px 0;
-}
-
-@font-face {
-    font-family: 'me_quran Regular';
-    src: local('me_quran Regular'),
-    local('me_quran'),
-    url('me_quran.ttf') format('truetype');
-}
-
-td.source .qtr-verse {
-    display: block;
-    font-family: 'me_quran Regular';
-    font-size: 24px;
-    line-height: 48px;
 }
 
 li.translation .qtr-verse {
