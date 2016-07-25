@@ -59,8 +59,7 @@ function _theme_qtrClient_translate_table_2col($element) {
   $lng = $element['#lng'];
   $header = array(
     array(
-      'data' => t('Source text'),
-      'colspan' => 2,
+      'data' => t('Verse'),
     ),
     t('Translations') . " ($lng)",
   );
@@ -68,18 +67,7 @@ function _theme_qtrClient_translate_table_2col($element) {
   $rows = array();
 
   foreach (element_children($element) as $key) {
-    $lng = $element[$key]['#langcode'];
-    $cid = $element[$key]['#verse']['cid'];
-    $nr = $element[$key]['#verse']['nr'];
     $rows[] = array(
-      array(
-        'class' => ['vid'],
-        'data' => l("$cid,$nr", "qtr/$lng/$cid/$nr", [
-                  'attributes' => [
-                    'title' => t('Link to the verse.'),
-                    'class' => ['btn', 'btn-default'],
-                  ]]),
-      ),
       array(
         'class' => array('source'),
         'data' => theme('qtrClient_translate_source', array('element' => $element[$key])),
@@ -103,7 +91,16 @@ function _theme_qtrClient_translate_table_2col($element) {
  */
 function theme_qtrClient_translate_source($variables) {
   $element = $variables['element'];
-  $output = theme('qtrClient_translate_actions', array('element' => $element['source']));
+  $lng = $element['#langcode'];
+  $cid = $element['#verse']['cid'];
+  $nr = $element['#verse']['nr'];
+
+  $output = l("$cid:$nr", "qtr/$lng/$cid/$nr", [
+            'attributes' => [
+              'title' => t('Link to the verse.'),
+              'class' => ['btn', 'btn-default'],
+              'style' => "float: left;",
+            ]]);
   $output .= '<label class="qtr-verse filter-no-match">' . drupal_render($element['source']['verse']) . '</label>';
   return $output;
 }

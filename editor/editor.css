@@ -63,14 +63,6 @@ td.source {
     direction: rtl;
     font-size: 24px;
 }
-td.source .qtr-vid {
-    padding-right: 6px;
-    font-size: 10px;
-    color: #000;
-    float: right;
-    clear: both;
-}
-
 td.source .qtr-usage {
     padding: 0 6px 6px 16px;
     font-size: 10px;
@@ -99,7 +91,6 @@ td.source .qtr-usage li {
     margin: 0 0 0 22px;
     padding: 0;
 }
-
 td li.translation {
     padding: 4px 0 4px 20px; /* LTR */
     clear: left; /* LTR */
@@ -183,8 +174,7 @@ td.source .qtr-verse {
     line-height: 48px;
 }
 
-li.translation .qtr-verse,
-td.vid a {
+li.translation .qtr-verse {
     display: block;
     line-height: 16px;
 }
