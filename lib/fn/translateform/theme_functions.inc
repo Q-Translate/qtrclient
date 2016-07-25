@@ -95,12 +95,13 @@ function theme_qtrClient_translate_source($variables) {
   $cid = $element['#verse']['cid'];
   $nr = $element['#verse']['nr'];
 
-  $output = l("$cid:$nr", "qtr/$lng/$cid/$nr", [
-            'attributes' => [
-              'title' => t('Link to the verse.'),
-              'class' => ['btn', 'btn-default'],
-              'style' => "float: left;",
-            ]]);
+  $options = array(
+    'attributes' => [
+      'title' => t('Link to the verse.'),
+      'class' => ['btn', 'btn-default'],
+      'style' => "float: left;",
+    ]);
+  $output = l("$cid:$nr", "qtr/$lng/$cid/$nr", $options);
   $output .= '<label class="qtr-verse filter-no-match">' . drupal_render($element['source']['verse']) . '</label>';
   return $output;
 }
