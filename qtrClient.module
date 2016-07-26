@@ -83,6 +83,15 @@ function qtrClient_menu() {
     'access callback' => TRUE,
   );
 
+  // Return a random translation tweet from Q-Translate.
+  $items['qtr/tweet'] = array(
+    'type'            => MENU_CALLBACK,
+    'title'           => 'Return a random translation in a form suitable for twitter.',
+    'page callback'   => 'qtrClient_tweet',
+    'file'            => 'callback/tweet.inc',
+    'access callback' => TRUE,
+  );
+
   return $items;
 }
 
