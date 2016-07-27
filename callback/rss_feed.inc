@@ -12,8 +12,7 @@ function qtrClient_rss_feed($lng = NULL) {
   if ($lng === NULL)  $lng = qcl::get_translation_lng();
 
   // Get the feed data from cache, if possible.
-  $cid = "qtrClient_rss_feed:$lng";
-  $cache = cache_get($cid, 'cache_qtrClient');
+  $cache = cache_get("qtrClient_rss_feed:$lng", 'cache_qtrClient');
   if (!empty($cache) && isset($cache->data) && !empty($cache->data)) {
     $rss_feed = $cache->data;
     drupal_add_http_header('Content-Type', 'application/rss+xml; charset=utf-8');
@@ -36,7 +35,8 @@ function qtrClient_rss_feed($lng = NULL) {
   $rss_feed = '<?xml version="1.0" encoding="utf-8"?>' . "\n";
   $rss_feed .= '<rss version="2.0">';
 
-  $link = url('qtr/rss-feed', array('absolute' => TRUE));
+  $base_url = $GLOBALS['base_url'];
+  $link = $base_url . "/qtr/rss-feed/$lng";
   $title = variable_get('site_name', 'Q-Translate');
   $description = t('Latest translations on Q-Translate');
   $ttl = 180;
@@ -58,19 +58,18 @@ function qtrClient_rss_feed($lng = NULL) {
     ";
 
   // Append an item for each translation.
-  $base_url = url('translations', array('absolute' => TRUE));
-  foreach ($translations as $translation) {
-    extract($translation);
-    $title = qcl::shorten($verse, 60);
-    $link = $base_url . "/$lng/$vid";
-    $description = "<xmp>$verse</xmp> -- <xmp>$translation</xmp>";
+  foreach ($translations as $trans) {
+    extract($trans);
+    $title = qcl::shorten($translation, 60);
+    $link = $base_url . "/qtr/$lng/$chapter_id/$verse_nr";
+    $description = "[$chapter_id:$verse_nr] $translation";
     $pub_date = date('r', strtotime($time));
     $rss_feed .= "
       <item>
         <title>$title</title>
         <link>$link</link>
         <description><![CDATA[$description]]></description>
-        <author>$umail ($name)</author>
+        <author>$usermail ($username)</author>
         <guid isPermaLink='false'>$tguid</guid>
         <pubDate>$pub_date</pubDate>
       </item>
@@ -81,7 +80,7 @@ function qtrClient_rss_feed($lng = NULL) {
   $rss_feed .= "</rss>\n";
 
   // Cache for 2 hours.
-  cache_set($cid, $rss_feed, 'cache_qtrClient', strtotime('+2 hours'));
+  cache_set("qtrClient_rss_feed:$lng", $rss_feed, 'cache_qtrClient', strtotime('+2 hours'));
 
   // Send the output.
   drupal_add_http_header('Content-Type', 'application/rss+xml; charset=utf-8');
