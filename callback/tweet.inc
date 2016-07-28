@@ -24,18 +24,18 @@ function qtrClient_tweet($lng = NULL) {
   $result = json_decode($output->data, TRUE);
   $cid = $result['chapter'];
   $nr = $result['verse'];
-  $twitter = $result['twitter'];
+  $tweet = $result['tweet'];
 
   // Append hash tags, url, etc.
-  $twitter = "[Quran $cid:$nr] $twitter #quran-$lng";
+  $tweet = "[Quran $cid:$nr] $tweet #quran-$lng";
   if (isset($_GET['url'])) {
     $url = $_GET['url'];
   }
   else {
     $url = url("qtr/$lng/$cid/$nr", array('absolute' => TRUE));
   }
-  $twitter .= ' ' . $url;
+  $tweet .= ' ' . $url;
 
-  print $twitter;
+  print $tweet;
   exit(0);
 }
