@@ -17,7 +17,7 @@ function get_chapters() {
   }
 
   // Get an array of chapters from the server.
-  $qtr_server = variable_get('qtrClient_server', 'http://dev.qtranslate.org');
+  $qtr_server = variable_get('qtrClient_server', 'https://dev.qtranslate.org');
   $output = drupal_http_request("$qtr_server/chapters");
   if (isset($output->data)) {
     $chapters = json_decode($output->data, TRUE);
