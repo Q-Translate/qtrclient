@@ -14,12 +14,16 @@ require_once __DIR__ . '/theme_functions.inc';
  */
 function translateform_verse($verse, $lng) {
 
+  $cid = $verse['cid'];
+  $nr = $verse['nr'];
+  $url = url("qtr/$lng/$cid/$nr");
+
   $form = array(
     '#verse' => $verse,
     '#langcode' => $lng,
     'source' => array(
       'verse' => array(
-        '#markup' => '<span>' . $verse['verse'] . '</span>'
+        '#markup' => "<span><a href='$url' class='verse'>" . $verse['verse'] . '</a></span>',
       )),
   );
 

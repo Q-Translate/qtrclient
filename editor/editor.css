@@ -125,6 +125,14 @@ li.translation:hover > .actions li label {
     margin: 2px 0;
 }
 
+.qtr-verse a.verse,
+.qtr-verse a.verse:hover,
+.qtr-verse a.verse:visited {
+    text-decoration: none;
+    color: #004400;
+    cursor: default;
+}
+
 li.translation .qtr-verse {
     display: block;
     line-height: 16px;
