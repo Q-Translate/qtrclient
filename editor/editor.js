@@ -84,6 +84,24 @@
             });
           });
 
+          $(this).find('li.translation .qtr-verse').dblclick(function() {
+            var translation = $(this).closest('td.source, li.translation');
+            var confirmed = undefined;
+            textareas.each(function(i) {
+              var textarea = $(this);
+              var val = textarea.val();
+              if (confirmed || val === textarea.attr('defaultValue') || !val || (confirmed === undefined && (confirmed = confirm(Drupal.t("Do you want to overwrite the current suggestion?"))))) {
+                // If not the default value, and still editing that means there was something
+                // added into the field without it being saved first, and is being edited again.
+                textarea.val(translation.find('.qtr-verse > span:eq('+ i +')').text()).keyup();
+                if (i == 0) {
+                  // Since we can't have multiple focuses, we jut focus the first textarea.
+                  textarea.focus();
+                }
+              }
+            });
+          });
+
           all.each(function() {
             var translation = $(this);
             var isTranslation = !translation.is('.no-translation');
