@@ -27,7 +27,7 @@ function qtrClient_tweet($lng = NULL) {
   $tweet = $result['tweet'];
 
   // Append hash tags, url, etc.
-  $tweet = "[Quran $cid:$nr] $tweet #quran-$lng";
+  $tweet = "[Quran $cid:$nr] $tweet #quran_$lng";
   if (isset($_GET['url'])) {
     $url = $_GET['url'];
   }
