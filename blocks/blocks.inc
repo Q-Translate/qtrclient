@@ -7,11 +7,12 @@
 require_once __DIR__ . '/navigate.inc';
 require_once __DIR__ . '/select.inc';
 require_once __DIR__ . '/search.inc';
+require_once __DIR__ . '/export.inc';
+require_once __DIR__ . '/import.inc';
+require_once __DIR__ . '/latest.inc';
 require_once __DIR__ . '/topusers.inc';
 require_once __DIR__ . '/stats.inc';
 require_once __DIR__ . '/latest.inc';
-require_once __DIR__ . '/export.inc';
-require_once __DIR__ . '/import.inc';
 
 /**
  * Implements hook_block_info().
@@ -45,24 +46,6 @@ function qtrClient_block_info() {
     'cache' => DRUPAL_CACHE_CUSTOM,
   );
 
-  // Displays top 5 (or 10) contributors, over the last week (or month).
-  $blocks['topusers'] = array(
-    'info' => t('Q-Translate: Top contributors during the last period'),
-    'cache' => DRUPAL_CACHE_CUSTOM,
-  );
-
-  // Suggestion and voting stats for the last week, month and year.
-  $blocks['stats'] = array(
-    'info' => t('Q-Translate: Contribution statisticss (for the last week, month and year)'),
-    'cache' => DRUPAL_CACHE_CUSTOM,
-  );
-
-  // Suggestions and likes submited lately.
-  $blocks['latest'] = array(
-    'info' => t('Q-Translate: Latest contributions'),
-    'cache' => DRUPAL_CACHE_CUSTOM,
-  );
-
   // Export the project.
   $blocks['export'] = array(
     'info' => t('Q-Translate: Export'),
@@ -73,6 +56,24 @@ function qtrClient_block_info() {
   $blocks['import'] = array(
     'info' => t('Q-Translate: Import'),
     'cache' => DRUPAL_NO_CACHE,
+  );
+
+  // Displays latest translations.
+  $blocks['latest'] = array(
+    'info' => t('Q-Translate: Latest translations.'),
+    'cache' => DRUPAL_CACHE_CUSTOM,
+  );
+
+  // Displays top 5 (or 10) contributors, over the last week (or month).
+  $blocks['topusers'] = array(
+    'info' => t('Q-Translate: Top contributors during the last period.'),
+    'cache' => DRUPAL_CACHE_CUSTOM,
+  );
+
+  // Suggestion and voting stats for the last week, month and year.
+  $blocks['stats'] = array(
+    'info' => t('Q-Translate: Contribution statisticss (for the last week, month and year).'),
+    'cache' => DRUPAL_CACHE_CUSTOM,
   );
 
   return $blocks;
