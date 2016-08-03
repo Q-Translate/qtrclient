@@ -45,6 +45,24 @@ function filter_form($form_values) {
         ',
       ],
 
+      // direction (LTR or RTL)
+      'direction' => [
+        '#markup' => '
+            <div class="btn-group" data-toggle="buttons" style="float: left;">
+              <label class="btn btn-default">
+                <input type="checkbox" id="edit-direction" name="direction">
+                <span class="glyphicon glyphicon-arrow-right"></span>
+              </label>
+            </div>
+        ',
+        '#attached' => [
+          'js' => [[
+              'type' => 'file',
+              'data' => drupal_get_path('module', 'qtrclient') . '/lib/fn/filter/form.js',
+            ]]
+        ],
+      ],
+
       // words to be searched
       'words' => [
         '#type' => 'textfield',
