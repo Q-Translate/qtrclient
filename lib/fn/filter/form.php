@@ -15,13 +15,9 @@ function filter_form($form_values) {
     '#prefix' => '<div id="filter-form">',
     '#suffix' => '</div>',
 
-    /* css attachment does not work
     '#attached' => [
-      'css' => [
-        drupal_get_path('module', 'qtrClient') . '/lib/fn/filter/style.css',
-      ],
+      'css' => [ drupal_get_path('module', 'qtrClient') . '/lib/fn/filter/form.css.less' ],
     ],
-    */
 
     'basic' => [
       '#type' => 'fieldset',
@@ -56,10 +52,7 @@ function filter_form($form_values) {
             </div>
         ',
         '#attached' => [
-          'js' => [[
-              'type' => 'file',
-              'data' => drupal_get_path('module', 'qtrclient') . '/lib/fn/filter/form.js',
-            ]]
+          'js' => [ drupal_get_path('module', 'qtrClient') . '/lib/fn/filter/form.js' ],
         ],
       ],
 
