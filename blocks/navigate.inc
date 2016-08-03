@@ -23,6 +23,10 @@ function qtrClient_navigate_view() {
  */
 function qtrClient_navigate_form($form, &$form_state, $lng, $chapter, $verse) {
   $form = [
+    '#attached' => [
+      'css' => [ drupal_get_path('module', 'qtrClient') . '/blocks/navigate.css.less' ],
+    ],
+
     'lng' => [
       '#type' => 'hidden',
       '#value' => $lng,

@@ -40,7 +40,7 @@ function translateform_buttons($lng, $verse = NULL) {
   // Display/hide related references.
   $buttons['references'] = [
     '#markup' => '
-        <div class="btn-group" data-toggle="buttons">
+        <div class="btn-group" data-toggle="buttons" style="margin-top: 5px;">
           <label class="btn btn-default">
             <input type="checkbox" id="edit-references" name="references">
             <span class="glyphicon glyphicon-share-alt"></span>

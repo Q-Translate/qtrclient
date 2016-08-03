@@ -1,3 +1,6 @@
+/**
+ * Fix the font of the Quran text.
+ */
 @font-face {
     font-family: 'me_quran Regular';
     src: local('me_quran Regular'),
@@ -10,6 +13,27 @@ td.source .qtr-verse {
     font-family: 'me_quran Regular';
     font-size: 24px;
     line-height: 48px;
+}
+
+/**
+ * Fix likes and likers.
+ */
+.likes .btn {
+    float: right;
+    margin-left: 4px;
+    padding: 0px 4px;
+}
+
+.popover-content ul {
+    padding-left: 10px;
+    margin-bottom: 0px;
+
+    li {
+        white-space: nowrap;
+        a:hover, a:visited {
+            text-decoration: none;
+        }
+    }
 }
 
 /*****************************************************/
@@ -237,10 +261,6 @@ li.filter-match, label.filter-match {
     margin: 0 0 5px;
 }
 
-
-
-
-
 span.qtr-escape,
 span.qtr-nl::after,
 em.qtr-placeholder,
@@ -251,16 +271,12 @@ code
     line-height: 14px;
 }
 
-
-
-
 .qtr-verse span.qtr-nl::after {
     content: "¬";
     opacity: 0.4;
     line-height: 19px;
     vertical-align: top;
 }
-
 
 .qtr-verse code,
 .qtr-verse em.qtr-placeholder {

@@ -34,6 +34,9 @@ function qtrClient_select_form($form, &$form_state, $lng, $chapter, $verse) {
   }
 
   $form['select_translations'] = array(
+    '#attached' => [
+      'css' => [ drupal_get_path('module', 'qtrClient') . '/blocks/select.css.less' ],
+    ],
 
     '#type' => 'fieldset',
     '#title' => t('Select'),

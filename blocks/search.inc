@@ -34,6 +34,9 @@ function qtrClient_search_form($form, &$form_state, $lng) {
   }
 
   $form['search_translations'] = array(
+    '#attached' => [
+      'css' => [ drupal_get_path('module', 'qtrClient') . '/blocks/search.css.less' ],
+    ],
 
     '#type' => 'fieldset',
     '#title' => t('Search'),
