@@ -30,15 +30,22 @@ function filter_get_options($field, $assoc = FALSE) {
       $default = 5;
       break;
 
-    case 'mode':
-      // Options for search mode.
+    case 'type':
+      // The type of search.
       $options = array(
-        'natural-verses' => t('Natural search on verses.'),
-        'natural-translations' => t('Natural search on translations.'),
-        'boolean-verses' => t('Boolean search on verses.'),
-        'boolean-translations' => t('Boolean search on translations.'),
+        'similar' => t('Similar'),
+        'logical' => t('Logical'),
       );
-      $default = 'natural-translations';
+      $default = 'similar';
+      break;
+
+    case 'what':
+      // What to search.
+      $options = array(
+        'translations' => t('Translations'),
+        'verses' => t('Verses'),
+      );
+      $default = 'translations';
       break;
 
     case 'date_filter':

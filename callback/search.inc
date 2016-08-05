@@ -33,7 +33,11 @@ function qtrClient_search() {
   drupal_set_title(t('Search Translations'));
 
   // Add the filter form.
-  $output[] = drupal_get_form('qtrClient_filter_form', $result['filter']);
+  $values = $result['filter'];
+  if ($_GET['rtl'] == '1')  $values['rtl'] = TRUE;
+  if ($_GET['adv'] == '1')  $values['adv'] = TRUE;
+  if ($values['only_mine'] == '1')  $values['only_mine'] = TRUE;
+  $output[] = drupal_get_form('qtrClient_filter_form', $values);
 
   // Output the verses.
   $verses = $result['verses'];

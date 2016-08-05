@@ -22,6 +22,11 @@ function filter_get_params() {
   $lng_codes = array_keys($languages);
   $params['lng'] = in_array($lng, $lng_codes) ? $lng : 'en';
 
+  // Words that are to be searched.
+  if (isset($request['words'])) {
+    $params['words'] = $request['words'];
+  }
+
   // Number of results to be displayed.
   if (isset($request['limit'])) {
     $limit = (int) trim($request['limit']);
@@ -33,16 +38,19 @@ function filter_get_params() {
     $params['page'] = (int) trim($request['page']);
   }
 
-  // Search can be done either by similarity of words (natural search),
-  // or by matching words according to a certain logic (boolean search).
-  // Search can be performed either on verses or on the translations.
-  if (isset($request['mode'])) {
-    $mode = $request['mode'];
-    list($search_mode_options, $default_search_mode) = qcl::filter_get_options('mode');
-    $params['mode'] = in_array($mode, $search_mode_options) ? $mode : $default_search_mode;
+  // Search can be done either by similarity of words or by matching words
+  // according to a certain logic.
+  if (isset($request['type'])) {
+    $type = $request['type'];
+    list($type_options, $default_type) = qcl::filter_get_options('type');
+    $params['type'] = in_array($type, $type_options) ? $type : $default_type;
   }
-  if (isset($request['words'])) {
-    $params['words'] = $request['words'];
+
+  // You can search either translations or verses.
+  if (isset($request['what'])) {
+    $what = $request['what'];
+    list($what_options, $default_what) = qcl::filter_get_options('what');
+    $params['what'] = in_array($what, $what_options) ? $what : $default_what;
   }
 
   // Searching can be limited to a chapter.

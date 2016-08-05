@@ -30,27 +30,32 @@ function filter_form($form_values) {
       ],
 
       // advanced search checkbox
-      'options' => [
-        '#markup' => '
-            <div class="btn-group" data-toggle="buttons" style="float: right;">
-              <label class="btn btn-default">
-                <input type="checkbox" id="edit-options" name="options">
+      'adv' => [
+        '#type' => 'checkbox',
+        '#default_value' => $form_values['adv'],
+        '#prefix' => '
+            <div class="btn-group" data-toggle="buttons" style="float:right">
+              <label class="btn btn-default' . ($form_values['adv'] ? ' active' : '') . '">',
+        '#suffix' => '
                 <span class="glyphicon glyphicon-option-vertical"></span>
               </label>
-            </div>
-        ',
+            </div>',
       ],
 
       // direction (LTR or RTL)
-      'direction' => [
-        '#markup' => '
-            <div class="btn-group" data-toggle="buttons" style="float: left;">
-              <label class="btn btn-default">
-                <input type="checkbox" id="edit-direction" name="direction">
-                <span class="glyphicon glyphicon-arrow-right"></span>
+      'rtl' => [
+        '#type' => 'checkbox',
+        '#default_value' => $form_values['rtl'],
+        '#prefix' => '
+            <div class="btn-group" data-toggle="buttons" style="float:left">
+              <label id="rtl-label" class="btn btn-default'
+        . ($form_values['rtl'] ? ' active' : '')
+        . (oauth2_user_is_authenticated() ? '' : ' disabled')
+        . '">',
+        '#suffix' => '
+              <span id="rtl-arrow" class="glyphicon glyphicon-arrow-right"></span>
               </label>
-            </div>
-        ',
+            </div>',
         '#attached' => [
           'js' => [ drupal_get_path('module', 'qtrClient') . '/lib/fn/filter/form.js' ],
         ],
@@ -68,7 +73,7 @@ function filter_form($form_values) {
       '#type' => 'fieldset',
       '#states' => [
         'visible' => [
-          ':input[name="options"]' => ['checked' => TRUE],
+          ':input[name="adv"]' => ['checked' => TRUE],
         ]],
     ],
   ];
@@ -137,13 +142,18 @@ function _advanced($form_values) {
         '#suffix' => '</div>',
       ],
     ],
+  ];
 
+  // Skip the rest of the fields for the anonymous users.
+  if (!oauth2_user_is_authenticated())  return $advanced;
+
+  $advanced += [
     'second-row' => [
       '#prefix' => '<div class="row">',
       '#suffix' => '</div>',
 
       // search mode
-      'search_mode' => [
+      'mode' => [
         _search_mode($form_values),
         '#prefix' => '<div class="col-sm-4">',
         '#suffix' => '</div>',
@@ -172,31 +182,49 @@ function _advanced($form_values) {
  * Return search mode.
  */
 function _search_mode($form_values) {
-  list($search_mode_options, $default) = qcl::filter_get_options('mode', 'assoc');
+  list($type_options, $_) = qcl::filter_get_options('type', 'assoc');
+  list($what_options, $_) = qcl::filter_get_options('what', 'assoc');
 
-  $params = array(
-    '!url1' => 'http://dev.mysql.com/doc/refman/5.1/en/fulltext-natural-language.html',
-    '!url2' => 'http://dev.mysql.com/doc/refman/5.1/en/fulltext-boolean.html',
-  );
-  $description = t('Search for verses or translations that contain the given words. The <emphasized>natural</emphasized> search will try to find words similar to the given one (see: <a href="!url1">Natural Language Full-Text Searches</a>). The <emphasized>boolean</emphasized> search will try to match words according to logical rules. The words can be preceded by + (plus), - (minus), etc. (for more details see: <a href="!url2">Boolean Full-Text Searches</a>).', $params);
-
-  $search_mode = [
+  $mode = [
     '#type' => 'fieldset',
-    '#title' => t('Search Mode'),
+    '#title' => t('Mode'),
     '#collapsible' => TRUE,
     '#collapsed' => TRUE,
 
-    // mode
-    'mode' => [
-      '#type' => 'select',
-      '#title' => t('Search Mode'),
-      '#options' => $search_mode_options,
-      '#default_value' => $form_values['mode'],
-      '#description' => $description,
+    'row-1' => [
+      '#prefix' => '<div class="row">',
+      '#suffix' => '</div>',
+
+      'col-1' => [
+        '#prefix' => '<div class="col-xs-6">',
+        '#suffix' => '</div>',
+
+        'type' => [
+          '#type' => 'radios',
+          '#title' => t('Type'),
+          '#options' => $type_options,
+          '#default_value' => $form_values['type'],
+          '#description' => '<a href="' . url('search-types') . '">' . t('What is type of search') . '</a>',
+        ],
+      ],
+
+      'col-2' => [
+        '#prefix' => '<div class="col-xs-6">',
+        '#suffix' => '</div>',
+
+        'what' => [
+          '#type' => 'radios',
+          '#title' => t('What'),
+          '#options' => $what_options,
+          '#default_value' => $form_values['what'],
+          '#description' => t('Search translations or verses.'),
+        ],
+      ],
     ],
+
   ];
 
-  return $search_mode;
+  return $mode;
 }
 
 /**
