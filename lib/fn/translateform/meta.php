@@ -36,6 +36,9 @@ function translateform_meta($lng, $verse) {
       ]),
   );
 
+  // Add referencies to related sites.
+  $form += _referencies($lng, $verse);
+
   if (module_exists('disqus')) {
     // Define the disqus form element.
     $cid = $verse['cid'];
@@ -52,6 +55,59 @@ function translateform_meta($lng, $verse) {
       ),
       '#weight' => 101,
     );
+  }
+
+  return $form;
+}
+
+/**
+ * Return referencies related to the current verse.
+ */
+function _referencies($lng, $verse) {
+  // Display/hide related references.
+  $form['references'] = [
+    '#markup' => '
+        <div class="btn-group" data-toggle="buttons" style="margin-top: 5px;">
+          <label class="btn btn-default">
+            <input type="checkbox" id="edit-references" name="references">
+            <span class="glyphicon glyphicon-share-alt"></span>
+          </label>
+        </div>
+    ',
+  ];
+
+  // List of related sites.
+  $chapter_id = $verse['cid'];
+  $verse_nr = $verse['nr'];
+  $reference_list = [
+    'reference1' => [
+      'label' => 'quran.com',
+      'url' => "https://quran.com/$chapter_id/$verse_nr",
+    ],
+    'reference2' => [
+      'label' => 'quranwow.com',
+      'url' => "http://www.quranwow.com/#/ch/$chapter_id/t1/ar-allah/t2/none/a1/alafasy-64/a2/sahihinternational-64/v/$verse_nr",
+    ],
+    'reference3' => [
+      'label' => 'tanzil.net',
+      'url' => "http://tanzil.net/#$chapter_id:$verse_nr",
+    ],
+  ];
+  $form['related-references'] = [
+    '#type' => 'fieldset',
+    '#states' => ['visible' => [':input[name="references"]' => ['checked' => TRUE],]],
+    '#attributes' => ['style' => 'float: right; border: none; margin: 0px;'],
+  ];
+  foreach ($reference_list as $key => $reference) {
+    $url = $reference['url'];
+    $label = $reference['label'];
+    $form['related-references'][$key] = [
+      '#markup' => "
+          <a href='$url' class='btn btn-default btn-sm' target='_blank'>
+            <span class='glyphicon glyphicon-link'></span> $label
+          </a>
+      ",
+    ];
   }
 
   return $form;
