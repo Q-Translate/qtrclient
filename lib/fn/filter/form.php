@@ -204,7 +204,7 @@ function _search_mode($form_values) {
           '#title' => t('Type'),
           '#options' => $type_options,
           '#default_value' => $form_values['type'],
-          '#description' => '<a href="' . url('search-types') . '">' . t('What is type of search') . '</a>',
+          '#description' => '<a href="' . url('search-types') . '" target="_blank">' . t('What is type of search') . '</a>',
         ],
       ],
 
