@@ -27,7 +27,7 @@ function qtrClient_rss_feed($lng = NULL) {
   }
   else {
     $url = $qtr_server . "/latest/$lng";
-    $output = drupal_http_request($url);
+    $output = qcl::http_request($url);
     $translations = json_decode($output->data, TRUE);
   }
 

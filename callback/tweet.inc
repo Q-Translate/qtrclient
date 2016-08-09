@@ -17,7 +17,7 @@ function qtrClient_tweet($lng = NULL) {
   // Get a tweet from the Q-Translate server.
   $qtr_server = variable_get('qtrClient_server', 'https://qtranslate.org');
   $url = $qtr_server . "/tweet/$lng";
-  $output = drupal_http_request($url, array(
+  $output = qcl::http_request($url, array(
               'headers' => array(
                 'Accept' => 'application/json',
               )));

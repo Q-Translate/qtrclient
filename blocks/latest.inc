@@ -25,7 +25,7 @@ function qtrClient_latest_view() {
   }
   else {
     $url = $qtr_server . "/latest/$lng//5";
-    $output = drupal_http_request($url);
+    $output = qcl::http_request($url);
     $translations = json_decode($output->data, TRUE);
     if (!is_array($translations)) $translations = array();
   }

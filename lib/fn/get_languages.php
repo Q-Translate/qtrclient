@@ -19,7 +19,7 @@ function get_languages() {
 
   // Get an array of languages from the server.
   $qtr_server = variable_get('qtrClient_server', 'https://qtranslate.org');
-  $output = drupal_http_request("$qtr_server/languages");
+  $output = qcl::http_request("$qtr_server/languages");
   if (isset($output->data)) {
     $languages = json_decode($output->data, TRUE);
   }
